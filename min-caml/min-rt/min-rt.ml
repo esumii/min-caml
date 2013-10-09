@@ -20,8 +20,8 @@
 (*MINCAML*)let rec fhalf x = x /. 2. in
 (*NOMINCAML let fhalf x = x /. 2. in*)
 
-(**************** �桼�ƥ���ƥ����ؿ� ****************)
-(* �ǡ�����¤�ؤΥ��������ؿ� *)
+(**************** ユーティリティー関数 ****************)
+(* データ構造へのアクセス関数 *)
 
 (*MINCAML*)let rec o_texturetype m = 
 (*NOMINCAML let o_texturetype m = *)
@@ -226,22 +226,22 @@ in
   else -1.0
 in
 
-(**************** �ǡ����ɤ߹��ߴط��δؿ��� ****************)
+(**************** データ読み込み関係の関数群 ****************)
 
-(* �饸���� *)
+(* ラジアン *)
 (*MINCAML*)let rec rad x = x *. (0.017453293)
 (*NOMINCAML let rad x = x *. (0.017453293)*)
 in
-(**** �Ķ��ǡ������ɤ߹��� ****)
+(**** 環境データの読み込み ****)
 (*MINCAML*)let rec read_environ _ =
 (*NOMINCAML let read_environ _ =*)
   (*if dbg.(0) then
     Format.printf "reading environment data.@.";*)
-  (* �����꡼���濴�κ�ɸ *)
+  (* スクリーン中心の座標 *)
   screen.(0) <- read_float ();
   screen.(1) <- read_float ();
   screen.(2) <- read_float ();
-  (* ��ž�� *)
+  (* 回転角 *)
   let v1 = rad (read_float ()) in
   cos_v.(0) <- cos v1;
   sin_v.(0) <- sin v1;
@@ -251,7 +251,7 @@ in
 
   let nl = read_float () in
 
-  (* �����ط� *)
+  (* 光線関係 *)
   let l1 = rad (read_float ()) in
   let sl1 = sin l1 in
   light.(1) <- -.sl1;
@@ -263,18 +263,18 @@ in
   light.(2) <- cl1 *. cl2;
   beam.(0) <- read_float ();
 
-  (* �������֥٥��ȥ�(���������ɸ) *)
+  (* 視点位置ベクトル(ローカル座標) *)
   vp.(0) <- cos_v.(0) *. sin_v.(1) *. (-200.0);
   vp.(1) <- (-.sin_v.(0)) *. (-200.0);
   vp.(2) <- cos_v.(0) *. cos_v.(1) *. (-200.0);
 
-  (* �������֥٥��ȥ�(���ɺ�ɸ) *)
+  (* 視点位置ベクトル(ワールド座標) *)
   view.(0) <- vp.(0) +. screen.(0);
   view.(1) <- vp.(1) +. screen.(1);
   view.(2) <- vp.(2) +. screen.(2)
 in
 
-(**** ���֥�������1�ĤΥǡ������ɤ߹��� ****)
+(**** オブジェクト1つのデータの読み込み ****)
 (*MINCAML*)let rec read_nth_object n =
 (*NOMINCAML let read_nth_object n =*)
 (*  if dbg.(0) then
@@ -321,12 +321,12 @@ in
 	) 
       else ();
 
-      (* �ѥ�᡼���������� *)
+      (* パラメータの正規化 *)
 
-      (* ��: ���������� (form = 2) ���� *)
+      (* 注: 下記正規化 (form = 2) 参照 *)
       let m_invert2 = if form = 2 then true else m_invert in
 
-      (* �������餢�Ȥ� abc �� rotation �������ʤ���*)
+      (* ここからあとは abc と rotation しか操作しない。*)
       let obj = 
 	(texture, form, refltype, isrot_p,
 	 abc, xyz, (* x-z *)
@@ -339,7 +339,7 @@ in
 
       if form = 3 then
 	(
-	  (* 2������: X,Y,Z ����������2���������η����� *)
+	  (* 2次曲面: X,Y,Z サイズから2次方程式の係数へ *)
 	 let a = abc.(0) in
 	 abc.(0) <- if 0.0 = a then 0.0 else (sgn a) /. (fsqr a);
 	 let b = abc.(1) in
@@ -348,7 +348,7 @@ in
 	 abc.(2) <- if 0.0 = c then 0.0 else (sgn c) /. (fsqr c)
 	)
       else if form = 2 then
-	(* ʿ��: ˡ���٥��ȥ��������, ������������� *)
+	(* 平面: 法線ベクトルを正規化, 極性を負に統一 *)
 	normalize_vector abc (not m_invert)
       else
 	();
@@ -400,10 +400,10 @@ in
       true
      )
   else
-    false (* �ǡ����ν�λ *)
+    false (* データの終了 *)
 in
 
-(**** ʪ�Υǡ������Τ��ɤ߹��� ****)
+(**** 物体データ全体の読み込み ****)
 (*MINCAML*)let rec read_object n =
 (*NOMINCAML let rec read_object n =*)
   if n < 61 then
@@ -418,9 +418,9 @@ in
   read_object 0
 in
 
-(**** AND, OR �ͥåȥ�����ɤ߹��� ****)
+(**** AND, OR ネットワークの読み込み ****)
 
-(* �ͥåȥ��1�Ĥ��ɤ߹��ߥ٥��ȥ�ˤ����֤� *)
+(* ネットワーク1つを読み込みベクトルにして返す *)
 (*MINCAML*)let rec read_net_item length =
 (*NOMINCAML let rec read_net_item length =*)
   let item = read_int () in
@@ -460,22 +460,22 @@ in
   )
 in
 
-(**************** ľ���ȥ��֥������Ȥθ��������ؿ��� ****************)
+(**************** 直線とオブジェクトの交点を求める関数群 ****************)
 
 (* solver : 
-   ���֥������� (�� index) �ȡ��٥��ȥ� L, P ������Ȥꡢ
-   ľ�� Lt + P �ȡ����֥������ȤȤθ�������롣
-   �������ʤ����� 0 �򡢸�����������Ϥ���ʳ����֤���
-   �����֤��ͤ� nvector �Ǹ�����ˡ���٥��ȥ�����ݤ�ɬ�ס�
-   (ľ���Τξ��)
+   オブジェクト (の index) と、ベクトル L, P を受けとり、
+   直線 Lt + P と、オブジェクトとの交点を求める。
+   交点がない場合は 0 を、交点がある場合はそれ以外を返す。
+   この返り値は nvector で交点の法線ベクトルを求める際に必要。
+   (直方体の場合)
 
-   �����κ�ɸ�� t ���ͤȤ��� solver_dist �˳�Ǽ����롣
+   交点の座標は t の値として solver_dist に格納される。
 *)
 
-(**** ľ���Υ��֥������Ȥξ�� ****)
+(**** 直方体オブジェクトの場合 ****)
 (*MINCAML*)let rec solver_rect m l =
 (*NOMINCAML let solver_rect m l =*)
-  (* YZ ʿ�� *)
+  (* YZ 平面 *)
   let answera = 
     if 0.0 = l.(0) then false else (
       let d = 
@@ -492,7 +492,7 @@ in
   in
   if answera then 1 else (* fall through *)
   
-  (* ZX ʿ�� *)
+  (* ZX 平面 *)
   let answerb = 
     if 0.0 = l.(1) then false else (
       let d = 
@@ -509,7 +509,7 @@ in
   in
   if answerb then 2 else (* fall through *)
   
-  (* XY ʿ�� *)
+  (* XY 平面 *)
   let answerc = 
     if 0.0 = l.(2) then false else (
       let d = 
@@ -527,11 +527,11 @@ in
   if answerc then 3 else 0
 in
 
-(* ʿ�̥��֥������Ȥξ�� *)
+(* 平面オブジェクトの場合 *)
 (*MINCAML*)let rec solver_surface m l =
 (*NOMINCAML let solver_surface m l =*)
-  (* ����ʿ�̤����Ĥ���Υ *)
-  (* ʿ�̤϶�����������줵��Ƥ��� *)
+  (* 点と平面の符号つき距離 *)
+  (* 平面は極性が負に統一されている *)
   let q = (l.(0) *. o_param_a m +. l.(1) *. o_param_b m +. l.(2) *. o_param_c m) in
   if 0.0 < q then
     let t = (solver_w_vec.(0) *. o_param_a m +. solver_w_vec.(1) *. o_param_b m +. solver_w_vec.(2) *. o_param_c m) /. q in
@@ -539,7 +539,7 @@ in
   else 0
 in
 
-(* solver_second �Υ��������ѿ���¿���Τ�ʬ�� *)
+(* solver_second のローカル変数が多いので分割 *)
 
 (*MINCAML*)let rec in_prod_sqr_obj m v =
 (*NOMINCAML let in_prod_sqr_obj m v =*)
@@ -595,7 +595,7 @@ in
        if o_form m = 3
        then cc1 -. 1.0 else cc1 
      in
-     let d = (* Ƚ�̼� *)
+     let d = (* 判別式 *)
        let d2 = 4.0 *. aa *. cc in
        (fsqr bb) -. d2
      in
@@ -610,7 +610,7 @@ in
     )
 in
 
-(**** solver �Υᥤ��롼���� ****)
+(**** solver のメインルーチン ****)
 (*MINCAML*)let rec solver index l p =
 (*NOMINCAML let solver index l p =*)
   let m = objects.(index) in
@@ -623,9 +623,9 @@ in
   else solver_second m l
 in
 
-(**************** ���ȥ��֥������Ȥΰ��ִط��˴ؤ���ؿ��� ****************)
+(**************** 点とオブジェクトの位置関係に関する関数群 ****************)
 
-(**** �� px, py, pz �����֥������� m �γ������ɤ�����Ƚ�ꤹ�� ****)
+(**** 点 px, py, pz がオブジェクト m の外部かどうかを判定する ****)
 
 (*MINCAML*)let rec is_rect_outside m =
 (*NOMINCAML let is_rect_outside m =*)
@@ -676,7 +676,7 @@ in
     is_second_outside m
 in
 
-(**** �� (qx, qy, qz) �� AND �ͥåȥ�� iand �������ˤ��뤫�ɤ�����Ƚ�� ****)
+(**** 点 (qx, qy, qz) が AND ネットワーク iand の内部にあるかどうかを判定 ****)
 (*MINCAML*)let rec check_all_inside ofs iand =
 (*NOMINCAML let rec check_all_inside ofs iand =*)
   let head = iand.(ofs) in
@@ -686,12 +686,12 @@ in
   )
 in
 
-(**************** �Ƥ˴ؤ���ؿ��� ****************)
+(**************** 影に関する関数群 ****************)
 
-(* ��P���顢�����٥��ȥ��������é�ꡢ                  *)
-(* ʪ�Τˤ֤Ĥ��� (=�ƤˤϤ��äƤ���) ���ݤ���Ƚ�ꤹ�롣*)
+(* 点Pから、光線ベクトルの方向に辿り、                  *)
+(* 物体にぶつかる (=影にはいっている) か否かを判定する。*)
 
-(**** AND �ͥåȥ�� iand �α��⤫�ɤ�����Ƚ�� ****)
+(**** AND ネットワーク iand の影内かどうかの判定 ****)
 (*MINCAML*)let rec shadow_check_and_group iand_ofs and_group p =
 (*NOMINCAML let rec shadow_check_and_group iand_ofs and_group p =*)
   if and_group.(iand_ofs) = -1 then
@@ -707,8 +707,8 @@ in
     let t0p = solver_dist.(0) in
     if (if t0 <> 0 then t0p < -0.2 else false)
     then 
-      (* Q: �����θ��䡣�ºݤˤ��٤ƤΥ��֥������Ȥ� *)
-      (* ���äƤ��뤫�ɤ�����Ĵ�٤롣*)
+      (* Q: 交点の候補。実際にすべてのオブジェクトに *)
+      (* 入っているかどうかを調べる。*)
       let t = t0p +. 0.01 in
       chkinside_p.(0) <- light.(0) *. t +. p.(0);
       chkinside_p.(1) <- light.(1) *. t +. p.(1);
@@ -716,17 +716,17 @@ in
       if (check_all_inside 0 and_group) 
       then true
       else shadow_check_and_group (iand_ofs + 1) and_group p
-	  (* ���Υ��֥������Ȥ����������õ�� *)
+	  (* 次のオブジェクトから候補点を探す *)
     else
-      (* �������ʤ����: ��������(��¦����)�ξ�硢    *)
-      (* AND �ͥåȤζ�����ʬ�Ϥ��������˴ޤޤ�뤿�ᡢ*)
-      (* �����Ϥʤ����Ȥϼ�����õ�����Ǥ��ڤ롣        *)
+      (* 交点がない場合: 極性が正(内側が真)の場合、    *)
+      (* AND ネットの共通部分はその内部に含まれるため、*)
+      (* 交点はないことは自明。探索を打ち切る。        *)
       if o_isinvert (objects.(obj))
       then shadow_check_and_group (iand_ofs + 1) and_group p
       else false
 in
 
-(**** OR ���롼�� or_group �αƤ��ɤ�����Ƚ�� ****)
+(**** OR グループ or_group の影かどうかの判定 ****)
 (*MINCAML*)let rec shadow_check_one_or_group ofs or_group p =
 (*NOMINCAML let rec shadow_check_one_or_group ofs or_group p =*)
   let head = or_group.(ofs) in
@@ -740,24 +740,24 @@ in
   )
 in
 
-(**** OR ���롼�פ���Τɤ줫�αƤ����äƤ��뤫�ɤ�����Ƚ�� ****)
+(**** OR グループの列のどれかの影に入っているかどうかの判定 ****)
 (*MINCAML*)let rec shadow_check_one_or_matrix ofs or_matrix p =
 (*NOMINCAML let rec shadow_check_one_or_matrix ofs or_matrix p =*)
   let head = or_matrix.(ofs) in
   let range_primitive = head.(0) in
-  if range_primitive = -1 then false (* OR����ν�λ�ޡ��� *)
+  if range_primitive = -1 then false (* OR行列の終了マーク *)
   else (
     if range_primitive = 99 
     then
-      (* range primitive �Ϥʤ� *)
+      (* range primitive はない *)
       if (shadow_check_one_or_group 1 head p)
       then true
       else shadow_check_one_or_matrix (ofs + 1) or_matrix p
     else 
-      (* range primitive ������ *)
+      (* range primitive がある *)
       let t = solver range_primitive light p in
-      (* range primitive �Ȥ֤Ĥ���ʤ���� *)
-      (* or group �Ȥθ����Ϥʤ�            *)
+      (* range primitive とぶつからなければ *)
+      (* or group との交点はない            *)
       if t <> 0 then
 	if solver_dist.(0) < -0.1
 	then
@@ -769,10 +769,10 @@ in
   )
 in
 
-(**************** ������1��֥�����󤹤�ؿ� ****************)
+(**************** 光線を1区間スキャンする関数 ****************)
 
-(**** ����AND�ͥåȥ�������쥤�ȥ졼�����������Ф���****)
-(**** ���������뤫�ɤ�����Ĵ�٤롣                     ****)
+(**** あるANDネットワークが、レイトレースの方向に対し、****)
+(**** 交点があるかどうかを調べる。                     ****)
 (*MINCAML*)let rec solve_each_element iand_ofs and_group =
 (*NOMINCAML let rec solve_each_element iand_ofs and_group =*)
   let iobj = and_group.(iand_ofs) in
@@ -781,8 +781,8 @@ in
     let t0 = solver iobj vscan viewpoint in
     if t0 <> 0 then
       (
-        (* ������������ϡ����θ�����¾�����Ǥ���˴ޤޤ�뤫�ɤ���Ĵ�٤롣*)
-        (* ���ޤǤ���ǺǾ��� t ���ͤ���٤롣*)
+        (* 交点がある時は、その交点が他の要素の中に含まれるかどうか調べる。*)
+        (* 今までの中で最小の t の値と比べる。*)
        let t0p = solver_dist.(0) in
        if -0.1 < t0p then
 	 if t0p < tmin.(0) then
@@ -807,7 +807,7 @@ in
       )
     else 
       (
-       (* �������ʤ��������⤽��ʪ�Τ���¦�����ʤ餳��ʾ�����Ϥʤ� *)
+       (* 交点がなく、しかもその物体は内側が真ならこれ以上交点はない *)
        if o_isinvert (objects.(iobj)) then () else end_flag.(0) <- (true)
       );
     if (not (end_flag.(0))) then 
@@ -816,7 +816,7 @@ in
   )
 in
 
-(**** 1�Ĥ� OR-group �ˤĤ��Ƹ�����Ĵ�٤� ****)
+(**** 1つの OR-group について交点を調べる ****)
 (*MINCAML*)let rec solve_one_or_network ofs or_group =
 (*NOMINCAML let rec solve_one_or_network ofs or_group =*)
   let head = or_group.(ofs) in
@@ -828,19 +828,19 @@ in
   )
 in
 
-(**** OR�ޥȥꥯ�����ΤˤĤ��Ƹ�����Ĵ�٤롣****)
+(**** ORマトリクス全体について交点を調べる。****)
 (*MINCAML*)let rec trace_or_matrix ofs or_network =
 (*NOMINCAML let rec trace_or_matrix ofs or_network =*)
   let head = or_network.(ofs) in
   let range_primitive = head.(0) in
-  if range_primitive = -1 then (* �����֥������Ƚ�λ *)
+  if range_primitive = -1 then (* 全オブジェクト終了 *)
     ()
   else ( 
-    if range_primitive = 99 (* range primitive �ʤ� *)
+    if range_primitive = 99 (* range primitive なし *)
     then (solve_one_or_network 1 head)
     else 
       (
-	(* range primitive �ξ��ͤ��ʤ���и����Ϥʤ� *)
+	(* range primitive の衝突しなければ交点はない *)
 	let t = solver range_primitive vscan viewpoint in
 	if t <> 0 then
 	  let tp = solver_dist.(0) in
@@ -853,10 +853,10 @@ in
   )
 in
 
-(**** �ȥ졼������ ****)
-(* �ȥ졼�������� ViewPoint �ȡ�����������Υ�����������٥��ȥ� *)
-(* Vscan ���顢���� crashed_point �Ⱦ��ͤ������֥�������         *)
-(* crashed_object ���֤����ؿ����Τ��֤��ͤϸ�����̵ͭ�ο����͡� *)
+(**** トレース本体 ****)
+(* トレース開始点 ViewPoint と、その点からのスキャン方向ベクトル *)
+(* Vscan から、交点 crashed_point と衝突したオブジェクト         *)
+(* crashed_object を返す。関数自体の返り値は交点の有無の真偽値。 *)
 (*MINCAML*)let rec tracer viewpoint vscan =
 (*NOMINCAML let tracer viewpoint vscan =*)
 ( 
@@ -872,30 +872,30 @@ in
 
 in
 
-(**************** �쥤�ȥ졼�����Τ˴ؤ���ؿ��� ****************)
+(**************** レイトレース本体に関する関数群 ****************)
 
-(**** ��������ˡ���٥��ȥ��׻����� ****)
-(* ���ͤ������֥������Ȥ��᤿�ݤ� solver ���֤��ͤ� *)
-(* �ѿ� intsec_rectside ��ͳ���Ϥ��Ƥ��ɬ�פ����롣  *)
-(* nvector �⥰�����Х롣 *)
+(**** 交点から法線ベクトルを計算する ****)
+(* 衝突したオブジェクトを求めた際の solver の返り値を *)
+(* 変数 intsec_rectside 経由で渡してやる必要がある。  *)
+(* nvector もグローバル。 *)
 
 (*MINCAML*)let rec get_nvector_rect _ =
 (*NOMINCAML let get_nvector_rect _ =*)
   let rectside = intsec_rectside.(0) in
-  (* solver ���֤��ͤϤ֤Ĥ��ä��̤������򼨤� *)
-  if rectside = 1 then (* YZ�� *)
+  (* solver の返り値はぶつかった面の方向を示す *)
+  if rectside = 1 then (* YZ面 *)
     ( 
       nvector.(0) <- -.(sgn (vscan.(0)));
       nvector.(1) <- 0.0;
       nvector.(2) <- 0.0
      )
-  else if rectside = 2 then (* ZX�� *)
+  else if rectside = 2 then (* ZX面 *)
     ( 
       nvector.(0) <- 0.0;
       nvector.(1) <- -.(sgn (vscan.(1)));
       nvector.(2) <- 0.0
      )
-  else if rectside = 3 then (* XY�� *)
+  else if rectside = 3 then (* XY面 *)
     ( 
       nvector.(0) <- 0.0;
       nvector.(1) <- 0.0;
@@ -906,7 +906,7 @@ in
 
 (*MINCAML*)let rec get_nvector_plane m = 
 (*NOMINCAML let get_nvector_plane m = *)
-  (* m_invert �Ͼ�� true �ΤϤ� *)
+  (* m_invert は常に true のはず *)
   nvector.(0) <- -.(o_param_a m); (* if m_invert then -.m_a else m_a *)
   nvector.(1) <- -.(o_param_b m);
   nvector.(2) <- -.(o_param_c m)
@@ -914,7 +914,7 @@ in
 
 (*MINCAML*)let rec get_nvector_second_norot m p = 
 (*NOMINCAML let get_nvector_second_norot m p = *)
-(* ��ž�ʤ� *)
+(* 回転なし *)
   nvector.(0) <- (p.(0) -. o_param_x m) *. o_param_a m;
   nvector.(1) <- (p.(1) -. o_param_y m) *. o_param_b m;
   nvector.(2) <- (p.(2) -. o_param_z m) *. o_param_c m;
@@ -945,7 +945,7 @@ in
     get_nvector_rect ()
   else if m_shape = 2 then
     get_nvector_plane m
-  else (* 2������ or ���� *)
+  else (* 2次曲面 or 錐体 *)
     if o_isrot m <> 0 then
       get_nvector_second_rot m p
     else
@@ -953,17 +953,17 @@ in
   (* retval = nvector *)
 in
 
-(**** ������Υƥ�������ο���׻����� ****)
+(**** 交点上のテクスチャの色を計算する ****)
 (*MINCAML*)let rec utexture m p =
 (*NOMINCAML let utexture m p =*)
   let m_tex = o_texturetype m in
-  (* ���ܤϥ��֥������Ȥο� *)
+  (* 基本はオブジェクトの色 *)
   texture_color.(0) <- o_color_red m;
   texture_color.(1) <- o_color_green m;
   texture_color.(2) <- o_color_blue m;
   if m_tex = 1 then
     (
-     (* zx�����Υ����å������� (G) *)
+     (* zx方向のチェッカー模様 (G) *)
      let w1 = p.(0) -. o_param_x m in
      let flag1 =
        let d1 = (floor (w1 *. 0.05)) *. 20.0 in
@@ -980,14 +980,14 @@ in
        else (if flag2 then 0.0 else 255.0)
     )
   else if m_tex = 2 then
-    (* y�������Υ��ȥ饤�� (R-G) *)
+    (* y軸方向のストライプ (R-G) *)
     (
       let w2 = fsqr (sin (p.(1) *. 0.25)) in
       texture_color.(0) <- 255.0 *. w2;
       texture_color.(1) <- 255.0 *. (1.0 -. w2)
     )
   else if m_tex = 3 then 
-    (* ZX��������Ʊ���� (G-B) *)
+    (* ZX面方向の同心円 (G-B) *)
     ( 
       let w1 = p.(0) -. o_param_x m in
       let w3 = p.(2) -. o_param_z m in
@@ -998,7 +998,7 @@ in
       texture_color.(2) <- (1.0 -. cws) *. 255.0
     )
   else if m_tex = 4 then (
-    (* ���̾������ (B) *)
+    (* 球面上の斑点 (B) *)
     let w1 = (p.(0) -. o_param_x m) *. (sqrt (o_param_a m)) in
     let w3 = (p.(2) -. o_param_z m) *. (sqrt (o_param_c m)) in
     let w4 = sqrt ((fsqr w1) +. (fsqr w3)) in
@@ -1027,13 +1027,13 @@ in
   else ()
 in
 
-(**** �����꡼����1���ˤĤ��ơ��������ˤߤ��뿧��׻� ****)
-(* viewpoint (�������Х�): �ȥ졼��������                *)
-(* vscan (�������Х�):     �ȥ졼������ñ�̥٥��ȥ�      *)
-(* nref:      ȿ�Ͳ��                      *)
-(* energy:    ���ͥ륮�� (ȿ�ͤȤȤ�˸���) *)
+(**** スクリーン上の1点について、その点にみえる色を計算 ****)
+(* viewpoint (グローバル): トレース開始点                *)
+(* vscan (グローバル):     トレース方向単位ベクトル      *)
+(* nref:      反射回数                      *)
+(* energy:    エネルギー (反射とともに減衰) *)
 
-(* ���� *)
+(* 内積 *)
 (*MINCAML*)let rec in_prod v1 v2 = 
 (*NOMINCAML let in_prod v1 v2 = *)
   v1.(0) *. v2.(0) +. v1.(1) *. v2.(1) +. v1.(2) *. v2.(2)
@@ -1051,16 +1051,16 @@ in
 (*NOMINCAML let rec raytracing nref energy =*)
   let crashed_p = tracer viewpoint vscan in
 
-  (* ȿ�ͤ��ʤ�����֤Ĥ���ʤ����ϰŰ� (nref = 0) *)
-  (* ȿ�ͤ�������̵�±��ã������ϸ����αƶ����̣ *)
+  (* 反射がなく何もぶつからない時は暗闇 (nref = 0) *)
+  (* 反射したあと無限遠に達する時は光源の影響を加味 *)
   if (not crashed_p) then
     if nref <> 0 then 
       ( 
 	let hl = -.(in_prod vscan light) in
-	(* 90���Ķ�������0 (���ʤ�) *)
+	(* 90°を超える場合は0 (光なし) *)
 	if 0.0 < hl then
 	  (
-	   (* �ϥ��饤�ȶ��٤ϳ��٤� cos^3 ������ *)
+	   (* ハイライト強度は角度の cos^3 に比例 *)
 	   let ihl = fsqr hl *. hl *. energy *. beam.(0) in
 	   rgb.(0) <- rgb.(0) +. ihl;
 	   rgb.(1) <- rgb.(1) +. ihl;
@@ -1072,35 +1072,35 @@ in
   else ();
   
   if crashed_p then
-    (* ���֥������Ȥˤ֤Ĥ��ä���� *)
+    (* オブジェクトにぶつかった場合 *)
     ( 
-      (* 1. ʪ�Τ�������� *)
+      (* 1. 物体に当たる光 *)
       let cobj = objects.(crashed_object.(0)) in
       get_nvector cobj crashed_point;
       let bright = 
 	if (shadow_check_one_or_matrix 0 or_net.(0) crashed_point)
 	then 
-	  0.0 (* �ƤʤΤǸ���������ʤ� *)
+	  0.0 (* 影なので光は当たらない *)
 	else (
 	  let br = -.(in_prod nvector light) in
 	  let br1 = if 0.0 > br then 0.2 else br +. 0.2 in
 	  br1 *. energy *. o_diffuse cobj
 	 )
       in
-      utexture cobj crashed_point; (* �ƥ��������׻� *)
+      utexture cobj crashed_point; (* テクスチャを計算 *)
       accumulate_vec_mul rgb texture_color bright;
 
       if nref > 4 then () else
       if 0.1 < energy then 
 	( 
-	  (* 2. ȿ�͸� *)
+	  (* 2. 反射光 *)
 	  let w = (-2.0) *. in_prod vscan nvector in
-	  (* ȿ�͸��������˥ȥ졼���������ѹ� *)
+	  (* 反射光の方向にトレース方向を変更 *)
 	  accumulate_vec_mul vscan nvector w;
 	  
 	  let m_surface = o_reflectiontype cobj in
 	  if m_surface = 1 then
-	    (* ��ȿ�� : �ϥ��饤�Ȥ�׻� *)
+	    (* 乱反射 : ハイライトを計算 *)
 	    (
 	     if 0.0 = (o_hilight cobj) then 
 	       ()
@@ -1119,7 +1119,7 @@ in
 	       else ()
 	    )
 	  else if m_surface = 2 then
-	    (* ����ȿ��: �Ƶ�Ū�˥ȥ졼�� *)
+	    (* 鏡面反射: 再帰的にトレース *)
 	    ( 
 	      viewpoint.(0) <- crashed_point.(0);
 	      viewpoint.(1) <- crashed_point.(1);
@@ -1134,7 +1134,7 @@ in
   else ()
 in
 
-(**** �ǡ������� ****)
+(**** データ出力 ****)
 (*MINCAML*)let rec write_rgb _ =
 (*NOMINCAML let write_rgb _ =*)
   ( 
@@ -1167,19 +1167,19 @@ in
   )
 in
 
-(**** 1��ʬ�Υ쥤�ȥ졼���򤷤Ʒ�̤�񤭹��� ****)
+(**** 1行分のレイトレースをして結果を書き込む ****)
 (*MINCAML*)let rec scan_point scanx =
 (*NOMINCAML let rec scan_point scanx =*)
   if scanx >= size.(0) then () else
   (
-    (* �������ֹ椫���ɸ�� *)
+    (* 走査線番号から座標へ *)
     let sscanx = (float_of_int scanx -. scan_offset.(0)) *. scan_d.(0) in
-    (* �ȥ졼�������ν����: ������������������� *)
+    (* トレース方向の初期化: 視点から投影点方向へ *)
     vscan.(0) <- (sscanx *. cos_v.(1) +. wscan.(0));
     vscan.(1) <- (scan_sscany.(0) *. cos_v.(0) -. vp.(1));
     vscan.(2) <- (-.sscanx *. sin_v.(1) +. wscan.(2));
 
-    (* �������о����ε�Υ�εտ� *)
+    (* 視点と対象点の距離の逆数 *)
     let metric = sqrt ((fsqr sscanx) +. scan_met1.(0)) in
     vscan.(0) <- vscan.(0) /. metric;
     vscan.(1) <- vscan.(1) /. metric;
@@ -1189,7 +1189,7 @@ in
     viewpoint.(1) <- view.(1);
     viewpoint.(2) <- view.(2);
 
-    (* ���������졼���ν���� *)
+    (* 色アキュムレータの初期化 *)
     rgb.(0) <- 0.0;
     rgb.(1) <- 0.0;
     rgb.(2) <- 0.0;
@@ -1197,15 +1197,15 @@ in
     (* Go! *)
     raytracing 0 1.0;
 
-    (* �������Ѵ����ƥե�����˽��� *)
+    (* 整数に変換してファイルに出力 *)
     write_rgb ();
 
-    (* �������� *)
+    (* 次の点へ *)
     scan_point (scanx + 1)
   )
 in
 
-(**** �������˥�����󤹤� ****)
+(**** 列方向にスキャンする ****)
 (*MINCAML*)let rec scan_line scany =
 (*NOMINCAML let rec scan_line scany =*)
   if scany < size.(0) then
@@ -1220,9 +1220,9 @@ in
       scan_sscany.(0) <- (
 	let t = (scan_offset.(0) -. 1.0 -. float_of_int scany) in
 	scan_d.(0) *. t);
-      (* �������ؤε�Υ��2�� *)
+      (* 走査線への距離の2乗 *)
       scan_met1.(0) <- fsqr scan_sscany.(0) +. 40000.0;
-      (* wscan ���������������ޤǤΥ٥��ȥ����ʬ *)
+      (* wscan 視点から走査線までのベクトルの成分 *)
       let t1 = scan_sscany.(0) *. sin_v.(0) in
       wscan.(0) <- t1 *. sin_v.(1) -. vp.(0);
       wscan.(2) <- t1 *. cos_v.(1) -. vp.(2);
@@ -1233,7 +1233,7 @@ in
     ()
 in
 
-(**** �إå����Ϥȥ������ ****)
+(**** ヘッダ出力とスキャン ****)
 (*MINCAML*)let rec scan_start _ =
 (*NOMINCAML let scan_start _ =*)
   (
@@ -1245,7 +1245,7 @@ in
   )
 in
 
-(**************** �ᥤ��롼���� ****************)
+(**************** メインルーチン ****************)
 
 (*MINCAML*)let rec rt size_x size_y debug_p =
 (*NOMINCAML let rt size_x size_y debug_p =*)
