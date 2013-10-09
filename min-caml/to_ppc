@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+ln -sf PowerPC/{*.ml{,i},libmincaml.S} .
+cd shootout; ln -sf PowerPC/Makefile .
+cd ../bytemark; ln -sf PowerPC/Makefile .
+cd ../min-rt; ln -sf PowerPC/globals.s .
+cd ..

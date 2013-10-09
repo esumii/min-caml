@@ -1,0 +1,13 @@
+[Update on July 24, 2012]
+
+- 32-bit x86 (with SSE2, that is, Pentium IV or later) is now
+  supported (on Linux and Cygwin); execute ./to_x86 before make.
+
+[Updates on September 17, 2008]
+
+- PowerPC is now supported (in addition to SPARC), thanks to
+  Ms. Masuko and Prof. Asai in Ochanomizu University.  You _must_
+  execute either ./to_ppc or ./to_sparc _before_ make.
+
+- The register allocator now uses a simpler algorithm.  It omits the
+  backtracking (ToSpill and NoSpill) in previous versions.

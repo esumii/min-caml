@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+ln -sf SPARC/{*.ml{,i},libmincaml.S} .
+cd shootout; ln -sf SPARC/Makefile .
+cd ../bytemark; ln -sf SPARC/Makefile .
+cd ../min-rt; ln -sf SPARC/globals.s .
+cd ..
