@@ -1,3 +1,11 @@
+[Updates on October 9, 2013]
+
+- Moved from SourceForge https://sourceforge.net/p/min-caml/code/ to
+  GitHub https://github.com/esumii/min-caml
+
+- Merged the Mac OS patch by shinh
+  https://twitter.com/shinh/status/322043108021907458
+
 [Update on July 24, 2012]
 
 - 32-bit x86 (with SSE2, that is, Pentium IV or later) is now
