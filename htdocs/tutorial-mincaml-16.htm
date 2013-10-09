@@ -1,0 +1,686 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 9">
+<meta name=Originator content="Microsoft Word 9">
+<link rel=File-List href="./tutorial-mincaml.files/filelist.xml">
+<link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
+<link rel="stylesheet" href="sh.css" type="text/css">
+<title>速攻MinCamlコンパイラ概説</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>住井 英二郎</o:Author>
+  <o:LastAuthor>住井 英二郎</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>29</o:TotalTime>
+  <o:LastPrinted>2005-02-25T06:25:00Z</o:LastPrinted>
+  <o:Created>2005-03-01T17:12:00Z</o:Created>
+  <o:LastSaved>2005-03-01T17:12:00Z</o:LastSaved>
+  <o:Pages>20</o:Pages>
+  <o:Words>3412</o:Words>
+  <o:Characters>19450</o:Characters>
+  <o:Company>東京大学 情報理工学系研究科 コンピュータ科学専攻</o:Company>
+  <o:Lines>162</o:Lines>
+  <o:Paragraphs>38</o:Paragraphs>
+  <o:CharactersWithSpaces>23885</o:CharactersWithSpaces>
+  <o:Version>9.6926</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:FormsDesign/>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>10 pt</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\‘“〈《「『【〔＄（［｛｢￥</w:NoLineBreaksAfter>
+  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;°’”‰′″℃、。々〉》」』】〕゛゜ゝゞ・ヽヾ！％），．：；？］｝｡｣､･ﾞﾟ</w:NoLineBreaksBefore>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+@font-face
+	{font-family:Times;
+	panose-1:2 2 6 3 5 4 5 2 3 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:3 0 0 0 1 0;}
+@font-face
+	{font-family:Helvetica;
+	panose-1:2 11 6 4 2 2 2 2 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:3 0 0 0 1 0;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"ＭＳ 明朝";
+	panose-1:2 2 6 9 4 2 5 8 3 4;
+	mso-font-alt:"MS Mincho";
+	mso-font-charset:128;
+	mso-generic-font-family:roman;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
+@font-face
+	{font-family:"ＭＳ ゴシック";
+	panose-1:2 11 6 9 7 2 5 8 2 4;
+	mso-font-alt:"MS Gothic";
+	mso-font-charset:128;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
+@font-face
+	{font-family:Century;
+	panose-1:2 4 6 4 5 5 5 2 3 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+@font-face
+	{font-family:"\@ＭＳ ゴシック";
+	panose-1:2 11 6 9 7 2 5 8 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
+@font-face
+	{font-family:"\@ＭＳ 明朝";
+	panose-1:2 2 6 9 4 2 5 8 3 4;
+	mso-font-charset:128;
+	mso-generic-font-family:roman;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:none;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Times;
+	mso-fareast-font-family:"ＭＳ 明朝";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:1.0pt;}
+h1
+	{mso-style-next:標準;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:none;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"ＭＳ ゴシック";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:1.0pt;
+	font-weight:normal;}
+p.MsoDate, li.MsoDate, div.MsoDate
+	{mso-style-next:標準;
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:none;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Times;
+	mso-fareast-font-family:"ＭＳ 明朝";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:1.0pt;}
+p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
+	{margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:none;
+	background:navy;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Helvetica;
+	mso-fareast-font-family:"ＭＳ ゴシック";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:1.0pt;}
+ /* Page Definitions */
+@page
+	{mso-page-border-surround-header:no;
+	mso-page-border-surround-footer:no;}
+@page Section1
+	{size:210.0mm 842.0pt;
+	margin:99.25pt 30.0mm 30.0mm 30.0mm;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;
+	layout-grid:20.0pt;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+@list l0
+	{mso-list-id:756486447;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-382311324;}
+@list l0:level1
+	{mso-level-tab-stop:24.0pt;
+	mso-level-number-position:left;
+	margin-left:24.0pt;
+	text-indent:-24.0pt;}
+@list l1
+	{mso-list-id:1075280865;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1663976776;}
+@list l1:level1
+	{mso-level-tab-stop:24.0pt;
+	mso-level-number-position:left;
+	margin-left:24.0pt;
+	text-indent:-24.0pt;}
+@list l2
+	{mso-list-id:1845515139;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1081884438;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06C;
+	mso-level-tab-stop:24.0pt;
+	mso-level-number-position:left;
+	margin-left:24.0pt;
+	text-indent:-24.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:1923952290;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1714310748;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06C;
+	mso-level-tab-stop:21.0pt;
+	mso-level-number-position:left;
+	margin-left:21.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0mm;}
+ul
+	{margin-bottom:0mm;}
+-->
+</style>
+</head>
+
+<body lang=JA link=blue vlink=purple style='tab-interval:48.0pt;text-justify-trim:
+punctuation'>
+
+<div class=Section1>
+
+<h1><span style='font-family:"ＭＳ ゴシック";mso-ascii-font-family:Arial;mso-hansi-font-family:
+Arial'>クロージャ変換</span><span lang=EN-US>(</span><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-family:"Courier New";mso-bidi-font-family:
+"Times New Roman"'>closure.ml</span></b><span lang=EN-US>)</span></h1>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>まだ</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>とアセンブリの間に残っているギャップとして「ネストした関数定義」があります。これを平らにするのが</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ ゴシック";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>クロージャ変換</strong></span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>で、関数型言語のコンパイラではもっとも重要な処理の一つです。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>「ネストした関数定義を平らにする」といっても、やさしいケースと難しいケースがあります。たとえば</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'>let rec quad x =<br>
+<span style="mso-spacerun: yes">&nbsp; </span>let rec dbl x = x + x in<br>
+<span style="mso-spacerun: yes">&nbsp; </span>dbl (dbl x) in<br>
+quad 123<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>だったら</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'>let rec dbl x = x + x in<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'>let rec quad x = dbl (dbl x) in<br>
+quad 123<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のように定義を移動するだけで</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>OK</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>です。しかし</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'>let rec make_adder x =<br>
+<span style="mso-spacerun: yes">&nbsp; </span>let rec adder y = x + y in<br>
+<span style="mso-spacerun: yes">&nbsp; </span>adder in<br>
+(make_adder 3) 7<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に対して同じことをしたら</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'>let rec adder y = x + y in<br>
+let rec make_adder x = adder in<br>
+(make_adder 3) 7</span></b><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のようにナンセンスなプログラムになってしまいます。これは、関数</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>dbl</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>には自由変数がないのに対し、関数</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>adder</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>には自由変数</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>があるためです。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>このように自由変数のある関数定義を平らにするためには、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>adder</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のような関数の本体だけでなく、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のような自由変数の値も組にして扱わなければいけません。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>ML</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のコードとして書くならば、</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'>let rec adder x y = x + y in<br>
+let rec make_adder x = (adder, x) in<br>
+let (f, fv) = make_adder 3 in<br>
+f fv 7</span></b><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のような感じです。まず、関数</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>adder</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は、自由変数</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>の値も引数として受け取るようにします。そして、関数</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>
+adder</span></b><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を値として扱うときは、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>(adder,
+x)</span></b><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:Century'> </span><span style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:
+Century'>のように、関数の本体と自由変数の値の組として扱います。この組のことを関数の</span><span style='font-size:
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ ゴシック";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'><strong>クロージャ</strong></span><span style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>といいます。さらに、関数</span><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'> adder</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を呼び出すときは、クロージャから関数の本体</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>f</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と自由変数の値</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>fv</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を読み出し、引数として与えます。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>クロージャ変換でややこしいのは、どの関数はクロージャとして扱い、どの関数は普通に呼び出せるのか、区別する方法です。もっとも単純な方法は「すべての関数をクロージャとして扱う」ことですが、あまりにも効率が悪くなってしまいます。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>そこで、</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のクロージャ変換</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
+href="min-caml.html#closure_g">Closure.g</a></span></b><span style='font-size:
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>では、「自由変数がないとわかっていて、普通に呼び出せる」関数の集合</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>known</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を引数として受け取り、与えられた式をクロージャ変換して返します（</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>known</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と式の他に、型環境</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>env</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>も受け取ります）。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>クロージャ変換の結果はデータ型</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
+href="min-caml.html#closure_t">Closure.t</a></span></b><span style='font-size:
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>で表現されます。</span><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>K</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>正規形の</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
+href="min-caml.html#knormal_t">KNormal.t</a></span></b><span style='font-size:
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>とほぼ同様ですが、ネストしうる関数定義のかわりに、クロージャ生成</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>MakeCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>とトップレベル関数の集合</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>toplevel</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>があります。また、一般の関数呼び出しのかわりに、クロージャによる関数呼び出し</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と、クロージャによらないトップレベル関数の呼び出し</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppDir</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>があります。さらに、今後のために変数の名前のデータ型</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
+href="min-caml.html#id_t">Id.t</a></span></b><span style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>と、トップレベル関数の名前（ラベル）のデータ型</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
+href="min-caml.html#id_l">Id.l</a></span></b><span style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>を区別します。</span><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は変数を、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppDir</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>はラベルを使用していることに注意してください。クロージャは</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>MakeCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>で変数に束縛されますが、トップレベル関数はラベルで呼び出されるためです。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'>Closure.g</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は、一般の関数呼び出し</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
+href="min-caml.html#closure_app">x y1 <span style='font-family:Century;
+font-weight:normal'>...</span> yn</a></span></b><span style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>があったら、関数</span><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>が集合</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>known</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に属してるか調べ、もし属していたら</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppDir</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を、属していなければ</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を返します。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'><a target="srcview" href="min-caml.html#closure_letrec">let
+rec x y1 <span style='font-family:Century;font-weight:normal'>...</span> yn =
+e1 in e2</a></span></b><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のような関数定義があったら、以下の処理をします。まず、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>には自由変数がないと仮定して、集合</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>known</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に追加し、本体</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e1</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>をクロージャ変換してみます。そして、もし本当に自由変数がなかったら、処理を続行し</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e2</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>をクロージャ変換します。もし自由変数があったら、集合</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>known</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>や参照</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>toplevel</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を元に戻して、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e1</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のクロージャ変換からやり直します。最後に、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e2</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>が（ラベルではなく）変数として出現していなければ、クロージャの生成</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>MakeCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を削除します。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>最後の部分はちょっとわかりにくいかもしれません。たとえ</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に自由変数がなかったとしても、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>let
+rec x y1 </span></b><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'>...</span><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'> yn = </span></b><span lang=EN-US
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>...</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>
+in x</span></b><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のように値として返すときは、クロージャを生成する必要があります。というのは、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を値として受け取る側では、自由変数があるかどうか一般にわからないので、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppDir</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>ではなく</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を使用して、クロージャによる関数呼び出しを行うからです。このような場合は、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>が変数として</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e2</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に出現するので、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>MakeCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は削除されません。一方で、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>let
+rec x y = </span></b><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'>...</span><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
+mso-bidi-font-family:"Times New Roman"'> in x 123</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のように関数呼び出しをするだけであれば、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は（変数ではなく）</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppDir</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のラベルとして出現するだけなので、</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>MakeCls</span></b><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は削除されます。</span><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>
+</span><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'>&nbsp;
+<![endif]>
+<o:p></o:p></span></p>
+
+<p class=MsoNormal><span
+lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a
+href="tutorial-mincaml-17.htm"><span style='font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>次へ進む</span></a></span></p>
+<p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+
+</html>

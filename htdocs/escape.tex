@@ -1,0 +1,318 @@
+\documentclass{jarticle}
+\usepackage{fullpage}
+\usepackage{min-caml}
+\usepackage{misc}
+
+\title{MinCamlのためのエスケープ解析について}
+\author{Eijiro Sumii\thanks{\texttt{sumii@ecei.tohoku.ac.jp}}}
+\date{***WORK IN PROGRESS***\\\today (\timeofday)}
+
+\begin{document}
+\maketitle
+
+\begin{figure*}
+\setbox0\vbox{
+\[
+\begin{array}{lll}
+\lefteqn{e~::=~} & & \mbox{式} \\
+& c & \mbox{定数} \\
+& \OP(e_1, \dots, e_n) & \mbox{プリミティブ演算} \\
+& \IF~e_1~\THEN~e_2~\ELSE~e_3 & \mbox{条件分岐} \\
+& \LET~x = e_1~\IN~e_2 & \mbox{変数定義} \\
+& x & \mbox{変数の読み出し} \\
+& \LET~\REC_\rho~x~y_1~\dots~y_n = e_1~\IN~e_2 & \mbox{再帰関数定義} \\
+& e~e_1~\dots~e_n & \mbox{関数呼び出し} \\
+& (e_1, \dots, e_n)_\rho & \mbox{組の作成} \\
+& \LET~(x_1, \dots, x_n) = e_1~\IN~e_2 & \mbox{組の読み出し} \\
+& \ARR_\rho~e_1~e_2 & \mbox{配列の作成} \\
+& e_1.(e_2) & \mbox{配列の読み出し} \\
+& e_1.(e_2) \leftarrow e_3 & \mbox{配列への書き込み} \\
+& \FRM(s, e) & \mbox{関数フレーム（意味論定義＆健全性証明用）} \\
+& \ell & \mbox{ロケーション（意味論定義＆健全性証明用）} \\
+\lefteqn{v~::=~} & & \mbox{値} \\
+& c & \mbox{定数} \\
+& \ell & \mbox{ロケーション} \\
+\lefteqn{V~::=~} & & \mbox{メモリオブジェクト} \\
+& \langle x, (y_1, \dots, y_n), e \rangle & \mbox{クロージャ} \\
+& (v_1, \dots, v_n) & \mbox{組} \\
+& [v_1, \dots, v_n] & \mbox{配列} \\
+\lefteqn{\tau~::=~} & & \mbox{型} \\
+& \pi & \mbox{プリミティブ型} \\
+& (\tau_1 \to \dots \to \tau_n \to \tau)_\rho & \mbox{関数型} \\
+& (\tau_1 \times \dots \times \tau_n)_\rho & \mbox{組型} \\
+& (\tau~\ARRAY)_\rho^\gamma & \mbox{配列型} \\
+& \alpha & \mbox{型変数（型推論用）} \\
+\end{array}
+\]
+\caption{構文}
+}\fbox{\box0}
+\end{figure*}
+
+\begin{figure*}
+\setbox0\vbox{
+\[
+\begin{array}{c}
+\mbox{R-Ctx}~
+\infer
+{(S, H, e) \to (S', H', e')}
+{(S, H, \mathcal{E}[e]) \to (S', H', \mathcal{E}[e'])}
+\qquad
+\mbox{R-FrameCtx}~
+\infer
+{(S :: s, H, e) \to (S' :: s', H', e')}
+{(S, H, \FRM(s, e)) \to (S', H', \FRM(s', e'))}
+\end{array}
+\]
+\[
+\begin{array}{llll}
+\mbox{R-Op} &
+(S, H, \OP(c_1, \dots,c_n)) & \to & (S, H, c)
+\hfill \OP(c_1, \dots,c_n) = c \\
+\mbox{R-If-T} &
+(S, H, \IF~\texttt{true}~\THEN~e_2~\ELSE~e_3)
+& \to &
+(S, H, e_2)
+\\
+\mbox{R-If-F} &
+(S, H, \IF~\texttt{false}~\THEN~e_2~\ELSE~e_3)
+& \to &
+(S, H, e_3)
+\\
+\mbox{R-Let} &
+(S, H, \LET~x = v~\IN~e)
+& \to &
+(S, H, [v/x]e)
+\\
+\mbox{R-LetRec-H} &
+\lefteqn{(S, H, \LET~\REC_\true~x~y_1~\dots~y_n = e_1~\IN~e_2)} \\
+& & \to &
+(S, H \uplus \{\ell \mapsto \langle x, (y_1, \dots, y_n), e_1 \rangle\}, [\ell/x]e_2)
+\\
+\mbox{R-LetRec-S} &
+\lefteqn{(S :: s, H, \LET~\REC_\false~x~y_1~\dots~y_n = e_1~\IN~e_2)} \\
+& & \to &
+(S :: (s \uplus \{\ell \mapsto \langle x, (y_1, \dots, y_n), e_1 \rangle\}), H, [\ell/x]e_2)
+\\
+\mbox{R-App} &
+(S, H, \ell~v_1~\dots~v_n)
+& \to &
+(S, H, \FRM(\emptyset, [\ell,v_1,\dots,v_n/x,y_1,\dots,y_n]e)) \\
+& & & \hfill (S \uplus H)(\ell) = \langle x, (y_1, \dots, y_n), e \rangle \\
+\mbox{R-Tuple-H} &
+(S :: s, H, (v_1, \dots, v_n)_\true)
+& \to &
+(S, H \uplus \{\ell \to (v_1, \dots, v_n)\}, \ell)
+\\
+\mbox{R-Tuple-S} &
+(S :: s, H, (v_1, \dots, v_n)_\false)
+& \to &
+(S :: (s \uplus \{\ell \mapsto (v_1, \dots, v_n)\}), H, \ell)
+\\
+\mbox{R-LetTuple} &
+(S, H, \LET~(x_1, \dots, x_n) = \ell~\IN~e)
+& \to &
+(S, H, [v_1,\dots,v_n/x_1,\dots,x_n]e) \\
+& & & \hfill (S \uplus H)(\ell) = (v_1, \dots, v_n)
+\\
+\mbox{R-MkArr-H} &
+(S, H, \ARR_\true~n~v)
+& \to &
+(S, H \uplus \{\ell \mapsto [v, \dots, v]\}, \ell)
+\\
+\mbox{R-MkArr-S} &
+(S :: s, H, \ARR_\false~n~v)
+& \to &
+(S :: (s \uplus \{\ell \mapsto [v, \dots, v]\}), H, \ell)
+\\
+\mbox{R-Get} &
+(S, H, \ell.(n))
+& \to &
+(S, H, v)
+\hfill (S \uplus H)(\ell) = [\dots, v, \dots]
+\\
+\mbox{R-Put-H} &
+\lefteqn{(S, H \uplus \{\ell \mapsto v'\}, \ell.(n) \leftarrow v)}
+& \to &
+(S, H \uplus \{\ell \mapsto v\}, ())
+\\
+\mbox{R-Put-S} &
+\lefteqn{(\dots :: (s \uplus \{\ell \mapsto v'\}) :: \dots, H, \ell.(n) \leftarrow v)} \\
+& & \to &
+(\dots :: (s \uplus \{\ell \mapsto v\}) :: \dots, H, ())
+\\
+\mbox{R-Frame} &
+(S, H, \FRM(s, v))
+& \to &
+(S, H, v)
+\\
+\end{array}
+\]
+\caption{Small-Step Semantics $(S, H, e) \to (S', H', e')$. 右辺に出現して左辺に出現しないロケーションはfreshとする。}
+}\fbox{\box0}
+\end{figure*}
+
+\begin{figure*}
+\setbox0\vbox{
+\[
+\begin{array}{c}
+\infer
+{\mbox{$c$は$\pi$型の定数}}
+{\Gamma \mid \Delta \vdash c : \pi}
+\mbox{(T-Const)}
+\\ \\%
+\infer
+{\Gamma \mid \Delta \vdash e_1 : \pi_1 \quad
+ \dots \quad
+ \Gamma \mid \Delta \vdash e_n : \pi_n \\
+ \mbox{$\OP$は$\pi_1$, $\dots$, $\pi_n$型の値を受け取って$\pi$型の値を返すプリミティブ演算}}
+{\Gamma \mid \Delta \vdash \OP(e_1, \dots, e_n) : \pi}
+\mbox{(T-Op)}
+\\ \\%
+\infer
+{\Gamma \mid \Delta \vdash e_1 : \BOOL \quad
+ \Gamma \mid \Delta \vdash e_2 : \tau \quad
+ \Gamma \mid \Delta \vdash e_3 : \tau}
+{\Gamma \mid \Delta \vdash \IF~e_1~\THEN~e_2~\ELSE~e_3 : \tau}
+\mbox{(T-If)}
+\\ \\%
+\infer
+{\Gamma \mid \Delta \vdash e_1 : \tau_1 \quad
+ \Gamma, x : \tau_1 \mid \Delta \vdash e_2 : \tau_2}
+{\Gamma \mid \Delta \vdash \LET~x = e_1~\IN~e_2 : \tau_2}
+\mbox{(T-Let)}
+\qquad%
+\infer
+{\Gamma(x) = \tau}
+{\Gamma \mid \Delta \vdash x : \tau}
+\mbox{(T-Var)}
+\\ \\%
+\infer
+{\glb(\Gamma, x : (\tau_1 \to \dots \to \tau_n \to \tau)_\rho, y_1 : \tau_1, \dots, y_n : \tau_n) \mid \glb(\Delta) \vdash e_1 : \tau \\
+ \Gamma, x : (\tau_1 \to \dots \to \tau_n \to \tau)_\rho \mid \Delta \vdash e_2 : \tau' \\
+ \forall z \in \fv(e_1) \setminus \{x, y_1, \dots, y_n\}.~\rho \Longrightarrow \esc(\Gamma(z)) \\
+ \forall \ell \in \loc(e_1).~\rho \Longrightarrow \esc(\Delta(\ell)) \quad
+ \esc(\tau)}
+{\Gamma \mid \Delta \vdash \LET~\REC_\rho~x~y_1~\dots~y_n = e_1~\IN~e_2 : \tau'}
+\mbox{(T-LetRec)}
+\\ \\%
+\infer
+{\Gamma \mid \Delta \vdash e : (\tau_1 \to \dots \to \tau_n \to \tau)_\rho \quad
+ \Gamma \mid \Delta \vdash e_1 : \tau_1 \quad
+ \dots \quad
+ \Gamma \mid \Delta \vdash e_n : \tau_n}
+{\Gamma \mid \Delta \vdash e~e_1~\dots~e_n : \tau}
+\mbox{(T-App)}
+\\ \\%
+\infer
+{\Gamma \mid \Delta \vdash e_1 : \tau_1 \quad
+ \dots \quad
+ \Gamma \mid \Delta \vdash e_n : \tau_n \\
+ \rho \Longrightarrow \esc(\tau_1) \quad
+ \dots \quad
+ \rho \Longrightarrow \esc(\tau_n)}
+{\Gamma \mid \Delta \vdash (e_1, \dots, e_n) : (\tau_1 \times \dots \times \tau_n)_\rho}
+\mbox{(T-Tuple)}
+\\ \\%
+\infer
+{\Gamma \mid \Delta \vdash e_1 : (\tau_1 \times \dots \times \tau_n)_\rho \quad
+ \Gamma, x_1 : \tau_1, \dots, x_n : \tau_n \mid \Delta \vdash e_2 : \tau}
+{\Gamma \mid \Delta \vdash \LET~(x_1, \dots, x_n) = e_1~\IN~e_2 : \tau}
+\mbox{(T-LetTuple)}
+\\ \\%
+\infer
+{\Gamma \mid \Delta \vdash e_1 : \INT \quad
+ \Gamma \mid \Delta \vdash e_2 : \tau \\
+ \gamma \Longrightarrow \esc(\tau)}
+{\Gamma \mid \Delta \vdash \ARR~e_1~e_2 : (\tau~\ARRAY)_\rho^\gamma}
+\mbox{(T-Array)}
+\qquad%
+\infer
+{\Gamma \mid \Delta \vdash e_1 : (\tau~\ARRAY)_\rho^\gamma \\
+ \Gamma \mid \Delta \vdash e_2 : \INT}
+{\Gamma \mid \Delta \vdash e_1.(e_2) : \tau}
+\mbox{(T-Get)}
+\\ \\%
+\infer
+{\Gamma \mid \Delta \vdash e_1 : (\tau~\ARRAY)_\rho^\gamma \quad
+ \Gamma \mid \Delta \vdash e_2 : \INT \quad
+ \Gamma \mid \Delta \vdash e_3 : \tau \quad
+ \gamma \Longrightarrow \esc(\tau)}
+{\Gamma \mid \Delta \vdash e_1.(e_2) \leftarrow e_3 : \UNIT}
+\mbox{(T-Put)}
+\\ \\%
+\infer
+{\emptyset \mid \glb(\Delta), \Delta', \Delta'' \vdash e : \tau \\
+ \glb(\Delta), \Delta', \Delta'' \vdash s \\
+ \forall \ell \in \dom(\Delta'').~\neg\esc(\Delta''(\ell)) \\
+ \forall \ell \in \dom(\Delta'').~\esc(\Delta'(\ell))}
+{\emptyset \mid \Delta, \Delta' \vdash \FRM(s, e) : \tau}
+\mbox{(T-Frame)\footnotemark[1]}
+\qquad%
+\infer
+{\Delta(\ell) = \tau}
+{\Gamma \mid \Delta \vdash \ell : \tau}
+\mbox{(T-Loc)}
+\end{array}
+\]
+{注1: 閉じた式（プログラム）を簡約（実行）する限り、$\FRM(s, e)$の$e$には自由変数が決して現われないので、$\Gamma$は$\emptyset$で良い。そもそも構文が冗長？（$\LET~x = e_1~\IN~\FRM(\emptyset, e_2)$などはありえない）}
+\caption{式のstore typing $\Gamma \mid \Delta \vdash e : \tau$}
+}\fbox{\box0}
+\end{figure*}
+
+\begin{figure*}
+\setbox0\vbox{
+\[
+\begin{array}{c}
+\infer
+{\glb(x : (\tau_1 \to \dots \to \tau_n \to \tau)_\rho, y_1 : \tau_1, \dots, y_n : \tau_n) \mid \glb(\Delta) \vdash e : \tau \\
+\forall \ell \in \loc(e).~\rho \Longrightarrow \esc(\Delta(\ell))}
+{\Delta \vdash \langle x, (y_1, \dots, y_n), e \rangle : (\tau_1 \to \dots \to \tau_n \to \tau)_\rho}
+\\ \\%
+\infer
+{\emptyset \mid \Delta \vdash v_1 : \tau_1 \quad
+\dots \quad
+\emptyset \mid \Delta \vdash v_n : \tau_n \\
+\rho \Longrightarrow \esc(\tau_1) \quad
+\dots \quad
+\rho \Longrightarrow \esc(\tau_n)}
+{\Delta \vdash (v_1, \dots, v_n) : (\tau_1 \times \dots \times \tau_n)_\rho}
+\qquad%
+\infer
+{\emptyset \mid \Delta \vdash v_1 : \tau \quad
+\dots \quad
+\emptyset \mid \Delta \vdash v_n : \tau \\
+\rho \Longrightarrow \esc(\tau)}
+{\Delta \vdash [v_1, \dots, v_n] : (\tau~\ARRAY)_\rho}
+\\ \\%
+\infer
+{\forall \ell \in \dom(S).~\Delta \vdash S(\ell) : \Delta(\ell) \\
+\forall \ell \in \dom(S).~\neg\esc(\Delta(\ell))}
+{\Delta \vdash S}
+\qquad%
+\infer
+{\forall \ell \in \dom(H).~\Delta \vdash H(\ell) : \Delta(\ell) \\
+\forall \ell \in \dom(H).~\esc(\Delta(\ell))}
+{\Delta \vdash H}
+\\ \\%
+\infer
+{\Delta \vdash S \quad
+ \Delta \vdash H \quad
+ \Gamma \mid \Delta \vdash e : \tau}
+{\Gamma \mid \Delta \vdash (S, H, e) : \tau}
+\end{array}
+\]
+\caption{メモリオブジェクトの型つけ$\Delta \vdash V : \tau$, スタックの型つけ$\Delta \vdash S$, ヒープの型つけ$\Delta \vdash H$, 実行状態の型つけ$\Gamma \mid \Delta \vdash (S, H, e)$}
+}\fbox{\box0}
+\end{figure*}
+
+\section{Subject Reuction}
+
+If $\emptyset \mid \Delta \vdash (S, H, e) : \tau$ and $(S, H, e) \to
+(S', H', e') : \tau$, then $\emptyset \mid \Delta' \vdash (S', H',
+e')$ for some $\Delta'$.
+
+Proof: by induction on the derivation of $(S, H, e) \to (S', H', e')$
+
+Case R-Frame: 
+
+\end{document}

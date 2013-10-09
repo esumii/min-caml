@@ -1,0 +1,26 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=ascii">
+<link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
+<link rel="stylesheet" href="sh.css" type="text/css">
+<title>A Crash Course for the MinCaml Compiler</title>
+</head>
+<body bgcolor="#FFFFFF" link=blue vlink=purple class="Normal">
+<div>
+  <h3>Constant Folding (<tt>constFold.ml</tt>)</h3>
+  <p>Once functions are inlined, many operations have arguments whose values are already known, as in <tt>x + y</tt> of <tt>let x = 3 in let y = 7 in x + y</tt>. <em>Constant folding</em> carries out such computations at compile-time and replaces them with constants like &quot;<tt>10</tt>&quot;. MinCaml implements it in function <a target="srcview"
+href="min-caml.html#constfold_g"><tt>ConstFold.g</tt></a>.</p>
+  <p><tt>ConstFold.g</tt> takes expression <tt>e</tt> with a mapping <tt>env</tt> from variables to their values, and returns the expression after constant folding. For example, given integer addition <a target="srcview"
+href="min-caml.html#constfold_add"><tt>x + y</tt></a>, it examines whether the values of <tt>x</tt> and <tt>y</tt> are integer constants. If so, it calculates and returns the result right away. Conversely, given variable definition <a target="srcview"
+href="min-caml.html#constfold_let"><tt>let x = e in </tt>...</a>, it adds to <tt>env</tt> the mapping from <tt>x</tt> to <tt>e</tt>. This process is similar not only for integers but also for floating-point numbers and tuples.</p>
+  <p><a
+href="tutorial-mincaml-15.eng.htm">Next</a></p>
+</div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+</html>

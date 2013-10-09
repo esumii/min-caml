@@ -1,0 +1,28 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=ascii">
+<link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
+<link rel="stylesheet" href="sh.css" type="text/css">
+<title>A Crash Course for the MinCaml Compiler</title>
+</head>
+<body bgcolor="#FFFFFF" link=blue vlink=purple class="Normal">
+<div>
+  <h3>Elimination of Unnecessary Definitions (<tt>elim.ml</tt>)</h3>
+  <p>After constant folding, we often find unused variable definitions (and function definitions) like <tt>x</tt> and <tt>y</tt> in <tt>let x = 3 in let y = 7 in 10</tt>. MinCaml removes them by <a target="srcview"
+href="min-caml.html#elim_f"><tt>Elim.f</tt></a>.</p>
+  <p>In general, if e1 has no side effect and x does not appear in e2, we can replace <a target="srcview"
+href="min-caml.html#elim_let"><tt>let x = e1 in e2</tt></a> just with <tt>e2</tt>. The presence of &quot;side effects&quot; is checked by <a target="srcview"
+href="min-caml.html#elim_effect"><tt>Elim.effect</tt></a> and the appearance of variables are examined by <a target="srcview"
+href="min-caml.html#knormal_fv"><tt>KNormal.fv</tt></a>. However, since it is undecidable whether an expression has a real side effect, we regard any write to arrays and any call to functions as possible side effects.</p>
+  <p>By the way, the function <tt>KNormal.fv</tt> is named after the term <em>free variables</em>. For example, the expression <tt>let x = 3 in x + y</tt> has two variables <tt>x</tt> and <tt>y</tt>, where <tt>x</tt> is called a <em>bound variable</em> since it is defined as (or bound to) integer <tt>3</tt>, while <tt>y</tt> is called free since it is not bound.</p>
+  <p><a
+href="tutorial-mincaml-16.eng.htm">Next</a></p>
+</div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+</html>

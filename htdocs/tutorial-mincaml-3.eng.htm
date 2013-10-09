@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=ascii">
+<link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
+<link rel="stylesheet" href="sh.css" type="text/css">
+<title>A Crash Course for the MinCaml Compiler</title>
+</head>
+<body bgcolor="#FFFFFF" link=blue vlink=purple class="Normal">
+<div>
+  <h3>Main Routine </h3>
+  <p>Next, look at MinCaml's main routine <tt>main.ml</tt>. Execution of the compiler begins from its bottom <a target="srcview"
+href="min-caml.html#main_entry"><tt>let () = </tt>...</a>.</p>
+  <p>First, we process options by using OCaml's standard library <tt>Arg</tt>. Option <tt>-inline</tt> specifies the maximal size of functions to be inlined, and <tt>-iter</tt> defines the maximal number of optimizations to be iterated. (Details will be explained later.)</p>
+  <p>The other command line arguments are considered as the names of programs to be compiled. Function <a target="srcview"
+href="min-caml.html#main_file"><tt>Main.file</tt></a> generates SPARC assembly &quot;program-name<tt>.s</tt>&quot; from ML source &quot;program-name<tt>.ml</tt>&quot;.</p>
+  <p>For debugging and experiments, function <a target="srcview"
+href="min-caml.html#main_string"><tt>Main.string</tt></a> is also provided which compiles a string argument and displays the result on standard output.</p>
+  <p>The core of <tt>main.ml</tt> is function <a target="srcview"
+href="min-caml.html#main_lexbuf"><tt>Main.lexbuf</tt></a>. Given a buffer argument, it applies in this order: lexical analysis (<tt>Lexer.token</tt>), parsing (<tt>Parser.exp</tt>), type inference (<tt>Typing.f</tt>), K-normalization (<tt>KNormal.f</tt>), &alpha;-conversion (<tt>Alpha.f</tt>), optimizations (<tt>iter</tt>), closure conversion (<tt>Closure.f</tt>), virtual machine code generation (<tt>Virtual.f</tt>), SPARC's 13-bit immediate optimization (<tt>Simm13.f</tt>), register allocation (<tt>RegAlloc.f</tt>), and assembly generation (<tt>Emit.f</tt>).</p>
+  <p>The optimization function <a target="srcview"
+href="min-caml.html#main_iter"><tt>iter</tt></a> repeats the following five optimizations until its result stops changing or the number of iterations reaches the upper bound specified by <tt>-iter</tt>: &beta;-reduction (<tt>Beta.f</tt>), reduction of nested <tt>let</tt> (<tt>Assoc.f</tt>), inline expansion (<tt>Inline.f</tt>), constant folding (<tt>ConstFold.f</tt>), and elimination of unnecessary definitions (<tt>Elim.f</tt>).</p>
+  <p>We will soon explain details of these translations and optimizations.</p>
+  <p><a
+href="tutorial-mincaml-4.eng.htm">Next</a></p>
+</div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=ascii">
+<link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
+<link rel="stylesheet" href="sh.css" type="text/css">
+<title>A Crash Course for the MinCaml Compiler</title>
+</head>
+<body bgcolor="#FFFFFF" link=blue vlink=purple class="Normal">
+<div>
+  <h3>Policy of Compilation</h3>
+  <p>In general, compilation means translating programs from a high-level language to a lower-level language. For example, the following MinCaml function, which computes the greatest common divisor of two non-negative integers,</p>
+  <p><tt>let rec gcd m n =<br>
+&nbsp; if m = 0 then n else<br>
+&nbsp; if m &lt;= n then gcd m (n - m) else<br>
+&nbsp; gcd n (m - n)</tt></p>
+  <p>is compiled into the following SPARC assembly.</p>
+  <p><tt>gcd.7:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmp&nbsp;&nbsp;&nbsp;&nbsp; %i2, 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bne&nbsp;&nbsp;&nbsp;&nbsp; be_else.18<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nop<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mov&nbsp;&nbsp;&nbsp;&nbsp; %i3, %i2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retl<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nop<br>
+    be_else.18:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmp&nbsp;&nbsp;&nbsp;&nbsp; %i2, %i3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ble_else.19<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nop<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sub&nbsp;&nbsp;&nbsp;&nbsp; %i3, %i2, %i3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gcd.7<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nop<br>
+    ble_else.19:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sub&nbsp;&nbsp;&nbsp;&nbsp; %i2, %i3, %o5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mov&nbsp;&nbsp;&nbsp;&nbsp; %i3, %i2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mov&nbsp;&nbsp;&nbsp;&nbsp; %o5, %i3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gcd.7<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nop</tt></p>
+  <p>At a first glance, there is a huge gap between the two languages. The MinCaml compiler bridges this gap by defining appropriate intermediate languages and applying simple translations one by one. The major five gaps between MinCaml and SPARC assembly are:</p>
+  <ol>
+    <li>Types. MinCaml has types and type checking, but assembly has no such mechanism.</li>
+    <li>Nested expressions. In MinCaml, you can write as complex expressions as you want at once, like <tt>1+2-(3+(4-5))</tt>, but assembly can execute only one operation by one instruction.</li>
+    <li>Nested function definitions. In MinCaml, you can define a function inside another function, like <br>
+      <tt>let rec make_adder x =<br>
+&nbsp; let rec adder y = x + y in<br>
+&nbsp; adder in<br>
+      (make_adder 3) 7</tt><br>
+      but assembly has only top-level &quot;labels.&quot;</li>
+    <li>MinCaml has data structures such as tuples and arrays, while assembly does not.</li>
+    <li>In MinCaml, you can use as many variables as you want, but only a limited number of registers can be used in assembly.</li>
+  </ol>
+  <p>To bridge these gaps, MinCaml applies translations such as</p>
+  <ol>
+    <li>Type inference</li>
+    <li> K-normalization</li>
+    <li>Closure conversion </li>
+    <li> Virtual machine code generation </li>
+    <li>Register allocation </li>
+  </ol>
+  <p>in this order. We will explain these translations and optimizations in what follows.</p>
+  <p><a
+href="tutorial-mincaml-6.eng.htm">Next</a></p>
+</div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+</html>
