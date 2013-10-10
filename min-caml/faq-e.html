@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ascii">
+<title>Frequently Asked Questions</title>
+<link href="sh.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h3><a name="sparc"></a>Why did you choose SPARC assembly for the target language?</h3>
+<p>Because IA-32 is a mess (at least for me and for the purpose of education) and  Sun is still strong in universities around me.</p>
+<h3><a name="bytecode"></a>Why don't you generate byte code / C / <a href="http://www.cminusminus.org/">C<tt>--</tt></a> / GCC's RTL / (you name it)?</h3>
+<p>Because they hide too many important details <strong>and</strong> require extra knowledge. Generating an intermediate language shows only some part of compilers' work. In addition, there is a not-so-small overhead of learning the intermediate language itself.</p>
+<p>In other words, consider the following story: you ask me how to get to Tokyo from New York; I tell you to fly to Moscow. You not only have to find the way from Moscow to Tokyo, but also are making a long detour. In addition, you have to learn Russian to get through there. (OK, maybe not in real Moscow, but you get the idea.)</p>
+<h3><a name="extentions"></a>Could you add polymorphism / data types / pattern matching / garbage collection / modules / etc.?</h3>
+<p>I'd love to, but there is a tradeoff between simplicity and functionality (even in ML). Adding those features would have made the compiler too complex for the original audience&#8212;that is, undergraduate students. On the other hand, it would be nice projects for more advanced audience (such as graduate students).</p>
+<p>If you are interested in a compiler with more functionality and complexity than MinCaml (but less than OCaml), take a look at <a href="http://caml.inria.fr/caml-light/index.en.html">Caml Light and its variants</a>.</p>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+</html>

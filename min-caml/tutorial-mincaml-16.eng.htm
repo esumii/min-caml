@@ -1,0 +1,59 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=ascii">
+<link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
+<link rel="stylesheet" href="sh.css" type="text/css">
+<title>A Crash Course for the MinCaml Compiler</title>
+</head>
+<body bgcolor="#FFFFFF" link=blue vlink=purple class="Normal">
+<div>
+  <h3>Closure Conversion (<tt>closure.ml</tt>)</h3>
+  <p>Another gap still remaining between MinCaml and assembly is &quot;nested function definitions,&quot; which are flattened by <em>closure conversion</em>. It  is one of the most important processes when compiling functional languages.</p>
+  <p>This flattening of nested function definitions includes easy cases and hard cases. For example,</p>
+  <p><tt>let rec quad x =<br>
+&nbsp; let rec dbl x = x + x in<br>
+&nbsp; dbl (dbl x) in<br>
+    quad 123</tt></p>
+  <p>can be flattened like</p>
+  <p><tt>let rec dbl x = x + x in<br>
+  let rec quad x = dbl (dbl x) in<br>
+  quad 123</tt></p>
+  <p>just by moving the function definition. However, a similar manipulation would convert </p>
+  <p><tt>let rec make_adder x =<br>
+&nbsp; let rec adder y = x + y in<br>
+&nbsp; adder in<br>
+    (make_adder 3) 7</tt></p>
+  <p>into a nonsensical program</p>
+  <p><tt>let rec adder y = x + y in<br>
+    let rec make_adder x = adder in<br>
+    (make_adder 3) 7</tt>.</p>
+  <p>This is because function <tt>dbl</tt> has no free variable while <tt>adder</tt> has a free variable <tt>x</tt>.</p>
+  <p>Thus, in order to flatten function definitions with free variables, we have to treat not only the bodies of functions like <tt>adder</tt>, but also the values of their free variables like <tt>x</tt> together. It is like</p>
+  <p><tt>let rec adder x y = x + y in<br>
+    let rec make_adder x = (adder, x) in<br>
+    let (f, fv) = make_adder 3 in<br>
+    f fv 7</tt></p>
+  <p>in ML-style pseudo code. First, function <tt>adder</tt> takes the value of free variable <tt>x</tt> as an argument. Then, when the function <tt>adder</tt> is returned as a value, its body is paired with the value of its free variable, like <tt>(adder, x)</tt>. This pair is called a <em>function closure</em>. When the function <tt>adder</tt> is called, its body <tt>f</tt> and the value <tt>fv</tt> of its free variable are extracted and supplied as arguments.</p>
+  <p>Closure conversion gets complicated when it comes to &quot;which functions need closures and which functions can be called in ordinary ways.&quot; The simplest solution is to generate closures for all functions, but it is too inefficient.</p>
+  <p>Thus, the closure conversion <a target="srcview"
+href="min-caml.html#closure_g"><tt>Closure.g</tt></a> of MinCaml takes the set <tt>known</tt> of functions that are &quot;known to have no free variables and can be called in ordinary ways,&quot; and closure-converts an expression. (It also takes type environment <tt>env</tt> in addition to the expression and <tt>known</tt>.)</p>
+  <p>The results of closure conversion are represented in data type <a target="srcview"
+href="min-caml.html#closure_t"><tt>Closure.t</tt></a>. It is similar to <a target="srcview"
+href="min-caml.html#knormal_t"><tt>KNormal.t</tt></a> of K-normal forms, but has closure creation <tt>MakeCls</tt> and the top-level function set <tt>toplevel</tt> instead of nested function definitions. In addition, instead of general function calls, it has closure-based function calls <tt>AppCls</tt> and top-level function calls <tt>AppDir</tt> that do not use closures. Furthermore, in the processes that follow, the data type <a target="srcview"
+href="min-caml.html#id_l"><tt>Id.l</tt></a> of top-level function names (<em>labels</em>) are distinguished from the data type <a target="srcview"
+href="min-caml.html#id_t"><tt>Id.t</tt></a> of variable names. Note that <tt>AppCls</tt> uses variables and <tt>AppDir</tt> uses labels. This is because closures are bound to variables (by <tt>MakeCls</tt>) while top-level functions are called through labels.</p>
+  <p>In the case of general function call <a target="srcview"
+href="min-caml.html#closure_app"><tt>x y1 </tt>...<tt> yn</tt></a>, <tt>Closure.g</tt> checks if the function <tt>x</tt> belongs to the set <tt>known</tt>. If so, it returns AppDir. If not, it returns AppCls.</p>
+  <p>Function definitions like <a target="srcview" href="min-caml.html#closure_letrec"><tt>let rec x y1 </tt>...<tt> yn = e1 in e2</tt></a> are processed as follows. First, we assume that the function <tt>x</tt> has no free variable, add it to <tt>known</tt>, and closure-convert its body <tt>e1</tt>. Then, if <tt>x</tt> indeed has no free variable, continue the process and closure-convert <tt>e2</tt>. Otherwise, we rewind the values of set <tt>known</tt> and reference <tt>toplevel</tt>, and redo the closure conversion of <tt>e1</tt>. Last, if <tt>x</tt> never appears in <tt>e2</tt> as a variable (not as a label), we eliminate the closure generation <tt>MakeCls</tt>.</p>
+  <p>The last part may need elaboration. Even if <tt>x</tt> has no free variable, as long as it is returned as a value like <tt>let rec x y1 </tt>...<tt> yn = </tt>...<tt> in x</tt>, its closure needs to be generated. This is because a user who receives <tt>x</tt> as a value does not know in general if it has a free variable or not, and therefore must anyway use <tt>AppCls</tt> (not <tt>AppDir</tt>) to call the function through its closure. In this case, we do not eliminate <tt>MakeCls</tt> since <tt>x</tt> appears in <tt>e2</tt> as a variable. However, if <tt>x</tt> is just called as a function like <tt>let rec x y = ... in x 123</tt>, it appears only as a label in <tt>AppDir</tt> (not as a variable), so we eliminate <tt>MakeCls</tt>.</p>
+  <p><a
+href="tutorial-mincaml-17.eng.htm">Next</a></p>
+</div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+</html>

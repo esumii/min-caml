@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ascii">
+<title>Efficiency Comparison</title>
+</head>
+
+<body>
+<p><a name="env"></a>The machine is Sun Fire V880 (4 Ultra SPARC III 1.2GHz, 8GB main memory, Solaris 9). OCamlOpt is version 3.08.3 and given the option &quot;-unsafe -inline 100&quot;. GCC -m32 and GCC -m64 are version 4.0.0 20050319 and given the option &quot;-O3&quot;. GCC -m32 -mflat is version 3.4.3 and given the option &quot;-O3&quot;. MinCaml is given the option &quot;-inline 100&quot;. It means to inline functions of less &quot;size&quot; than 100, <strong>not</strong> to repeat inlining for 100 times. Just for informal comparison, GCC has a similar option &quot;--param max-inline-insns-auto=...&quot; and its default is 100. See the distribution for details of each application.</p>
+<p><a name="fun"></a><img src="chart_fun.png"></p>
+<p><a name="imp"></a><img src="chart_imp.png"></p>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+</html>

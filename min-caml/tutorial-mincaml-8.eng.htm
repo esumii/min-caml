@@ -1,0 +1,38 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=ascii">
+<link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
+<link rel="stylesheet" href="sh.css" type="text/css">
+<title>A Crash Course for the MinCaml Compiler</title>
+</head>
+<body bgcolor="#FFFFFF" link=blue vlink=purple class="Normal">
+<div>
+  <h3>Type Inference (<tt>typing.ml</tt>)</h3>
+  <p>As in ordinary ML, MinCaml infers the types of variables and functions even if no types are given in the program. This functionality is called <em>type inference</em>. It is very useful in particular for programs with polymorphic and higher-order functions.</p>
+  <p>The core of type inference in MinCaml is function <a target="srcview"
+href="min-caml.html#typing_g"><tt>Typing.g</tt></a>. This function  takes <em>type environment</em> <tt>env</tt> (mapping from the names of variables to their types) and expression <tt>e</tt>, and returns the inferred type of <tt>e</tt>. It also checks the types of sub-expressions. If an undefined type variable is found, it is substituted with an appropriate type. This checking and substitution are implemented by function <a target="srcview"
+href="min-caml.html#typing_unify"><tt>Typing.unify</tt></a>.</p>
+  <p>For example, in the case of integer addition <a target="srcview"
+href="min-caml.html#typing_add"><tt>e1 + e2</tt></a> (or <tt>Add(e1, e2)</tt> in terms of <tt>Syntax.t</tt>), we first infer the type of sub-expression <tt>e1</tt> by <tt>g env e1</tt>, which is checked against <tt>int</tt> by <tt>unify</tt>. Ditto for <tt>e2</tt>. Then, we return <tt>int</tt> as the whole expression's type.</p>
+  <p>A little more complex case is function application <a target="srcview"
+href="min-caml.html#typing_app"><tt>e e1 ... en</tt></a>, where <tt>e</tt> is a function and <tt>e1</tt> through <tt>en</tt> are its arguments. In this case, the function's type can be inferred by <tt>g env e</tt> and the arguments' types by <tt>g env e1</tt> through <tt>g env en</tt>, but the result's type cannot. Thus, we create a fresh undefined type variable <tt>t</tt>, and call <tt>unify</tt> so that <tt>g env e</tt> equals the function type from <tt>g env e1</tt>, ..., <tt>g env en</tt> to <tt>t</tt>. Then, we return <tt>t</tt> as the whole expression's type.</p>
+  <p>When a new variable is introduced as in <a target="srcview" href="min-caml.html#typing_let"><tt>let</tt></a> and <a target="srcview"
+href="min-caml.html#typing_letrec"><tt>let rec</tt></a>, the type environment <tt>env</tt> is extended. Conversely, when <a target="srcview"
+href="min-caml.html#typing_var">variable <tt>x</tt></a> appears, its type is obtained by looking up <tt>env</tt>. However, <a target="srcview"
+href="min-caml.html#typing_extvar">when a variable  is not found in the type environment</a>, it is regarded as an <em>external variable</em>, assigned a fresh undefined type variable, and added to the special type environment <tt>extenv</tt> for external variables. This functionality is specific to MinCaml and not available in ordinary ML. Thanks to it, external variables can be used without being declared.</p>
+  <p>Function <tt>Typing.unify</tt> recursively inspects whether two given types are equal and, if one of the types is <a target="srcview"
+href="min-caml.html#typing_undef">an unfefined type variable </a><tt>Type.var(ref None)</tt>, substitutes it with the other type so that they become equal. However, before this substitution, it is checked whether the type variable appears inside the other type. This process is called <a
+href="min-caml.html#typing_occur" target="srcview"><em>occur check</em></a>. It is necessary so that the resulting type has no cycle. For example, if we unified (with no occur check) type variable &alpha; with function type<tt> int-&gt;</tt>&alpha;, the result would  be an infinite type like <tt>int-&gt;int-&gt;int-&gt;</tt>... because &alpha; = <tt>int-&gt;</tt>&alpha;! In order to prevent such cases, occur check is necessary even though it may appear mysterious at first.</p>
+  <p>After type inference is finished (either by type error or by normal termination), <a target="srcview"
+href="min-caml.html#typing_deref"><tt>Typing.deref_typ</tt></a> replaces all type variables with their contents for the sake of simplicity. Type variables that are still undetermined are substituted<tt></tt> at will with <tt>int</tt>. This feature is also specific to MinCaml.</p>
+  <p><a
+href="tutorial-mincaml-9.eng.htm">Next</a></p>
+</div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1484933-2";
+urchinTracker();
+</script>
+</body>
+</html>
