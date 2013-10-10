@@ -4,10 +4,12 @@
 #define U(x) x
 #endif
 #if defined(__MACH__)
+#define ALIGNSTACK0 andl $0xfffffff0, %esp
 #define ALIGNSTACK1 andl $0xfffffff0, %esp; pushl %eax; pushl %eax; pushl %eax
 #define ALIGNSTACK2 andl $0xfffffff0, %esp; pushl %eax; pushl %eax
 #define ALIGNSTACK3 andl $0xfffffff0, %esp; pushl %eax
 #else
+#define ALIGNSTACK0
 #define ALIGNSTACK1
 #define ALIGNSTACK2
 #define ALIGNSTACK3
@@ -71,7 +73,7 @@ min_caml_prerr_byte:
 min_caml_prerr_float:
 	pushl	%ebp
 	movl	%esp, %ebp
-	ALIGNSTACK2
+	ALIGNSTACK0
 	subl	$8, %esp
 	movsd	%xmm0, (%esp)
 	pushl	$format_float
@@ -84,7 +86,7 @@ min_caml_prerr_float:
 min_caml_read_int:
 	pushl	%ebp
 	movl	%esp, %ebp
-	ALIGNSTACK2
+	ALIGNSTACK3
 	subl	$4, %esp
 	leal	-4(%ebp), %eax
 	pushl	%eax
@@ -98,7 +100,7 @@ min_caml_read_int:
 min_caml_read_float:
 	pushl	%ebp
 	movl	%esp, %ebp
-	ALIGNSTACK2
+	ALIGNSTACK0
 	subl	$8, %esp
 	leal	-8(%ebp), %eax
 	pushl	%eax
@@ -160,7 +162,7 @@ create_float_array_cont:
 min_caml_abs_float:
 	pushl	%ebp
 	movl	%esp, %ebp
-	ALIGNSTACK1
+	ALIGNSTACK2
 	subl	$8, %esp
 	movsd	%xmm0, (%esp)
 	call	U(fabs)
@@ -177,7 +179,7 @@ min_caml_sqrt:
 min_caml_floor:
 	pushl	%ebp
 	movl	%esp, %ebp
-	ALIGNSTACK1
+	ALIGNSTACK2
 	subl	$8, %esp
 	movsd	%xmm0, (%esp)
 	call	U(floor)
@@ -200,7 +202,7 @@ min_caml_float_of_int:
 min_caml_cos:
 	pushl	%ebp
 	movl	%esp, %ebp
-	ALIGNSTACK1
+	ALIGNSTACK2
 	subl	$8, %esp
 	movsd	%xmm0, (%esp)
 	call	U(cos)
@@ -213,7 +215,7 @@ min_caml_cos:
 min_caml_sin:
 	pushl	%ebp
 	movl	%esp, %ebp
-	ALIGNSTACK1
+	ALIGNSTACK2
 	subl	$8, %esp
 	movsd	%xmm0, (%esp)
 	call	U(sin)
@@ -226,7 +228,7 @@ min_caml_sin:
 min_caml_atan:
 	pushl	%ebp
 	movl	%esp, %ebp
-	ALIGNSTACK1
+	ALIGNSTACK2
 	subl	$8, %esp
 	movsd	%xmm0, (%esp)
 	call	U(atan)
