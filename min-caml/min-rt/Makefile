@@ -8,7 +8,7 @@ shuttle test test2 test3 tileball tron tsu tsu2 tsu3
 test: $(SLDS:%=%.cmp) $(SLDS:%=%.diff.ocamlopt-gcc.ppm) $(SLDS:%=%.diff.gcc-GCC.ppm)
 
 clean:
-	rm -f *.cmp *.ppm ppmdiff raytrace RayTrace *.sld_ *.cmo *.cmx *.cmi *.o min-rt_b min-rt min-rt.s min-rt.min-caml
+	rm -f *.cmp *.ppm *.ppm.tmp ppmdiff raytrace RayTrace *.sld_ *.cmo *.cmx *.cmi *.o min-rt_b min-rt min-rt.s min-rt.min-caml
 
 %.cmp: %.ocamlc.ppm %.mincaml.ppm # avoid 80-bit float on x86
 	diff $^ > $@
@@ -20,7 +20,8 @@ ppmdiff: ppm.ml diff.ml
 	ocamlopt $^ -o $@
 
 %.mincaml.ppm: %.sld min-rt.min-caml
-	time ./min-rt.min-caml < $< > $@
+	time ./min-rt.min-caml < $< > $@.tmp
+	mv $@.tmp $@
 min-rt.min-caml: min-rt.s globals.s ../libmincaml.S ../stub.c
 	gcc -m32 -g -O2 -Wall $^ -lm -o min-rt.min-caml
 min-rt.s: min-rt.ml ../min-caml
@@ -29,19 +30,23 @@ min-rt.s: min-rt.ml ../min-caml
 %.gcc.ppm: %.sld raytrace
 	echo 768 > $<_
 	cat $< >> $<_
-	time ./raytrace < $<_ > $@
+	time ./raytrace < $<_ > $@.tmp
+	mv $@.tmp $@
 raytrace: raytrace.c
 	gcc -m32 -Wall -O3 raytrace.c -lm -o raytrace
 
 %.GCC.ppm: %.sld RayTrace
-	time ./RayTrace -s -w 768 -h 768 < $< > $@
+	time ./RayTrace -s -w 768 -h 768 < $< > $@.tmp
+	mv $@.tmp $@
 RayTrace: RayTrace.cxx
 	g++ -m32 -Wall -O3 RayTrace.cxx -lm -o RayTrace
 
 %.ocamlopt.ppm: %.sld min-rt
-	time ./min-rt < $< > $@
+	time ./min-rt < $< > $@.tmp
+	mv $@.tmp $@
 %.ocamlc.ppm: %.sld min-rt_b
-	./min-rt_b < $< > $@ # to avoid 80-bit float on x86
+	./min-rt_b < $< > $@.tmp # to avoid 80-bit float on x86
+	mv $@.tmp $@
 
 ######################################################################
 
