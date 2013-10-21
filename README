@@ -1,3 +1,24 @@
+See http://esumii.github.io/min-caml/ for details.
+
+1. Install OCaml (http://caml.inria.fr/) if you haven't
+
+2. Download (and expand) MinCaml, e.g.
+   git clone https://github.com/esumii/min-caml.git
+
+3. cd min-caml/
+
+4. Execute ./to_x86 for x86
+   (or ./to_sparc for SPARC, ./to_ppc for PowerPC)
+
+5. make
+
+6. If you like, try the ray tracer
+
+     cd min-rt/ ; make
+
+   though it takes time because of OCaml bytecode (for testing by
+   comparison), not MinCaml
+
 [Updates on October 9, 2013]
 
 - Moved from SourceForge https://sourceforge.net/p/min-caml/code/ to
