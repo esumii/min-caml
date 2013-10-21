@@ -2,9 +2,9 @@ An educational compiler for a minimal subset of OCaml, written in
 ~2000 lines of OCaml.  For details, see:
 
 http://esumii.github.io/min-caml/ (Japanese Web page)
-https://github.com/esumii/min-caml/blob/gh-pages/jpaper.pdf (Japanese academic paper)
+http://esumii.github.io/min-caml/jpaper.pdf (Japanese academic paper)
 http://esumii.github.io/min-caml/index-e.html (English Web page)
-https://github.com/esumii/min-caml/blob/gh-pages/paper.pdf (English academic paper)
+http://esumii.github.io/min-caml/paper.pdf (English academic paper)
 
 1. Install OCaml (http://caml.inria.fr/) if you haven't
 
