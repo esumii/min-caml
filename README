@@ -1,5 +1,7 @@
-See http://esumii.github.io/min-caml/ (Japanese) or
-http://esumii.github.io/min-caml/index-e.html (English) for details.
+An educational compiler for a minimal subset of OCaml, written in
+~2000 lines of OCaml.  See http://esumii.github.io/min-caml/
+(Japanese) or http://esumii.github.io/min-caml/index-e.html (English)
+for details.
 
 1. Install OCaml (http://caml.inria.fr/) if you haven't
 
