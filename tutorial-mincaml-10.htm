@@ -3,18 +3,18 @@ xmlns:w="urn:schemas-microsoft-com:office:word"
 xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 9">
 <meta name=Originator content="Microsoft Word 9">
 <link rel=File-List href="./tutorial-mincaml.files/filelist.xml">
 <link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
 <link rel="stylesheet" href="sh.css" type="text/css">
-<title>���UMinCaml�R���p�C���T��</title>
+<title>速攻MinCamlコンパイラ概説</title>
 <!--[if gte mso 9]><xml>
  <o:DocumentProperties>
-  <o:Author>�Z�� �p��Y</o:Author>
-  <o:LastAuthor>�Z�� �p��Y</o:LastAuthor>
+  <o:Author>住井 英二郎</o:Author>
+  <o:LastAuthor>住井 英二郎</o:LastAuthor>
   <o:Revision>2</o:Revision>
   <o:TotalTime>29</o:TotalTime>
   <o:LastPrinted>2005-02-25T06:25:00Z</o:LastPrinted>
@@ -23,7 +23,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
   <o:Pages>20</o:Pages>
   <o:Words>3412</o:Words>
   <o:Characters>19450</o:Characters>
-  <o:Company>������w ��񗝍H�w�n������ �R���s���[�^�Ȋw��U</o:Company>
+  <o:Company>東京大学 情報理工学系研究科 コンピュータ科学専攻</o:Company>
   <o:Lines>162</o:Lines>
   <o:Paragraphs>38</o:Paragraphs>
   <o:CharactersWithSpaces>23885</o:CharactersWithSpaces>
@@ -45,8 +45,8 @@ xmlns="http://www.w3.org/TR/REC-html40">
    <w:AdjustLineHeightInTable/>
    <w:UseFELayout/>
   </w:Compatibility>
-  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\�e�g�q�s�u�w�y�k���i�m�o���</w:NoLineBreaksAfter>
-  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;���f�h�񁌁����A�B�X�r�t�v�x�z�l�J�K�T�U�E�R�S�I���j�C�D�F�G�H�n�p������</w:NoLineBreaksBefore>
+  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\‘“〈《「『【〔＄（［｛｢￥</w:NoLineBreaksAfter>
+  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;°’”‰′″℃、。々〉》」』】〕゛゜ゝゞ・ヽヾ！％），．：；？］｝｡｣､･ﾞﾟ</w:NoLineBreaksBefore>
  </w:WordDocument>
 </xml><![endif]-->
 <style>
@@ -76,7 +76,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:0 268435456 0 0 -2147483648 0;}
 @font-face
-	{font-family:"�l�r ����";
+	{font-family:"ＭＳ 明朝";
 	panose-1:2 2 6 9 4 2 5 8 3 4;
 	mso-font-alt:"MS Mincho";
 	mso-font-charset:128;
@@ -84,7 +84,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:fixed;
 	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
 @font-face
-	{font-family:"�l�r �S�V�b�N";
+	{font-family:"ＭＳ ゴシック";
 	panose-1:2 11 6 9 7 2 5 8 2 4;
 	mso-font-alt:"MS Gothic";
 	mso-font-charset:128;
@@ -99,14 +99,14 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:647 0 0 0 159 0;}
 @font-face
-	{font-family:"\@�l�r �S�V�b�N";
+	{font-family:"\@ＭＳ ゴシック";
 	panose-1:2 11 6 9 7 2 5 8 2 4;
 	mso-font-charset:128;
 	mso-generic-font-family:modern;
 	mso-font-pitch:fixed;
 	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
 @font-face
-	{font-family:"\@�l�r ����";
+	{font-family:"\@ＭＳ 明朝";
 	panose-1:2 2 6 9 4 2 5 8 3 4;
 	mso-font-charset:128;
 	mso-generic-font-family:roman;
@@ -123,11 +123,11 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Times;
-	mso-fareast-font-family:"�l�r ����";
+	mso-fareast-font-family:"ＭＳ 明朝";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
 h1
-	{mso-style-next:�W��;
+	{mso-style-next:標準;
 	margin:0mm;
 	margin-bottom:.0001pt;
 	text-align:justify;
@@ -138,12 +138,12 @@ h1
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Arial;
-	mso-fareast-font-family:"�l�r �S�V�b�N";
+	mso-fareast-font-family:"ＭＳ ゴシック";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;
 	font-weight:normal;}
 p.MsoDate, li.MsoDate, div.MsoDate
-	{mso-style-next:�W��;
+	{mso-style-next:標準;
 	margin:0mm;
 	margin-bottom:.0001pt;
 	text-align:justify;
@@ -152,7 +152,7 @@ p.MsoDate, li.MsoDate, div.MsoDate
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Times;
-	mso-fareast-font-family:"�l�r ����";
+	mso-fareast-font-family:"ＭＳ 明朝";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
 p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
@@ -165,7 +165,7 @@ p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Helvetica;
-	mso-fareast-font-family:"�l�r �S�V�b�N";
+	mso-fareast-font-family:"ＭＳ ゴシック";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
  /* Page Definitions */
@@ -237,8 +237,8 @@ punctuation'>
 
 <div class=Section1>
 
-<h1><span style='font-family:"�l�r �S�V�b�N";mso-ascii-font-family:Arial;mso-hansi-font-family:
-Arial'>���ϊ�</span><span lang=EN-US>(</span><b style='mso-bidi-font-weight:normal'><span
+<h1><span style='font-family:"ＭＳ ゴシック";mso-ascii-font-family:Arial;mso-hansi-font-family:
+Arial'>α変換</span><span lang=EN-US>(</span><b style='mso-bidi-font-weight:normal'><span
 lang=EN-US style='font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>alpha.ml</span></b><span
 lang=EN-US>)</span></h1>
 
@@ -246,105 +246,105 @@ lang=EN-US>)</span></h1>
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���āA</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>さて、</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>K</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���K�����ς񂾂�œK�����s���̂ł����A���̑O�Ɂu�قȂ�ϐ��ɂ͈قȂ閼�O������v</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r �S�V�b�N";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>���ϊ�</strong></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���s���܂��B�Ⴄ�ϐ��ɓ������O�����Ă���ƁA���낢��Ə������ʓ|�ɂȂ邽�߂ł��B���Ƃ���</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>正規化が済んだら最適化を行うのですが、その前に「異なる変数には異なる名前をつける」</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ ゴシック";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>α変換</strong></span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を行います。違う変数に同じ名前がついていると、いろいろと処理が面倒になるためです。たとえば</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>let
 x = 123 in let x = 456 in x + x</span></b><span style='font-size:10.5pt;
-mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;
-mso-hansi-font-family:Century'>�Ƃ�������������A</span><b style='mso-bidi-font-weight:
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>という式だったら、</span><b style='mso-bidi-font-weight:
 normal'><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
 font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>let x1 = 123
 in let x2 = 456 in x2 + x2</span></b><span style='font-size:10.5pt;mso-bidi-font-size:
-10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:
-Century'>�ƒ����Ă��܂��܂��B</span><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:
+Century'>と直してしまいます。</span><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��������������{�̂�</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>これを実装した本体が</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#alpha_g">Alpha.g</a></span></b><span style='font-size:10.5pt;
-mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;
-mso-hansi-font-family:Century'>�ł��B�ϊ��O�̕ϐ�������ϊ���̕ϐ����ւ̎ʑ�</span><b
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>です。変換前の変数名から変換後の変数名への写像</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>env</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ƁA�ϊ��O�̎�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と、変換前の式</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ��󂯎��A�ϊ���̎���Ԃ��܂��B���Ƃ���</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>とを受け取り、変換後の式を返します。たとえば</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#alpha_let">let x = e1 in e2</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ���������������A�܂�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>という式があったら、まず</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e1</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��ϊ����Ă���A�V�����ϐ�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を変換してから、新しい変数</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x'</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�����A</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を作り、</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>����</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>から</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x'</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ւ̑Ή���</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>への対応を</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>env</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɒǉ����āA</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に追加して、</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e2</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��ϊ�����Ƃ�����ł��B</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を変換するという具合です。</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#alpha_letrec">let rec</a></span></b><span style='font-size:
-10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>��</span><b style='mso-bidi-font-weight:
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>や</span><b style='mso-bidi-font-weight:
 normal'><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
 font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#alpha_lettuple">LetTuple</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�̏ꍇ���A�ꌩ����Ƃ�₱�������ł����A����Ă��邱�Ƃ͈ꏏ�ł��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>の場合も、一見するとややこしそうですが、やっていることは一緒です。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ȃ��A�O���ϐ��̖��O��</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>なお、外部変数の名前は</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>env</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɓo�^����Ȃ��̂ŁA���ϊ��̑ΏۂɂȂ�܂���i�֐�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に登録されないので、α変換の対象になりません（関数</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Alpha.find</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Q�Ɓj�B����͈Ӑ}���ꂽ����ł��B�����O���ϐ��̖��O���ς���Ă��܂����琳���������N�ł��Ȃ��Ȃ邩��ł��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>参照）。これは意図された動作です。もし外部変数の名前が変わってしまったら正しくリンクできなくなるからです。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 <p class=MsoNormal><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a
-href="tutorial-mincaml-11.htm"><span style='font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>���֐i��</span></a></span></p>
+href="tutorial-mincaml-11.htm"><span style='font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>次へ進む</span></a></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 

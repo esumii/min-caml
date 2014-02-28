@@ -3,18 +3,18 @@ xmlns:w="urn:schemas-microsoft-com:office:word"
 xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 9">
 <meta name=Originator content="Microsoft Word 9">
 <link rel=File-List href="./tutorial-mincaml.files/filelist.xml">
 <link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
 <link rel="stylesheet" href="sh.css" type="text/css">
-<title>���UMinCaml�R���p�C���T��</title>
+<title>速攻MinCamlコンパイラ概説</title>
 <!--[if gte mso 9]><xml>
  <o:DocumentProperties>
-  <o:Author>�Z�� �p��Y</o:Author>
-  <o:LastAuthor>�Z�� �p��Y</o:LastAuthor>
+  <o:Author>住井 英二郎</o:Author>
+  <o:LastAuthor>住井 英二郎</o:LastAuthor>
   <o:Revision>2</o:Revision>
   <o:TotalTime>29</o:TotalTime>
   <o:LastPrinted>2005-02-25T06:25:00Z</o:LastPrinted>
@@ -23,7 +23,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
   <o:Pages>20</o:Pages>
   <o:Words>3412</o:Words>
   <o:Characters>19450</o:Characters>
-  <o:Company>������w ��񗝍H�w�n������ �R���s���[�^�Ȋw��U</o:Company>
+  <o:Company>東京大学 情報理工学系研究科 コンピュータ科学専攻</o:Company>
   <o:Lines>162</o:Lines>
   <o:Paragraphs>38</o:Paragraphs>
   <o:CharactersWithSpaces>23885</o:CharactersWithSpaces>
@@ -45,8 +45,8 @@ xmlns="http://www.w3.org/TR/REC-html40">
    <w:AdjustLineHeightInTable/>
    <w:UseFELayout/>
   </w:Compatibility>
-  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\�e�g�q�s�u�w�y�k���i�m�o���</w:NoLineBreaksAfter>
-  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;���f�h�񁌁����A�B�X�r�t�v�x�z�l�J�K�T�U�E�R�S�I���j�C�D�F�G�H�n�p������</w:NoLineBreaksBefore>
+  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\‘“〈《「『【〔＄（［｛｢￥</w:NoLineBreaksAfter>
+  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;°’”‰′″℃、。々〉》」』】〕゛゜ゝゞ・ヽヾ！％），．：；？］｝｡｣､･ﾞﾟ</w:NoLineBreaksBefore>
  </w:WordDocument>
 </xml><![endif]-->
 <style>
@@ -76,7 +76,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:0 268435456 0 0 -2147483648 0;}
 @font-face
-	{font-family:"�l�r ����";
+	{font-family:"ＭＳ 明朝";
 	panose-1:2 2 6 9 4 2 5 8 3 4;
 	mso-font-alt:"MS Mincho";
 	mso-font-charset:128;
@@ -84,7 +84,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:fixed;
 	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
 @font-face
-	{font-family:"�l�r �S�V�b�N";
+	{font-family:"ＭＳ ゴシック";
 	panose-1:2 11 6 9 7 2 5 8 2 4;
 	mso-font-alt:"MS Gothic";
 	mso-font-charset:128;
@@ -99,14 +99,14 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:647 0 0 0 159 0;}
 @font-face
-	{font-family:"\@�l�r �S�V�b�N";
+	{font-family:"\@ＭＳ ゴシック";
 	panose-1:2 11 6 9 7 2 5 8 2 4;
 	mso-font-charset:128;
 	mso-generic-font-family:modern;
 	mso-font-pitch:fixed;
 	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
 @font-face
-	{font-family:"\@�l�r ����";
+	{font-family:"\@ＭＳ 明朝";
 	panose-1:2 2 6 9 4 2 5 8 3 4;
 	mso-font-charset:128;
 	mso-generic-font-family:roman;
@@ -123,11 +123,11 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Times;
-	mso-fareast-font-family:"�l�r ����";
+	mso-fareast-font-family:"ＭＳ 明朝";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
 h1
-	{mso-style-next:�W��;
+	{mso-style-next:標準;
 	margin:0mm;
 	margin-bottom:.0001pt;
 	text-align:justify;
@@ -138,12 +138,12 @@ h1
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Arial;
-	mso-fareast-font-family:"�l�r �S�V�b�N";
+	mso-fareast-font-family:"ＭＳ ゴシック";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;
 	font-weight:normal;}
 p.MsoDate, li.MsoDate, div.MsoDate
-	{mso-style-next:�W��;
+	{mso-style-next:標準;
 	margin:0mm;
 	margin-bottom:.0001pt;
 	text-align:justify;
@@ -152,7 +152,7 @@ p.MsoDate, li.MsoDate, div.MsoDate
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Times;
-	mso-fareast-font-family:"�l�r ����";
+	mso-fareast-font-family:"ＭＳ 明朝";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
 p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
@@ -165,7 +165,7 @@ p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Helvetica;
-	mso-fareast-font-family:"�l�r �S�V�b�N";
+	mso-fareast-font-family:"ＭＳ ゴシック";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
  /* Page Definitions */
@@ -237,17 +237,17 @@ punctuation'>
 
 <div class=Section1>
 
-<h1><span style='font-family:"�l�r �S�V�b�N";mso-ascii-font-family:Arial;mso-hansi-font-family:
-Arial'>�R���p�C���̕��j</span></h1>
+<h1><span style='font-family:"ＭＳ ゴシック";mso-ascii-font-family:Arial;mso-hansi-font-family:
+Arial'>コンパイラの方針</span></h1>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��ʂɃR���p�C���Ƃ́A���鍂��������̃v���O�������A���ᐅ���Ȍ���ɕϊ����邱�Ƃł��B���Ƃ��΁A��̔񕉐����̍ő���񐔂����߂�</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>一般にコンパイルとは、ある高水準言語のプログラムを、より低水準な言語に変換することです。たとえば、二つの非負整数の最大公約数を求める</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�֐�</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>関数</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
@@ -265,10 +265,10 @@ else<br>
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�́A�ȉ��̂悤��</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は、以下のような</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>SPARC</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�A�Z���u���ɃR���p�C������܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>アセンブリにコンパイルされます。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
@@ -329,45 +329,45 @@ ble_else.19:<br>
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>����͈ꌩ����ƁA���̂������M���b�v�ł��B</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>これは一見すると、ものすごいギャップです。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�R���p�C���ł͓K�؂Ȓ��Ԍ����ݒ肵�A�P���ȕϊ������ԂɓK�p���Ă������Ƃɂ��A���̃M���b�v��������߂Ă����܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>コンパイラでは適切な中間言語を設定し、単純な変換を順番に適用していくことにより、このギャップを一つずつ埋めていきます。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>SPARC</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�A�Z���u���̎�ȃM���b�v�͎���</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>アセンブリの主なギャップは次の</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>5</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>つです。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <ol>
   <li>
       <span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�^�B</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>型。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɂ͌^������A�^�`�F�b�N���s���܂����A�A�Z���u���ɂ͂��̂悤�Ȏd�g�݂�����܂���B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>には型があり、型チェックが行われますが、アセンブリにはそのような仕組みがありません。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�l�X�g�������B���Ƃ���</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>ネストした式。たとえば</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>では</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>1+2-(3+(4-5))</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�̂悤�ɁA������ł����G�Ȏ����������Ƃ��ł��܂����A�A�Z���u���ł͈�̖��߂ɂ���̉��Z�����ł��܂���B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のように、いくらでも複雑な式を書くことができますが、アセンブリでは一つの命令につき一つの演算しかできません。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�l�X�g�����֐���`�B</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>ネストした関数定義。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł�</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>では</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><br>
       </span><b style='mso-bidi-font-weight:normal'><span lang=EN-US
 style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
@@ -376,61 +376,61 @@ mso-bidi-font-family:"Times New Roman"'>let rec make_adder x =<br>
     <span style="mso-spacerun: yes">&nbsp; </span>adder in<br>
     (make_adder 3) 7<br>
   </span></b><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:
-"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�̂悤�Ɋ֐��̒��ŕʂ̊֐����`�ł��܂����A�A�Z���u���ł̓g�b�v���x���́u���x���v�����g�p�ł��܂���B</span><span
+"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のように関数の中で別の関数を定義できますが、アセンブリではトップレベルの「ラベル」しか使用できません。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'>MinCaml</span><span style='font-size:10.5pt;
-mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;
-mso-hansi-font-family:Century'>�ɂ͑g��z��Ȃǂ̃f�[�^�\��������܂����A�A�Z���u���ɂ͂���܂���B</span><span
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>には組や配列などのデータ構造がありますが、アセンブリにはありません。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'>MinCaml</span><span style='font-size:10.5pt;
-mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;
-mso-hansi-font-family:Century'>�ł͂����ł��ϐ����g�p�ł��܂����A�A�Z���u���ɂ͗L���̃��W�X�^��������܂���B</span><span
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>ではいくつでも変数を使用できますが、アセンブリには有限のレジスタしかありません。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
 </ol>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�����̃M���b�v�𖄂߂邽�߂ɁA</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>これらのギャップを埋めるために、</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł�</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>では</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 <ol>
   <li>
       <span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�^���_</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>型推論</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li>
       <span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'>K</span><span style='font-size:10.5pt;mso-bidi-font-size:
-10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:
-Century'>���K��</span><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:
+Century'>正規化</span><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li>
       <span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�N���[�W���ϊ�</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>クロージャ変換</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li>
       <span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���z�}�V���R�[�h����</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>仮想マシンコード生成</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���W�X�^���蓖��</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>レジスタ割り当て</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
 </ol>
 <p class=MsoNormal>&nbsp;</p>
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ��������������Ԃɍs���܂��B�ȉ��ł́A���̂悤�ȕϊ���e��œK���ɂ��Đ������Ă����܂��B</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>といった処理を順番に行います。以下では、そのような変換や各種最適化について説明していきます。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 <p class=MsoNormal><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a
-href="tutorial-mincaml-6.htm"><span style='font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>���֐i��</span></a></span></p>
+href="tutorial-mincaml-6.htm"><span style='font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>次へ進む</span></a></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 

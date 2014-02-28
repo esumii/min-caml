@@ -3,18 +3,18 @@ xmlns:w="urn:schemas-microsoft-com:office:word"
 xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 9">
 <meta name=Originator content="Microsoft Word 9">
 <link rel=File-List href="./tutorial-mincaml.files/filelist.xml">
 <link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
 <link rel="stylesheet" href="sh.css" type="text/css">
-<title>���UMinCaml�R���p�C���T��</title>
+<title>速攻MinCamlコンパイラ概説</title>
 <!--[if gte mso 9]><xml>
  <o:DocumentProperties>
-  <o:Author>�Z�� �p��Y</o:Author>
-  <o:LastAuthor>�Z�� �p��Y</o:LastAuthor>
+  <o:Author>住井 英二郎</o:Author>
+  <o:LastAuthor>住井 英二郎</o:LastAuthor>
   <o:Revision>2</o:Revision>
   <o:TotalTime>29</o:TotalTime>
   <o:LastPrinted>2005-02-25T06:25:00Z</o:LastPrinted>
@@ -23,7 +23,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
   <o:Pages>20</o:Pages>
   <o:Words>3412</o:Words>
   <o:Characters>19450</o:Characters>
-  <o:Company>������w ��񗝍H�w�n������ �R���s���[�^�Ȋw��U</o:Company>
+  <o:Company>東京大学 情報理工学系研究科 コンピュータ科学専攻</o:Company>
   <o:Lines>162</o:Lines>
   <o:Paragraphs>38</o:Paragraphs>
   <o:CharactersWithSpaces>23885</o:CharactersWithSpaces>
@@ -45,8 +45,8 @@ xmlns="http://www.w3.org/TR/REC-html40">
    <w:AdjustLineHeightInTable/>
    <w:UseFELayout/>
   </w:Compatibility>
-  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\�e�g�q�s�u�w�y�k���i�m�o���</w:NoLineBreaksAfter>
-  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;���f�h�񁌁����A�B�X�r�t�v�x�z�l�J�K�T�U�E�R�S�I���j�C�D�F�G�H�n�p������</w:NoLineBreaksBefore>
+  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\‘“〈《「『【〔＄（［｛｢￥</w:NoLineBreaksAfter>
+  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;°’”‰′″℃、。々〉》」』】〕゛゜ゝゞ・ヽヾ！％），．：；？］｝｡｣､･ﾞﾟ</w:NoLineBreaksBefore>
  </w:WordDocument>
 </xml><![endif]-->
 <style>
@@ -76,7 +76,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:0 268435456 0 0 -2147483648 0;}
 @font-face
-	{font-family:"�l�r ����";
+	{font-family:"ＭＳ 明朝";
 	panose-1:2 2 6 9 4 2 5 8 3 4;
 	mso-font-alt:"MS Mincho";
 	mso-font-charset:128;
@@ -84,7 +84,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:fixed;
 	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
 @font-face
-	{font-family:"�l�r �S�V�b�N";
+	{font-family:"ＭＳ ゴシック";
 	panose-1:2 11 6 9 7 2 5 8 2 4;
 	mso-font-alt:"MS Gothic";
 	mso-font-charset:128;
@@ -99,14 +99,14 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:647 0 0 0 159 0;}
 @font-face
-	{font-family:"\@�l�r �S�V�b�N";
+	{font-family:"\@ＭＳ ゴシック";
 	panose-1:2 11 6 9 7 2 5 8 2 4;
 	mso-font-charset:128;
 	mso-generic-font-family:modern;
 	mso-font-pitch:fixed;
 	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
 @font-face
-	{font-family:"\@�l�r ����";
+	{font-family:"\@ＭＳ 明朝";
 	panose-1:2 2 6 9 4 2 5 8 3 4;
 	mso-font-charset:128;
 	mso-generic-font-family:roman;
@@ -123,11 +123,11 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Times;
-	mso-fareast-font-family:"�l�r ����";
+	mso-fareast-font-family:"ＭＳ 明朝";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
 h1
-	{mso-style-next:�W��;
+	{mso-style-next:標準;
 	margin:0mm;
 	margin-bottom:.0001pt;
 	text-align:justify;
@@ -138,12 +138,12 @@ h1
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Arial;
-	mso-fareast-font-family:"�l�r �S�V�b�N";
+	mso-fareast-font-family:"ＭＳ ゴシック";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;
 	font-weight:normal;}
 p.MsoDate, li.MsoDate, div.MsoDate
-	{mso-style-next:�W��;
+	{mso-style-next:標準;
 	margin:0mm;
 	margin-bottom:.0001pt;
 	text-align:justify;
@@ -152,7 +152,7 @@ p.MsoDate, li.MsoDate, div.MsoDate
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Times;
-	mso-fareast-font-family:"�l�r ����";
+	mso-fareast-font-family:"ＭＳ 明朝";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
 p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
@@ -165,7 +165,7 @@ p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Helvetica;
-	mso-fareast-font-family:"�l�r �S�V�b�N";
+	mso-fareast-font-family:"ＭＳ ゴシック";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
  /* Page Definitions */
@@ -237,8 +237,8 @@ punctuation'>
 
 <div class=Section1>
 
-<h1><span style='font-family:"�l�r �S�V�b�N";mso-ascii-font-family:Arial;mso-hansi-font-family:
-Arial'>���z�}�V���R�[�h����</span><span lang=EN-US>(</span><b style='mso-bidi-font-weight:
+<h1><span style='font-family:"ＭＳ ゴシック";mso-ascii-font-family:Arial;mso-hansi-font-family:
+Arial'>仮想マシンコード生成</span><span lang=EN-US>(</span><b style='mso-bidi-font-weight:
 normal'><span lang=EN-US style='font-family:"Courier New";mso-bidi-font-family:
 "Times New Roman"'>virtual.ml</span></b><span lang=EN-US>)</span></h1>
 
@@ -246,71 +246,71 @@ normal'><span lang=EN-US style='font-family:"Courier New";mso-bidi-font-family:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�N���[�W���ϊ�������������A���悢��</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>クロージャ変換が完了したら、いよいよ</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>SPARC</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�A�Z���u���𐶐����܂��B�������A�����Ȃ�{����</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>アセンブリを生成します。しかし、いきなり本当の</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>SPARC</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�A�Z���u���𐶐�����̂͑�ςȂ̂ŁA�܂�</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>アセンブリを生成するのは大変なので、まず</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>SPARC</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�A�Z���u���ɗގ������A���z�}�V���R�[�h�𐶐����܂��B�ǂ��u���z�v�Ȃ̂��Ƃ����ƁA</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>アセンブリに類似した、仮想マシンコードを生成します。どう「仮想」なのかというと、</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <ul>
   <li>
       <span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ϐ��i���W�X�^�j�������ɂ���</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>変数（レジスタ）が無限にある</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
   <li>
       <span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�u�����`��W�����v�̂�����</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>ブランチやジャンプのかわりに</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>if-then-else</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��֐��Ăяo��������</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>や関数呼び出しがある</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></li>
 </ul>
 <p class=MsoNormal>&nbsp;</p>
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>の</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>2</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�_����ł��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>点が主です。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���̂悤�ȉ��z�A�Z���u�����`�����̂�</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>このような仮想アセンブリを定義したのが</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>sparcAsm.ml</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł��B</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>です。</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#sparcasm_exp">SparcAsm.exp</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�́A�ق�</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は、ほぼ</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>SPARC</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�̖��߂ɑΉ����Ă��܂��i</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>の命令に対応しています（</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>if</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ȊO�j�B���ߗ�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>以外）。命令列</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#sparcasm_t">SparcAsm.t</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�́A�֐��̍Ō�Œl��Ԃ�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は、関数の最後で値を返す</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Ans</span></b><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:
-"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ƁA�ϐ����</span><b
+"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と、変数代入</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Let</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���琬�藧���܂��B</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>から成り立ちます。</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Forget</span></b><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>,
@@ -320,15 +320,15 @@ mso-bidi-font-family:"Times New Roman"'>Save</span></b><span lang=EN-US
 style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>, </span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Restore</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɂ��Ă͌�ŏq�ׂ܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>については後で述べます。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�N���[�W���ϊ��̌��ʂ����z�}�V���R�[�h�ɕϊ�����֐���</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>クロージャ変換の結果を仮想マシンコードに変換する関数は</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Virtual.f</span></b><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>,
@@ -338,74 +338,74 @@ mso-bidi-font-family:"Times New Roman"'>Virtual.h</span></b><span lang=EN-US
 style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>, </span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Virtual.g</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>の</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>3</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł��B</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>つです。</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#virtual_f">Virtual.f</a></span></b><span style='font-size:
-10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>�̓v���O�����S�́i�g�b�v���x���֐��̃��X�g�ƁA���C�����[�`���̎��j���A</span><b
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>はプログラム全体（トップレベル関数のリストと、メインルーチンの式）を、</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#virtual_h">Virtual.h</a></span></b><span style='font-size:
-10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>�͌X�̃g�b�v���x���֐����A</span><b
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>は個々のトップレベル関数を、</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#virtual_g">Virtual.g</a></span></b><span style='font-size:
-10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>�͎���ϊ����܂��B�ϊ��̎�v�ȕ����́A�N���[�W����g�E�z��̐�����ǂݏo���E�������݂ɂƂ��Ȃ��������A�N�Z�X�𖾎����邱�Ƃł��B�N���[�W����g�E�z��Ȃǂ̃f�[�^�\����</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r �S�V�b�N";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>�q�[�v</strong></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ����������̈�Ɋm�ۂ��܂��B�q�[�v�̃A�h���X�͐�p�̃��W�X�^</span><b
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>は式を変換します。変換の主要な部分は、クロージャや組・配列の生成や読み出し・書き込みにともなうメモリアクセスを明示することです。クロージャや組・配列などのデータ構造は</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ ゴシック";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>ヒープ</strong></span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>というメモリ領域に確保します。ヒープのアドレスは専用のレジスタ</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>SparcAsm.reg_hp</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ŋL�����邱�ƂƂ��܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>で記憶することとします。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���Ƃ��΁A�z��̓ǂݏo��</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>たとえば、配列の読み出し</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#virtual_get">Closure.Get</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��������A�v�f�̃T�C�Y�ɉ����ăI�t�Z�b�g���V�t�g���A���[�h���s���܂��B�g�̐���</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>だったら、要素のサイズに応じてオフセットをシフトし、ロードを行います。組の生成</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#virtual_tuple">Closure.Tuple</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>�ł���΁A���������̃A���C�������g�i</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>であれば、浮動小数のアラインメント（</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'>8</span><span style='font-size:10.5pt;
-mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:"Courier New";
-mso-hansi-font-family:"Courier New"'>�o�C�g�j�ɒ��ӂ��A�X�̗v�f�����ԂɃX�g�A���Ă����A�擪�̃A�h���X��g���̂��̂̒l�Ƃ��܂��B�N���[�W���̐���</span><b
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:"Courier New";
+mso-hansi-font-family:"Courier New"'>バイト）に注意しつつ、個々の要素を順番にストアしていき、先頭のアドレスを組そのものの値とします。クロージャの生成</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#virtual_makecls">Closure.MakeCls</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>���A�A���C�������g�ɒ��ӂ��A�֐��{�̂̃A�h���X�i���x���j�Ǝ��R�ϐ��̒l���X�g�A���Ă����A�擪�̃A�h���X���N���[�W�����̂��̂̒l�Ƃ��܂��B����ɑΉ����āA</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>も、アラインメントに注意しつつ、関数本体のアドレス（ラベル）と自由変数の値をストアしていき、先頭のアドレスをクロージャそのものの値とします。これに対応して、</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'><a target="srcview" href="min-caml.html#virtual_h"><span
-style='font-family:"�l�r ����";mso-ascii-font-family:"Courier New";mso-hansi-font-family:
-"Courier New"'>�g�b�v���x���֐�</span></a></span><span style='font-size:10.5pt;
-mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:"Courier New";
-mso-hansi-font-family:"Courier New"'>�̖`���ł́A�N���[�W�����玩�R�ϐ��̒l�����[�h���܂��B�������A�N���[�W���ɂ��֐��Ăяo���i</span><b
+style='font-family:"ＭＳ 明朝";mso-ascii-font-family:"Courier New";mso-hansi-font-family:
+"Courier New"'>トップレベル関数</span></a></span><span style='font-size:10.5pt;
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:"Courier New";
+mso-hansi-font-family:"Courier New"'>の冒頭では、クロージャから自由変数の値をロードします。ただし、クロージャによる関数呼び出し（</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>AppCls</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>�j���s���ۂ́A���̃N���[�W���̃A�h���X��K�����W�X�^</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>）を行う際は、そのクロージャのアドレスを必ずレジスタ</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>SparcAsm.reg_cl</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>�ŗ^���邱�ƂƂ��܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>で与えることとします。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'><o:p></o:p></span></p>
 
@@ -413,39 +413,39 @@ mso-bidi-font-family:"Times New Roman"'><o:p></o:p></span></p>
 10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:"Courier New";mso-hansi-font-family:
-"Courier New"'>�Ȃ��A</span><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
+font-family:"ＭＳ 明朝";mso-ascii-font-family:"Courier New";mso-hansi-font-family:
+"Courier New"'>なお、</span><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'>SPARC</span><span style='font-size:10.5pt;
-mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:"Courier New";
-mso-hansi-font-family:"Courier New"'>�A�Z���u���ł͕��������𑦒l�Ƃ��ċL�q�ł��Ȃ��̂ŁA�������ɒ萔�e�[�u�����쐬����K�v������܂��B���̂��߂�</span><b
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:"Courier New";
+mso-hansi-font-family:"Courier New"'>アセンブリでは浮動小数を即値として記述できないので、メモリに定数テーブルを作成する必要があります。そのために</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#virtual_g">Virtual.g</a></span></b><span style='font-size:
-10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:
-"Courier New";mso-hansi-font-family:"Courier New"'>�ŃO���[�o���ϐ�</span><span
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+"Courier New";mso-hansi-font-family:"Courier New"'>でグローバル変数</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'><a target="srcview" href="min-caml.html#virtual_data"><b
 style='mso-bidi-font-weight:normal'>Virtual.data</b></a></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>�ɕ��������萔���L�^���Ă����A</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>に浮動小数定数を記録していき、</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#virtual_f">Virtual.f</a></span></b><span style='font-size:
-10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:
-"Courier New";mso-hansi-font-family:"Courier New"'>�Ńv���O�����S��</span><b
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+"Courier New";mso-hansi-font-family:"Courier New"'>でプログラム全体</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#sparcasm_prog">SparcAsm.Prog</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>�̈ꕔ�Ƃ��܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>の一部とします。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'><o:p></o:p></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 <p class=MsoNormal><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a
-href="tutorial-mincaml-18.htm"><span style='font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>���֐i��</span></a></span></p>
+href="tutorial-mincaml-18.htm"><span style='font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>次へ進む</span></a></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 

@@ -3,18 +3,18 @@ xmlns:w="urn:schemas-microsoft-com:office:word"
 xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 9">
 <meta name=Originator content="Microsoft Word 9">
 <link rel=File-List href="./tutorial-mincaml.files/filelist.xml">
 <link rel=Edit-Time-Data href="./tutorial-mincaml.files/editdata.mso">
 <link rel="stylesheet" href="sh.css" type="text/css">
-<title>���UMinCaml�R���p�C���T��</title>
+<title>速攻MinCamlコンパイラ概説</title>
 <!--[if gte mso 9]><xml>
  <o:DocumentProperties>
-  <o:Author>�Z�� �p��Y</o:Author>
-  <o:LastAuthor>�Z�� �p��Y</o:LastAuthor>
+  <o:Author>住井 英二郎</o:Author>
+  <o:LastAuthor>住井 英二郎</o:LastAuthor>
   <o:Revision>2</o:Revision>
   <o:TotalTime>29</o:TotalTime>
   <o:LastPrinted>2005-02-25T06:25:00Z</o:LastPrinted>
@@ -23,7 +23,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
   <o:Pages>20</o:Pages>
   <o:Words>3412</o:Words>
   <o:Characters>19450</o:Characters>
-  <o:Company>������w ��񗝍H�w�n������ �R���s���[�^�Ȋw��U</o:Company>
+  <o:Company>東京大学 情報理工学系研究科 コンピュータ科学専攻</o:Company>
   <o:Lines>162</o:Lines>
   <o:Paragraphs>38</o:Paragraphs>
   <o:CharactersWithSpaces>23885</o:CharactersWithSpaces>
@@ -45,8 +45,8 @@ xmlns="http://www.w3.org/TR/REC-html40">
    <w:AdjustLineHeightInTable/>
    <w:UseFELayout/>
   </w:Compatibility>
-  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\�e�g�q�s�u�w�y�k���i�m�o���</w:NoLineBreaksAfter>
-  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;���f�h�񁌁����A�B�X�r�t�v�x�z�l�J�K�T�U�E�R�S�I���j�C�D�F�G�H�n�p������</w:NoLineBreaksBefore>
+  <w:NoLineBreaksAfter Lang="JA">$([\{&pound;\‘“〈《「『【〔＄（［｛｢￥</w:NoLineBreaksAfter>
+  <w:NoLineBreaksBefore Lang="JA">!%),.:;?]}&cent;°’”‰′″℃、。々〉》」』】〕゛゜ゝゞ・ヽヾ！％），．：；？］｝｡｣､･ﾞﾟ</w:NoLineBreaksBefore>
  </w:WordDocument>
 </xml><![endif]-->
 <style>
@@ -76,7 +76,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:0 268435456 0 0 -2147483648 0;}
 @font-face
-	{font-family:"�l�r ����";
+	{font-family:"ＭＳ 明朝";
 	panose-1:2 2 6 9 4 2 5 8 3 4;
 	mso-font-alt:"MS Mincho";
 	mso-font-charset:128;
@@ -84,7 +84,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:fixed;
 	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
 @font-face
-	{font-family:"�l�r �S�V�b�N";
+	{font-family:"ＭＳ ゴシック";
 	panose-1:2 11 6 9 7 2 5 8 2 4;
 	mso-font-alt:"MS Gothic";
 	mso-font-charset:128;
@@ -99,14 +99,14 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:variable;
 	mso-font-signature:647 0 0 0 159 0;}
 @font-face
-	{font-family:"\@�l�r �S�V�b�N";
+	{font-family:"\@ＭＳ ゴシック";
 	panose-1:2 11 6 9 7 2 5 8 2 4;
 	mso-font-charset:128;
 	mso-generic-font-family:modern;
 	mso-font-pitch:fixed;
 	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
 @font-face
-	{font-family:"\@�l�r ����";
+	{font-family:"\@ＭＳ 明朝";
 	panose-1:2 2 6 9 4 2 5 8 3 4;
 	mso-font-charset:128;
 	mso-generic-font-family:roman;
@@ -123,11 +123,11 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Times;
-	mso-fareast-font-family:"�l�r ����";
+	mso-fareast-font-family:"ＭＳ 明朝";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
 h1
-	{mso-style-next:�W��;
+	{mso-style-next:標準;
 	margin:0mm;
 	margin-bottom:.0001pt;
 	text-align:justify;
@@ -138,12 +138,12 @@ h1
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Arial;
-	mso-fareast-font-family:"�l�r �S�V�b�N";
+	mso-fareast-font-family:"ＭＳ ゴシック";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;
 	font-weight:normal;}
 p.MsoDate, li.MsoDate, div.MsoDate
-	{mso-style-next:�W��;
+	{mso-style-next:標準;
 	margin:0mm;
 	margin-bottom:.0001pt;
 	text-align:justify;
@@ -152,7 +152,7 @@ p.MsoDate, li.MsoDate, div.MsoDate
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Times;
-	mso-fareast-font-family:"�l�r ����";
+	mso-fareast-font-family:"ＭＳ 明朝";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
 p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
@@ -165,7 +165,7 @@ p.MsoDocumentMap, li.MsoDocumentMap, div.MsoDocumentMap
 	font-size:12.0pt;
 	mso-bidi-font-size:10.0pt;
 	font-family:Helvetica;
-	mso-fareast-font-family:"�l�r �S�V�b�N";
+	mso-fareast-font-family:"ＭＳ ゴシック";
 	mso-bidi-font-family:"Times New Roman";
 	mso-font-kerning:1.0pt;}
  /* Page Definitions */
@@ -237,8 +237,8 @@ punctuation'>
 
 <div class=Section1>
 
-<h1><span style='font-family:"�l�r �S�V�b�N";mso-ascii-font-family:Arial;mso-hansi-font-family:
-Arial'>�^���_</span><span lang=EN-US>(</span><b style='mso-bidi-font-weight:normal'><span
+<h1><span style='font-family:"ＭＳ ゴシック";mso-ascii-font-family:Arial;mso-hansi-font-family:
+Arial'>型推論</span><span lang=EN-US>(</span><b style='mso-bidi-font-weight:normal'><span
 lang=EN-US style='font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>typing.ml</span></b><span
 lang=EN-US>)</span></h1>
 
@@ -246,17 +246,17 @@ lang=EN-US>)</span></h1>
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���ʂ�</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>普通の</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>ML</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ɠ��l�ɁA</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と同様に、</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł͕ϐ���֐��̌^�������Ȃ��Ă������Ő��_���Ă���܂��B�����</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r �S�V�b�N";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>�^���_</strong></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ����A�����֐��⍂�K�֐��̂���v���O�����ł͔��ɕ֗��ł��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>では変数や関数の型を書かなくても自動で推論してくれます。これを</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ ゴシック";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>型推論</strong></span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>といい、多相関数や高階関数のあるプログラムでは非常に便利です。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
@@ -264,147 +264,147 @@ lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'>MinCaml</span><span style='font-size:10.5pt;
-mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;
-mso-hansi-font-family:Century'>�̌^���_�̖{�̂͊֐�</span><span lang=EN-US
+mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;
+mso-hansi-font-family:Century'>の型推論の本体は関数</span><span lang=EN-US
 style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a target="srcview"
 href="min-caml.html#typing_g"><b style='mso-bidi-font-weight:normal'><span
 style='font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Typing.g</span></b></a></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł��B���̊֐��́A</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r �S�V�b�N";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>�^��</strong></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�i�ϐ��̖��O����A���̌^�ւ̎ʑ��j</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>です。この関数は、</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ ゴシック";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>型環境</strong></span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>（変数の名前から、その型への写像）</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>env</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ƁA��</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と、式</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ��󂯎��A</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>とを受け取り、</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�̌^�𐄘_���ĕԂ��܂��B�܂��A���̒��ɏo�Ă���ϐ��̌^�������Ă��邩�ǂ��������ׂ܂��B��������`�̌^�ϐ�����������A�K�؂Ȍ^�������܂��B���̂悤�ȑ���ɂ��^�����킹��֐���</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>の型を推論して返します。また、式の中に出てくる変数の型が合っているかどうかも調べます。もし未定義の型変数があったら、適切な型を代入します。このような代入により型を合わせる関数が</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#typing_unify">Typing.unify</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>です。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���Ƃ��΁A�����Z</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>たとえば、足し算</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a target="srcview"
 href="min-caml.html#typing_add"><b style='mso-bidi-font-weight:normal'><span
 style='font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e1 +
 e2</span></b></a></span><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�i</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>（</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Syntax.t</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɍ��킹�ď�����</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に合わせて書くと</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Add(e1,
 e2)</span></b><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
 font-family:Century'> </span><span style='font-size:10.5pt;mso-bidi-font-size:
-10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:
-Century'>�j��������A�܂�</span><b style='mso-bidi-font-weight:normal'><span
+10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:
+Century'>）だったら、まず</span><b style='mso-bidi-font-weight:normal'><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'>g env e1</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɂ�蕔����</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>により部分式</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e1</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�̌^�𐄘_���A���̌^��</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>の型を推論し、その型が</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>int</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł��邱�Ƃ�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>であることを</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>unify</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɂ��m���߂܂��B������</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>により確かめます。部分式</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e2</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɂ��Ă����l�ł��B�����āA���S�̂̌^�Ƃ���</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>についても同様です。そして、式全体の型として</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>int</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��Ԃ��܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を返します。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>������₱������Ƃ��ẮA�֐��K�p</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>少しややこしい例としては、関数適用</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a target="srcview"
 href="min-caml.html#typing_app"><b style='mso-bidi-font-weight:normal'><span
 style='font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e e1
 ... en</span></b></a></span><span style='font-size:10.5pt;mso-bidi-font-size:
-10.0pt;font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:
-Century'>������܂��B</span><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:
+Century'>があります。</span><b style='mso-bidi-font-weight:normal'><span lang=EN-US
 style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'>e</span></b><span style='font-size:
-10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>���֐��ŁA</span><b style='mso-bidi-font-weight:
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>が関数で、</span><b style='mso-bidi-font-weight:
 normal'><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
 font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>e1</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>����</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>から</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>en</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�܂ł������ł��B���̏ꍇ�́A�֐��̌^��</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>までが引数です。この場合は、関数の型は</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>g
 env e</span></b><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�A�����̌^��</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>、引数の型は</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>g
 env e1</span></b><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'>, ..., </span><b style='mso-bidi-font-weight:normal'><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'>g env en</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�̂悤�ɐ��_�ł��܂����A�Ԓl�̌^���킩��܂���B�����ŁA����`�̐V�����^�ϐ�</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のように推論できますが、返値の型がわかりません。そこで、未定義の新しい型変数</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>t</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�����A</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を作り、</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>g
 env e</span></b><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���u</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>が「</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>g
 env e1</span></b><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'>, ..., </span><b style='mso-bidi-font-weight:normal'><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'>g env en </span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>���󂯎����</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>を受け取って</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>t</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>��Ԃ��v�֐��^</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ɠ������Ȃ�悤��</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:"Courier New";mso-hansi-font-family:"Courier New"'>を返す」関数型</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と等しくなるように</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>unify</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���Ă�ł��܂��B�����āA���S�̂̌^�Ƃ���</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を呼んでいます。そして、式全体の型として</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>t</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��Ԃ��܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を返します。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
@@ -413,82 +413,82 @@ lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century
 <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
 style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"Courier New";
 mso-bidi-font-family:"Times New Roman"'><a target="srcview" href="min-caml.html#typing_let">let</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>や</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#typing_letrec">let rec</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�̂悤�ɐV�����ϐ������������Ƃ���ł́A�^��</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>のように新しい変数が導入されるところでは、型環境</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>env</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���g������܂��B�t��</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>が拡張されます。逆に</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a target="srcview"
-href="min-caml.html#typing_var"><span style='font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>�ϐ�</span><b style='mso-bidi-font-weight:
+href="min-caml.html#typing_var"><span style='font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>変数</span><b style='mso-bidi-font-weight:
 normal'><span style='font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>x</span></b></a></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���o�Ă�����A�^��</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>が出てきたら、型環境</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>env</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�������Č^�𓾂܂��B�������A</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>を引いて型を得ます。ただし、</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a target="srcview"
-href="min-caml.html#typing_extvar"><span style='font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>�^���Ɋ܂܂�Ă��Ȃ��ϐ�</span></a></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���o�Ă�����A�v���O�����̊O����^������</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r �S�V�b�N";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>�O���ϐ�</strong></span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ݂Ȃ��A����`�̐V�����^�ϐ���^���A�O���ϐ��̂��߂̓��ʂȊ�</span><b
+href="min-caml.html#typing_extvar"><span style='font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>型環境に含まれていない変数</span></a></span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>が出てきたら、プログラムの外から与えられる</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ ゴシック";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'><strong>外部変数</strong></span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>とみなし、未定義の新しい型変数を与え、外部変数のための特別な環境</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>extenv</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɒǉ����܂��B����͕��ʂ�</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に追加します。これは普通の</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>ML</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ł͎�������ĂȂ��A</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>では実現されてない、</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɓ��L�̋@�\�ł��B����ɂ��A�錾���Ȃ��Ă��O���ϐ����g�p���邱�Ƃ��ł��܂��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に特有の機能です。これにより、宣言しなくても外部変数を使用することができます。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�֐�</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>関数</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Typing.unify</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�́A�^����ꂽ��̌^�����������ǂ����𒆂܂Œ��ׂĂ����A�����</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は、与えられた二つの型が等しいかどうかを中まで調べていき、一方が</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a target="srcview"
 href="min-caml.html#typing_undef"><span
-style='font-family:"�l�r ����";mso-ascii-font-family:"Courier New";mso-hansi-font-family:
-"Courier New"'>����`�̌^�ϐ�</span></a></span><b style='mso-bidi-font-weight:
+style='font-family:"ＭＳ 明朝";mso-ascii-font-family:"Courier New";mso-hansi-font-family:
+"Courier New"'>未定義の型変数</span></a></span><b style='mso-bidi-font-weight:
 normal'><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
 font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>Type.var(ref
 None)</span></b><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��������A�����Ɠ������Ȃ�悤�ɑ�����s���܂��B����������̌^�ϐ����A�����̌^�̒��Ɍ���Ă��Ȃ����ǂ����`�F�b�N���܂��i</span><span
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>だったら、他方と等しくなるように代入を行います。ただし一方の型変数が、他方の型の中に現れていないかどうかチェックします（</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a target="srcview"
 href="min-caml.html#typing_occur">occur check</a></span><span style='font-size:
-10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>�ƌĂ΂�܂��j�B��������Ă���ƁA������ʂ̌^�ɃT�C�N�����ł��Ă��܂�����ł��B���Ƃ��΁A�����i</span><span
+10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>と呼ばれます）。もし現れていると、代入結果の型にサイクルができてしまうからです。たとえば、もし（</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>occur
 check</span><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:
-"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�����Ȃ��Łj�^�ϐ���</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ɗ֐��^</span><span
+"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>をしないで）型変数α</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>と関数型</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>int</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>����<span lang=EN-US style='font-size:10.5pt;
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>→α<span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:Symbol;mso-ascii-font-family:Century;
-mso-hansi-font-family:Century;mso-char-type:symbol;mso-symbol-font-family:Symbol'></span>��</span><span
+mso-hansi-font-family:Century;mso-char-type:symbol;mso-symbol-font-family:Symbol'></span>を</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>unify</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>���Ă��܂��ƁA��</span><span lang=EN-US style='font-size:10.5pt;
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>してしまうと、α</span><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:Symbol;mso-ascii-font-family:Century;
 mso-hansi-font-family:Century;mso-char-type:symbol;mso-symbol-font-family:Symbol'><span
 style='mso-char-type:symbol;mso-symbol-font-family:Symbol'><span lang=EN-US style='font-size:10.5pt;
@@ -496,48 +496,48 @@ mso-bidi-font-size:10.0pt;font-family:Symbol;mso-ascii-font-family:Century;
 mso-hansi-font-family:Century;mso-char-type:symbol;mso-symbol-font-family:Symbol'></span></span></span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>
 = int</span><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:
-"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�����Ȃ̂ŁA</span><span
+"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>→αなので、</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>int</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>→</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>int</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>→</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>int</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>��</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>→</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>...</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ����������̌^�ɂȂ��Ă��܂��܂��I�@���̂悤�Ȃ��Ƃ�h�~���邽�߂Ɂi������Ƃ�₱�����ł����j</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>という無限長の型になってしまいます！　このようなことを防止するために（ちょっとややこしいですが）</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>occur
 check</span><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:
-"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�͕K�v�Ȃ̂ł��B</span><span
+"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>は必要なのです。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-size:10.5pt;mso-bidi-font-size:10.0pt;
-font-family:"�l�r ����";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�^���_���I��������i�G���[�ł�����I���ł��j�A���ʂ��킩��₷�����邽�߂ɁA���ׂĂ̌^�ϐ������̒��g�ł��������܂��i</span><b
+font-family:"ＭＳ 明朝";mso-ascii-font-family:Century;mso-hansi-font-family:Century'>型推論が終了したら（エラーでも正常終了でも）、結果をわかりやすくするために、すべての型変数をその中身でおきかえます（</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'><a target="srcview"
 href="min-caml.html#typing_deref">Typing.deref_typ</a></span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�j�B�����܂�����`�̌^�ϐ�����������A�^�����܂�Ȃ��Ƃ������ƂȂ̂ŁA�����</span><b
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>）。もしまだ未定義の型変数があったら、型が決まらないということなので、勝手に</span><b
 style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
 mso-bidi-font-size:10.0pt;font-family:"Courier New";mso-bidi-font-family:"Times New Roman"'>int</span></b><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�Ƃ��Ă��܂��܂��B�����</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>としてしまいます。これも</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'>MinCaml</span><span
-style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"�l�r ����";
-mso-ascii-font-family:Century;mso-hansi-font-family:Century'>�ɓ��L�̎d�l�ł��B</span><span
+style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:"ＭＳ 明朝";
+mso-ascii-font-family:Century;mso-hansi-font-family:Century'>に特有の仕様です。</span><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><o:p></o:p></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 <p class=MsoNormal><span
 lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:10.0pt;font-family:Century'><a
-href="tutorial-mincaml-9.htm"><span style='font-family:"�l�r ����";mso-ascii-font-family:
-Century;mso-hansi-font-family:Century'>���֐i��</span></a></span></p>
+href="tutorial-mincaml-9.htm"><span style='font-family:"ＭＳ 明朝";mso-ascii-font-family:
+Century;mso-hansi-font-family:Century'>次へ進む</span></a></span></p>
 <p class=MsoNormal><span lang=EN-US style='font-size:10.5pt;mso-bidi-font-size:
 10.0pt;font-family:Century'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
