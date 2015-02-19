@@ -3,7 +3,7 @@ open Asm
 let rec g env = function (* Ì¿ÎáÎó¤ÎÂ¨ÃÍºÇÅ¬²½ (caml2html: simm13_g) *)
   | Ans(exp) -> Ans(g' env exp)
   | Let((x, t), Set(i), e) ->
-      (* Format.eprintf "found simm13 %s = %d@." x i; *)
+      (* Format.eprintf "found simm %s = %d@." x i; *)
       let e' = g (M.add x i env) e in
       if List.mem x (fv e') then Let((x, t), Set(i), e') else
       ((* Format.eprintf "erased redundant Set to %s@." x; *)
