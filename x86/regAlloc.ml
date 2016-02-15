@@ -59,7 +59,7 @@ let rec alloc cont regenv x t prefer =
     match t with
     | Type.Unit -> [] (* dummy *)
     | Type.Float -> allfregs
-    | _ -> allregs in
+    | _ -> List.filter (fun r -> r <> reg_cl) allregs in
   if all = [] then Alloc("%unit") else (* [XX] ad hoc *)
   if is_reg x then Alloc(x) else
   let free = fv cont in
