@@ -139,8 +139,8 @@ let h { Closure.name = (Id.L(x), t); Closure.args = yts; Closure.formal_fv = zts
     expand
       zts
       (4, g (M.add x t (M.add_list yts (M.add_list zts M.empty))) e)
-      (fun z offset load -> fletd(z, LdDF(reg_cl, C(offset), 1), load))
-      (fun z t offset load -> Let((z, t), Ld(reg_cl, C(offset), 1), load)) in
+      (fun z offset load -> fletd(z, LdDF(x, C(offset), 1), load))
+      (fun z t offset load -> Let((z, t), Ld(x, C(offset), 1), load)) in
   match t with
   | Type.Fun(_, t2) ->
       { name = Id.L(x); args = int; fargs = float; body = load; ret = t2 }
