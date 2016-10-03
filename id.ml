@@ -1,5 +1,13 @@
-type t = string (* ÊÑ¿ô¤ÎÌ¾Á° (caml2html: id_t) *)
-type l = L of string (* ¥È¥Ã¥×¥ì¥Ù¥ë´Ø¿ô¤ä¥°¥í¡¼¥Ð¥ëÇÛÎó¤Î¥é¥Ù¥ë (caml2html: id_l) *)
+type pos = int * int (* for error message: (line number, column number) *)
+[@@deriving show]
+
+type t = string  (* ï¿½Ñ¿ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ (caml2html: id_t) *)
+[@@deriving show]
+
+type l = L of string (* ï¿½È¥Ã¥×¥ï¿½ï¿½Ù¥ï¿½ï¿½Ø¿ï¿½ï¿½ä¥°ï¿½ï¿½ï¿½ï¿½ï¿½Ð¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¥ï¿½ï¿½Ù¥ï¿½ (caml2html: id_l) *)
+[@@deriving show]
+
+let dmy_pos = (-1, -1)
 
 let rec pp_list = function
   | [] -> ""

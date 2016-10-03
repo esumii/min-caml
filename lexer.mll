@@ -1,11 +1,17 @@
 {
-(* lexer¤¬ÍøÍÑ¤¹¤ëÊÑ¿ô¡¢´Ø¿ô¡¢·¿¤Ê¤É¤ÎÄêµÁ *)
+(* lexerï¿½ï¿½ï¿½ï¿½ï¿½Ñ¤ï¿½ï¿½ï¿½ï¿½Ñ¿ï¿½ï¿½ï¿½ï¿½Ø¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤É¤ï¿½ï¿½ï¿½ï¿½ï¿½ *)
 open Parser
 open Type
+
+let line = ref 1
+let end_of_previousline = ref 0
+let strbuffer = ref ""
+let get_pos lexbuf = (!line, (Lexing.lexeme_start lexbuf)-(!end_of_previousline))
 }
 
-(* Àµµ¬É½¸½¤ÎÎ¬µ­ *)
-let space = [' ' '\t' '\n' '\r']
+(* ï¿½ï¿½ï¿½ï¿½É½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ *)
+let space = [' ' '\t']
+let newline = ['\n' '\r']
 let digit = ['0'-'9']
 let lower = ['a'-'z']
 let upper = ['A'-'Z']
@@ -13,8 +19,12 @@ let upper = ['A'-'Z']
 rule token = parse
 | space+
     { token lexbuf }
+| newline
+    { end_of_previousline := (Lexing.lexeme_end lexbuf);
+      line := !line + 1;
+      token lexbuf }
 | "(*"
-    { comment lexbuf; (* ¥Í¥¹¥È¤·¤¿¥³¥á¥ó¥È¤Î¤¿¤á¤Î¥È¥ê¥Ã¥¯ *)
+    { comment lexbuf; (* ï¿½Í¥ï¿½ï¿½È¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¤Î¤ï¿½ï¿½ï¿½ï¿½Î¥È¥ï¿½ï¿½Ã¥ï¿½ *)
       token lexbuf }
 | '('
     { LPAREN }
@@ -25,43 +35,43 @@ rule token = parse
 | "false"
     { BOOL(false) }
 | "not"
-    { NOT }
-| digit+ (* À°¿ô¤ò»ú¶ç²òÀÏ¤¹¤ë¥ë¡¼¥ë (caml2html: lexer_int) *)
+    { NOT(get_pos lexbuf) }
+| digit+ (* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¤ï¿½ï¿½ï¿½ï¿½ë¡¼ï¿½ï¿½ (caml2html: lexer_int) *)
     { INT(int_of_string (Lexing.lexeme lexbuf)) }
 | digit+ ('.' digit*)? (['e' 'E'] ['+' '-']? digit+)?
     { FLOAT(float_of_string (Lexing.lexeme lexbuf)) }
-| '-' (* -.¤è¤ê¸å²ó¤·¤Ë¤·¤Ê¤¯¤Æ¤âÎÉ¤¤? ºÇÄ¹°ìÃ×? *)
-    { MINUS }
-| '+' (* +.¤è¤ê¸å²ó¤·¤Ë¤·¤Ê¤¯¤Æ¤âÎÉ¤¤? ºÇÄ¹°ìÃ×? *)
-    { PLUS }
+| '-' (* -.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó¤·¤Ë¤ï¿½ï¿½Ê¤ï¿½ï¿½Æ¤ï¿½ï¿½É¤ï¿½? ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½? *)
+    { MINUS(get_pos lexbuf) }
+| '+' (* +.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó¤·¤Ë¤ï¿½ï¿½Ê¤ï¿½ï¿½Æ¤ï¿½ï¿½É¤ï¿½? ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½? *)
+    { PLUS(get_pos lexbuf) }
 | "-."
-    { MINUS_DOT }
+    { MINUS_DOT(get_pos lexbuf) }
 | "+."
-    { PLUS_DOT }
+    { PLUS_DOT(get_pos lexbuf) }
 | "*."
-    { AST_DOT }
+    { AST_DOT(get_pos lexbuf) }
 | "/."
-    { SLASH_DOT }
+    { SLASH_DOT(get_pos lexbuf) }
 | '='
-    { EQUAL }
+    { EQUAL(get_pos lexbuf) }
 | "<>"
-    { LESS_GREATER }
+    { LESS_GREATER(get_pos lexbuf) }
 | "<="
-    { LESS_EQUAL }
+    { LESS_EQUAL(get_pos lexbuf) }
 | ">="
-    { GREATER_EQUAL }
+    { GREATER_EQUAL(get_pos lexbuf) }
 | '<'
-    { LESS }
+    { LESS(get_pos lexbuf) }
 | '>'
-    { GREATER }
+    { GREATER(get_pos lexbuf) }
 | "if"
-    { IF }
+    { IF(get_pos lexbuf) }
 | "then"
     { THEN }
 | "else"
     { ELSE }
 | "let"
-    { LET }
+    { LET(get_pos lexbuf) }
 | "in"
     { IN }
 | "rec"
@@ -69,25 +79,27 @@ rule token = parse
 | ','
     { COMMA }
 | '_'
-    { IDENT(Id.gentmp Type.Unit) }
+    { IDENT(get_pos lexbuf, Id.gentmp Type.Unit) }
 | "Array.create" (* [XX] ad hoc *)
-    { ARRAY_CREATE }
+    { ARRAY_CREATE(get_pos lexbuf) }
 | '.'
-    { DOT }
+    { DOT(get_pos lexbuf) }
 | "<-"
     { LESS_MINUS }
 | ';'
-    { SEMICOLON }
+    { SEMICOLON(get_pos lexbuf) }
 | eof
     { EOF }
-| lower (digit|lower|upper|'_')* (* Â¾¤Î¡ÖÍ½Ìó¸ì¡×¤è¤ê¸å¤Ç¤Ê¤¤¤È¤¤¤±¤Ê¤¤ *)
-    { IDENT(Lexing.lexeme lexbuf) }
+| lower (digit|lower|upper|'_')* (* Â¾ï¿½Î¡ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½×¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¤Ê¤ï¿½ï¿½È¤ï¿½ï¿½ï¿½ï¿½Ê¤ï¿½ *)
+    { IDENT(get_pos lexbuf, Lexing.lexeme lexbuf) }
 | _
-    { failwith
-	(Printf.sprintf "unknown token %s near characters %d-%d"
-	   (Lexing.lexeme lexbuf)
-	   (Lexing.lexeme_start lexbuf)
-	   (Lexing.lexeme_end lexbuf)) }
+    { Format.eprintf "\x1b[1mline %d, column %d-%d\x1b[0m: @.\x1b[1m\x1b[31mError\x1b[39m\x1b[0m: Syntax error, Unknown token %s @."
+    (!line)
+    ((Lexing.lexeme_start lexbuf)- (!end_of_previousline))
+    ((Lexing.lexeme_end lexbuf)-(!end_of_previousline))
+    (Lexing.lexeme lexbuf);
+    failwith "lex error" }
+    
 and comment = parse
 | "*)"
     { () }

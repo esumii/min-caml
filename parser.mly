@@ -1,43 +1,43 @@
 %{
-(* parser¤¬ÍøÍÑ¤¹¤ëÊÑ¿ô¡¢´Ø¿ô¡¢·¿¤Ê¤É¤ÎÄêµÁ *)
+(* parserï¿½ï¿½ï¿½ï¿½ï¿½Ñ¤ï¿½ï¿½ï¿½ï¿½Ñ¿ï¿½ï¿½ï¿½ï¿½Ø¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤É¤ï¿½ï¿½ï¿½ï¿½ï¿½ *)
 open Syntax
 let addtyp x = (x, Type.gentyp ())
 %}
 
-/* (* »ú¶ç¤òÉ½¤¹¥Ç¡¼¥¿·¿¤ÎÄêµÁ (caml2html: parser_token) *) */
+/* (* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É½ï¿½ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (caml2html: parser_token) *) */
 %token <bool> BOOL
 %token <int> INT
 %token <float> FLOAT
-%token NOT
-%token MINUS
-%token PLUS
-%token MINUS_DOT
-%token PLUS_DOT
-%token AST_DOT
-%token SLASH_DOT
-%token EQUAL
-%token LESS_GREATER
-%token LESS_EQUAL
-%token GREATER_EQUAL
-%token LESS
-%token GREATER
-%token IF
+%token <Id.pos> NOT
+%token <Id.pos> MINUS
+%token <Id.pos> PLUS
+%token <Id.pos> MINUS_DOT
+%token <Id.pos> PLUS_DOT
+%token <Id.pos> AST_DOT
+%token <Id.pos> SLASH_DOT
+%token <Id.pos> EQUAL
+%token <Id.pos> LESS_GREATER
+%token <Id.pos> LESS_EQUAL
+%token <Id.pos> GREATER_EQUAL
+%token <Id.pos> LESS
+%token <Id.pos> GREATER
+%token <Id.pos> IF
 %token THEN
 %token ELSE
-%token <Id.t> IDENT
-%token LET
+%token <Id.pos * Id.t> IDENT
+%token <Id.pos> LET
 %token IN
 %token REC
 %token COMMA
-%token ARRAY_CREATE
-%token DOT
+%token <Id.pos> ARRAY_CREATE
+%token <Id.pos> DOT
 %token LESS_MINUS
-%token SEMICOLON
+%token <Id.pos> SEMICOLON
 %token LPAREN
 %token RPAREN
 %token EOF
 
-/* (* Í¥Àè½ç°Ì¤Èassociativity¤ÎÄêµÁ¡ÊÄã¤¤Êý¤«¤é¹â¤¤Êý¤Ø¡Ë (caml2html: parser_prior) *) */
+/* (* Í¥ï¿½ï¿½ï¿½ï¿½ï¿½Ì¤ï¿½associativityï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã¤¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â¤¤ï¿½ï¿½ï¿½Ø¡ï¿½ (caml2html: parser_prior) *) */
 %right prec_let
 %right SEMICOLON
 %right prec_if
@@ -50,13 +50,13 @@ let addtyp x = (x, Type.gentyp ())
 %left prec_app
 %left DOT
 
-/* (* ³«»Ïµ­¹æ¤ÎÄêµÁ *) */
+/* (* ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ *) */
 %type <Syntax.t> exp
 %start exp
 
 %%
 
-simple_exp: /* (* ³ç¸Ì¤ò¤Ä¤±¤Ê¤¯¤Æ¤â´Ø¿ô¤Î°ú¿ô¤Ë¤Ê¤ì¤ë¼° (caml2html: parser_simple) *) */
+simple_exp: /* (* ï¿½ï¿½ï¿½Ì¤ï¿½ï¿½Ä¤ï¿½ï¿½Ê¤ï¿½ï¿½Æ¤ï¿½ï¿½Ø¿ï¿½ï¿½Î°ï¿½ï¿½ï¿½ï¿½Ë¤Ê¤ï¿½ï¿½ë¼° (caml2html: parser_simple) *) */
 | LPAREN exp RPAREN
     { $2 }
 | LPAREN RPAREN
@@ -68,71 +68,71 @@ simple_exp: /* (* ³ç¸Ì¤ò¤Ä¤±¤Ê¤¯¤Æ¤â´Ø¿ô¤Î°ú¿ô¤Ë¤Ê¤ì¤ë¼° (caml2html: parser_simp
 | FLOAT
     { Float($1) }
 | IDENT
-    { Var($1) }
+    { Var(fst $1, snd $1) }
 | simple_exp DOT LPAREN exp RPAREN
-    { Get($1, $4) }
+    { Get($2, $1, $4) }
 
-exp: /* (* °ìÈÌ¤Î¼° (caml2html: parser_exp) *) */
+exp: /* (* ï¿½ï¿½ï¿½Ì¤Î¼ï¿½ (caml2html: parser_exp) *) */
 | simple_exp
     { $1 }
 | NOT exp
     %prec prec_app
-    { Not($2) }
+    { Not ($1, $2) }
 | MINUS exp
     %prec prec_unary_minus
     { match $2 with
-    | Float(f) -> Float(-.f) (* -1.23¤Ê¤É¤Ï·¿¥¨¥é¡¼¤Ç¤Ï¤Ê¤¤¤Î¤ÇÊÌ°·¤¤ *)
-    | e -> Neg(e) }
-| exp PLUS exp /* (* Â­¤·»»¤ò¹½Ê¸²òÀÏ¤¹¤ë¥ë¡¼¥ë (caml2html: parser_add) *) */
-    { Add($1, $3) }
+    | Float(f) -> Float(-.f) (* -1.23ï¿½Ê¤É¤Ï·ï¿½ï¿½ï¿½ï¿½é¡¼ï¿½Ç¤Ï¤Ê¤ï¿½ï¿½Î¤ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ *)
+    | e -> Neg($1, e) }
+| exp PLUS exp /* (* Â­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ï¿½ï¿½Ï¤ï¿½ï¿½ï¿½ï¿½ë¡¼ï¿½ï¿½ (caml2html: parser_add) *) */
+    { Add($2, $1, $3) }
 | exp MINUS exp
-    { Sub($1, $3) }
+    { Sub($2, $1, $3) }
 | exp EQUAL exp
-    { Eq($1, $3) }
+    { Eq($2, $1, $3) }
 | exp LESS_GREATER exp
-    { Not(Eq($1, $3)) }
+    { Not($2, Eq($2, $1, $3)) }
 | exp LESS exp
-    { Not(LE($3, $1)) }
+    { Not($2, LE($2, $3, $1)) }
 | exp GREATER exp
-    { Not(LE($1, $3)) }
+    { Not($2, LE($2, $1, $3)) }
 | exp LESS_EQUAL exp
-    { LE($1, $3) }
+    { LE($2, $1, $3) }
 | exp GREATER_EQUAL exp
-    { LE($3, $1) }
+    { LE($2, $3, $1) }
 | IF exp THEN exp ELSE exp
     %prec prec_if
-    { If($2, $4, $6) }
+    { If($1, $2, $4, $6) }
 | MINUS_DOT exp
     %prec prec_unary_minus
-    { FNeg($2) }
+    { FNeg($1, $2) }
 | exp PLUS_DOT exp
-    { FAdd($1, $3) }
+    { FAdd($2, $1, $3) }
 | exp MINUS_DOT exp
-    { FSub($1, $3) }
+    { FSub($2, $1, $3) }
 | exp AST_DOT exp
-    { FMul($1, $3) }
+    { FMul($2, $1, $3) }
 | exp SLASH_DOT exp
-    { FDiv($1, $3) }
+    { FDiv($2, $1, $3) }
 | LET IDENT EQUAL exp IN exp
     %prec prec_let
-    { Let(addtyp $2, $4, $6) }
+    { Let($1, addtyp (snd $2), $4, $6) }
 | LET REC fundef IN exp
     %prec prec_let
-    { LetRec($3, $5) }
+    { LetRec($1, $3, $5) }
 | exp actual_args
     %prec prec_app
     { App($1, $2) }
 | elems
     { Tuple($1) }
 | LET LPAREN pat RPAREN EQUAL exp IN exp
-    { LetTuple($3, $6, $8) }
+    { LetTuple($1, $3, $6, $8) }
 | simple_exp DOT LPAREN exp RPAREN LESS_MINUS exp
-    { Put($1, $4, $7) }
+    { Put($2, $1, $4, $7) }
 | exp SEMICOLON exp
-    { Let((Id.gentmp Type.Unit, Type.Unit), $1, $3) }
+    { Let($2, ((Id.gentmp Type.Unit), Type.Unit), $1, $3) }
 | ARRAY_CREATE simple_exp simple_exp
     %prec prec_app
-    { Array($2, $3) }
+    { Array($1, $2, $3) }
 | error
     { failwith
 	(Printf.sprintf "parse error near characters %d-%d"
@@ -141,13 +141,13 @@ exp: /* (* °ìÈÌ¤Î¼° (caml2html: parser_exp) *) */
 
 fundef:
 | IDENT formal_args EQUAL exp
-    { { name = addtyp $1; args = $2; body = $4 } }
+    { { name = addtyp (snd $1); args = $2; body = $4 } }
 
 formal_args:
 | IDENT formal_args
-    { addtyp $1 :: $2 }
+    { addtyp (snd $1) :: $2 }
 | IDENT
-    { [addtyp $1] }
+    { [addtyp (snd $1)] }
 
 actual_args:
 | actual_args simple_exp
@@ -165,6 +165,6 @@ elems:
 
 pat:
 | pat COMMA IDENT
-    { $1 @ [addtyp $3] }
+    { $1 @ [addtyp (snd $3)] }
 | IDENT COMMA IDENT
-    { [addtyp $1; addtyp $3] }
+    { [addtyp (snd $1); addtyp (snd $3)] }
