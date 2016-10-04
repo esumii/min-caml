@@ -1,0 +1,698 @@
+
+** Conflict (shift/reduce) in state 97.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+NOT exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 97, looking ahead at LPAREN, reducing production
+** exp -> NOT exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+NOT exp . 
+
+** In state 97, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+NOT exp 
+    exp actual_args 
+        simple_exp 
+        . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 96.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+MINUS_DOT exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 96, looking ahead at LPAREN, reducing production
+** exp -> MINUS_DOT exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+MINUS_DOT exp . 
+
+** In state 96, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+MINUS_DOT exp 
+          exp actual_args 
+              simple_exp 
+              . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 95.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+MINUS exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 95, looking ahead at LPAREN, reducing production
+** exp -> MINUS exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+MINUS exp . 
+
+** In state 95, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+MINUS exp 
+      exp actual_args 
+          simple_exp 
+          . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 92.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+LET IDENT EQUAL exp IN exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 92, looking ahead at LPAREN, reducing production
+** exp -> LET IDENT EQUAL exp IN exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+LET IDENT EQUAL exp IN exp . 
+
+** In state 92, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+LET IDENT EQUAL exp IN exp 
+                       exp actual_args 
+                           simple_exp 
+                           . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 85.
+** Tokens involved: SLASH_DOT SEMICOLON PLUS_DOT PLUS MINUS_DOT MINUS LPAREN LESS_GREATER LESS_EQUAL LESS INT IDENT GREATER_EQUAL GREATER FLOAT EQUAL COMMA BOOL AST_DOT
+** The following explanations concentrate on token SLASH_DOT.
+** This state is reached from exp after reading:
+
+LET LPAREN pat RPAREN EQUAL exp IN exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 85, looking ahead at SLASH_DOT, shifting is permitted
+** because of the following sub-derivation:
+
+LET LPAREN pat RPAREN EQUAL exp IN exp 
+                                   exp . SLASH_DOT exp 
+
+** In state 85, looking ahead at SLASH_DOT, reducing production
+** exp -> LET LPAREN pat RPAREN EQUAL exp IN exp 
+** is permitted because of the following sub-derivation:
+
+exp SLASH_DOT exp // lookahead token appears
+LET LPAREN pat RPAREN EQUAL exp IN exp . 
+
+** Conflict (shift/reduce) in state 75.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+LET REC fundef IN exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 75, looking ahead at LPAREN, reducing production
+** exp -> LET REC fundef IN exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+LET REC fundef IN exp . 
+
+** In state 75, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+LET REC fundef IN exp 
+                  exp actual_args 
+                      simple_exp 
+                      . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 71.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+IF exp THEN exp ELSE exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 71, looking ahead at LPAREN, reducing production
+** exp -> IF exp THEN exp ELSE exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+IF exp THEN exp ELSE exp . 
+
+** In state 71, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+IF exp THEN exp ELSE exp 
+                     exp actual_args 
+                         simple_exp 
+                         . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 63.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+simple_exp DOT LPAREN exp RPAREN LESS_MINUS exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 63, looking ahead at LPAREN, reducing production
+** exp -> simple_exp DOT LPAREN exp RPAREN LESS_MINUS exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+simple_exp DOT LPAREN exp RPAREN LESS_MINUS exp . 
+
+** In state 63, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+simple_exp DOT LPAREN exp RPAREN LESS_MINUS exp 
+                                            exp actual_args 
+                                                simple_exp 
+                                                . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 60.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp COMMA exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 60, looking ahead at LPAREN, reducing production
+** elems -> exp COMMA exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+elems // lookahead token is inherited
+exp COMMA exp . 
+
+** In state 60, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+elems 
+exp COMMA exp 
+          exp actual_args 
+              simple_exp 
+              . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 58.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp SEMICOLON exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 58, looking ahead at LPAREN, reducing production
+** exp -> exp SEMICOLON exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp SEMICOLON exp . 
+
+** In state 58, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp SEMICOLON exp 
+              exp actual_args 
+                  simple_exp 
+                  . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 56.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp EQUAL exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 56, looking ahead at LPAREN, reducing production
+** exp -> exp EQUAL exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp EQUAL exp . 
+
+** In state 56, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp EQUAL exp 
+          exp actual_args 
+              simple_exp 
+              . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 54.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp GREATER exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 54, looking ahead at LPAREN, reducing production
+** exp -> exp GREATER exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp GREATER exp . 
+
+** In state 54, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp GREATER exp 
+            exp actual_args 
+                simple_exp 
+                . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 52.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp GREATER_EQUAL exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 52, looking ahead at LPAREN, reducing production
+** exp -> exp GREATER_EQUAL exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp GREATER_EQUAL exp . 
+
+** In state 52, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp GREATER_EQUAL exp 
+                  exp actual_args 
+                      simple_exp 
+                      . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 50.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp LESS exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 50, looking ahead at LPAREN, reducing production
+** exp -> exp LESS exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp LESS exp . 
+
+** In state 50, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp LESS exp 
+         exp actual_args 
+             simple_exp 
+             . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 48.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp LESS_EQUAL exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 48, looking ahead at LPAREN, reducing production
+** exp -> exp LESS_EQUAL exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp LESS_EQUAL exp . 
+
+** In state 48, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp LESS_EQUAL exp 
+               exp actual_args 
+                   simple_exp 
+                   . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 46.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp LESS_GREATER exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 46, looking ahead at LPAREN, reducing production
+** exp -> exp LESS_GREATER exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp LESS_GREATER exp . 
+
+** In state 46, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp LESS_GREATER exp 
+                 exp actual_args 
+                     simple_exp 
+                     . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 44.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp MINUS exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 44, looking ahead at LPAREN, reducing production
+** exp -> exp MINUS exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp MINUS exp . 
+
+** In state 44, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp MINUS exp 
+          exp actual_args 
+              simple_exp 
+              . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 42.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp MINUS_DOT exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 42, looking ahead at LPAREN, reducing production
+** exp -> exp MINUS_DOT exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp MINUS_DOT exp . 
+
+** In state 42, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp MINUS_DOT exp 
+              exp actual_args 
+                  simple_exp 
+                  . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 40.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp PLUS exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 40, looking ahead at LPAREN, reducing production
+** exp -> exp PLUS exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp PLUS exp . 
+
+** In state 40, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp PLUS exp 
+         exp actual_args 
+             simple_exp 
+             . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 38.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp AST_DOT exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 38, looking ahead at LPAREN, reducing production
+** exp -> exp AST_DOT exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp AST_DOT exp . 
+
+** In state 38, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp AST_DOT exp 
+            exp actual_args 
+                simple_exp 
+                . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 36.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp PLUS_DOT exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 36, looking ahead at LPAREN, reducing production
+** exp -> exp PLUS_DOT exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp PLUS_DOT exp . 
+
+** In state 36, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp PLUS_DOT exp 
+             exp actual_args 
+                 simple_exp 
+                 . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 34.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+elems COMMA exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 34, looking ahead at LPAREN, reducing production
+** elems -> elems COMMA exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+elems // lookahead token is inherited
+elems COMMA exp . 
+
+** In state 34, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+elems 
+elems COMMA exp 
+            exp actual_args 
+                simple_exp 
+                . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 32.
+** Token involved: COMMA
+** This state is reached from exp after reading:
+
+elems 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+elems 
+(?)
+
+** In state 32, looking ahead at COMMA, shifting is permitted
+** because of the following sub-derivation:
+
+elems . COMMA exp 
+
+** In state 32, looking ahead at COMMA, reducing production
+** exp -> elems 
+** is permitted because of the following sub-derivation:
+
+exp COMMA exp // lookahead token appears
+elems . 
+
+** Conflict (shift/reduce) in state 30.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp actual_args 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 30, looking ahead at LPAREN, reducing production
+** exp -> exp actual_args 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp actual_args . 
+
+** In state 30, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp actual_args 
+    actual_args simple_exp 
+                . LPAREN exp RPAREN 
+
+** Conflict (shift/reduce) in state 28.
+** Tokens involved: LPAREN INT IDENT FLOAT BOOL
+** The following explanations concentrate on token LPAREN.
+** This state is reached from exp after reading:
+
+exp SLASH_DOT exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+exp 
+(?)
+
+** In state 28, looking ahead at LPAREN, reducing production
+** exp -> exp SLASH_DOT exp 
+** is permitted because of the following sub-derivation:
+
+exp actual_args // lookahead token appears because actual_args can begin with LPAREN
+exp SLASH_DOT exp . 
+
+** In state 28, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+exp SLASH_DOT exp 
+              exp actual_args 
+                  simple_exp 
+                  . LPAREN exp RPAREN 

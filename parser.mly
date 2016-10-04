@@ -1,7 +1,15 @@
 %{
 (* parser�����Ѥ����ѿ����ؿ������ʤɤ����� *)
-open Syntax
 let addtyp x = (x, Type.gentyp ())
+let parse_error s = print_endline s
+open Syntax
+let perr_handling pos =
+  let open Lexing in 
+    Format.eprintf "\x1b[1mline %d, column %d\x1b[0m: @.\x1b[1m\x1b[31mError\x1b[39m\x1b[0m: Syntax error@."
+    pos.pos_lnum
+    pos.pos_cnum
+    (* (Lexing.lexeme lexbuf) *)
+    
 %}
 
 /* (* ������ɽ���ǡ����������� (caml2html: parser_token) *) */
@@ -134,10 +142,9 @@ exp: /* (* ���̤μ� (caml2html: parser_exp) *) */
     %prec prec_app
     { Array($1, $2, $3) }
 | error
-    { failwith
-	(Printf.sprintf "parse error near characters %d-%d"
-	   (Parsing.symbol_start ())
-	   (Parsing.symbol_end ())) }
+    { perr_handling (Parsing.symbol_end_pos ()); failwith "parse error" }
+    
+
 
 fundef:
 | IDENT formal_args EQUAL exp
@@ -168,3 +175,13 @@ pat:
     { $1 @ [addtyp (snd $3)] }
 | IDENT COMMA IDENT
     { [addtyp (snd $1); addtyp (snd $3)] }
+
+%%
+
+let exp (lexfun : Lexing.lexbuf -> token) (lexbuf : Lexing.lexbuf) =
+  try
+    (Parsing.yyparse yytables 1 lexfun lexbuf : Syntax.t)
+  with
+    | Parsing.Parse_error -> 
+      perr_handling (Lexing.lexeme_start_p lexbuf); failwith "parse error"
+

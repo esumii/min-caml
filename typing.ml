@@ -7,7 +7,7 @@ exception Error of t * Type.t * Type.t
 
 (* fortmat for a type error message *)
 (* type_err_fmt line column typename typename *)
-let type_err_fmt = format_of_string "\x1b[1mline %d, column %d\x1b[0m: @.\x1b[1m\x1b[31mError\x1b[39m\x1b[0m: This expression has type %s but an expression was expected of type %s @."
+(* let type_err_fmt = format_of_string "\x1b[1mline %d, column %d\x1b[0m: @.\x1b[1m\x1b[31mError\x1b[39m\x1b[0m: This expression has type %s but an expression was expected of type %s @." *)
 
 let extenv = ref M.empty
 (* for pretty printing (and type normalization) *)    
@@ -90,11 +90,12 @@ let err_handler p x y =
     unify x y
   with
     Unify(_, _) as ex ->
-    (Format.eprintf type_err_fmt
+    (Format.eprintf
+       "\x1b[1mline %d, column %d\x1b[0m: @.\x1b[1m\x1b[31mError\x1b[39m\x1b[0m: This expression has type %s but an expression was expected of type %s @."
        (fst p)
        (snd p)
-       (Type.show y)
-       (Type.show x));
+       (Type.show (deref_typ y))
+       (Type.show (deref_typ x)));
     raise ex
 
 let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)

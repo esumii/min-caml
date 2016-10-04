@@ -1,27 +1,28 @@
 # Sumii's Makefile for Min-Caml (for GNU Make)
 # 
-# ack.ml¤Ê¤É¤Î¥Æ¥¹¥È¥×¥í¥°¥é¥à¤òtest/¤ËÍÑ°Õ¤·¤Æmake do_test¤ò¼Â¹Ô¤¹¤ë¤È¡¢
-# min-caml¤Èocaml¤Ç¥³¥ó¥Ñ¥¤¥ë¡¦¼Â¹Ô¤·¤¿·ë²Ì¤ò¼«Æ°¤ÇÈæ³Ó¤·¤Þ¤¹¡£
+# ack.mlï¿½Ê¤É¤Î¥Æ¥ï¿½ï¿½È¥×¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½test/ï¿½ï¿½ï¿½Ñ°Õ¤ï¿½ï¿½ï¿½make do_testï¿½ï¿½ï¿½Â¹Ô¤ï¿½ï¿½ï¿½ï¿½È¡ï¿½
+# min-camlï¿½ï¿½ocamlï¿½Ç¥ï¿½ï¿½ï¿½ï¿½Ñ¥ï¿½ï¿½ë¡¦ï¿½Â¹Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¤ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ï¿½Ó¤ï¿½ï¿½Þ¤ï¿½ï¿½ï¿½
 
 RESULT = min-caml
 NCSUFFIX = .opt
 CC = gcc
 CFLAGS = -g -O2 -Wall
 PACKS = ppx_deriving.std
-OCAMLLDFLAGS= -warn-error -31
-# OCAMLYACC = menhir *)
+OCAMLLDFLAGS = -warn-error -31
+# OCAMLYACC = menhir
+# YFLAGS = --lalr
 
 
 default: debug-code top $(RESULT) do_test
 $(RESULT): debug-code top
-## [¼«Ê¬¡Ê½»°æ¡ËÍÑ¤ÎÃí]
-## ¡¦OCamlMakefile¤ä¸Å¤¤GNU Make¤Î¥Ð¥°(?)¤Ç¾å¤Î¤è¤¦¤ÊÄêµÁ¤¬É¬Í×(??)
-## ¡¦OCamlMakefile¤Ç¤Ïdebug-code¤Ènative-code¤Î¤½¤ì¤¾¤ì¤Ç
-##   .mli¤¬¥³¥ó¥Ñ¥¤¥ë¤µ¤ì¤Æ¤·¤Þ¤¦¤Î¤Ç¡¢Î¾Êý¤È¤âdefault:¤Î±¦ÊÕ¤ËÆþ¤ì¤ë¤È
-##   ºÆmake»þ¤Ë¡Ê.mli¤¬ÊÑ¹¹¤µ¤ì¤Æ¤¤¤ë¤Î¤Ç¡Ë.ml¤âºÆ¥³¥ó¥Ñ¥¤¥ë¤µ¤ì¤ë
+## [ï¿½ï¿½Ê¬ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¤ï¿½ï¿½ï¿½]
+## ï¿½ï¿½OCamlMakefileï¿½ï¿½ï¿½Å¤ï¿½GNU Makeï¿½Î¥Ð¥ï¿½(?)ï¿½Ç¾ï¿½ï¿½Î¤è¤¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¬ï¿½ï¿½(??)
+## ï¿½ï¿½OCamlMakefileï¿½Ç¤ï¿½debug-codeï¿½ï¿½native-codeï¿½Î¤ï¿½ï¿½ì¤¾ï¿½ï¿½ï¿½ï¿½
+##   .mliï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¥ï¿½ï¿½ë¤µï¿½ï¿½ï¿½Æ¤ï¿½ï¿½Þ¤ï¿½ï¿½Î¤Ç¡ï¿½Î¾ï¿½ï¿½ï¿½È¤ï¿½default:ï¿½Î±ï¿½ï¿½Õ¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+##   ï¿½ï¿½makeï¿½ï¿½ï¿½Ë¡ï¿½.mliï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¤ï¿½ï¿½ï¿½ï¿½Î¤Ç¡ï¿½.mlï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½Ñ¥ï¿½ï¿½ë¤µï¿½ï¿½ï¿½ï¿½
 clean:: nobackup
 
-# ¢­¤â¤·¼ÂÁõ¤ò²þÂ¤¤·¤¿¤é¡¢¤½¤ì¤Ë¹ç¤ï¤»¤ÆÊÑ¤¨¤ë
+# ï¿½ï¿½ï¿½â¤·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¤ï¿½ï¿½ï¿½ï¿½ï¿½é¡¢ï¿½ï¿½ï¿½ï¿½ï¿½Ë¹ï¿½ï¿½ï¤»ï¿½ï¿½ï¿½Ñ¤ï¿½ï¿½ï¿½
 SOURCES = float.c type.ml id.ml m.ml s.ml \
 syntax.ml parser.mly lexer.mll typing.mli typing.ml kNormal.mli kNormal.ml \
 alpha.mli alpha.ml beta.mli beta.ml assoc.mli assoc.ml \
@@ -30,7 +31,7 @@ closure.mli closure.ml asm.mli asm.ml virtual.mli virtual.ml \
 simm.mli simm.ml regAlloc.mli regAlloc.ml emit.mli emit.ml \
 main.mli main.ml
 
-# ¢­¥Æ¥¹¥È¥×¥í¥°¥é¥à¤¬Áý¤¨¤¿¤é¡¢¤³¤ì¤âÁý¤ä¤¹
+# ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½È¥×¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à¤¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é¡¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä¤¹
 TESTS = print sum-tail gcd sum fib ack even-odd \
 adder funcomp cls-rec cls-bug cls-bug2 cls-reg-bug \
 shuffle spill spill2 spill3 join-stack join-stack2 join-stack3 \

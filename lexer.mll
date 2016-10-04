@@ -3,6 +3,8 @@
 open Parser
 open Type
 
+exception SyntaxError of string
+
 let line = ref 1
 let end_of_previousline = ref 0
 let strbuffer = ref ""
@@ -22,6 +24,7 @@ rule token = parse
 | newline
     { end_of_previousline := (Lexing.lexeme_end lexbuf);
       line := !line + 1;
+      Lexing.new_line lexbuf;
       token lexbuf }
 | "(*"
     { comment lexbuf; (* �ͥ��Ȥ����������ȤΤ����Υȥ��å� *)
