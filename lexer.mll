@@ -7,7 +7,6 @@ exception SyntaxError of string
 
 let line = ref 1
 let end_of_previousline = ref 0
-let strbuffer = ref ""
 let get_pos lexbuf = (!line, (Lexing.lexeme_start lexbuf)-(!end_of_previousline))
 }
 
@@ -39,14 +38,16 @@ rule token = parse
     { BOOL(false) }
 | "not"
     { NOT(get_pos lexbuf) }
-| digit+ (* �������������Ϥ����롼�� (caml2html: lexer_int) *)
+| digit+ 
     { INT(int_of_string (Lexing.lexeme lexbuf)) }
 | digit+ ('.' digit*)? (['e' 'E'] ['+' '-']? digit+)?
     { FLOAT(float_of_string (Lexing.lexeme lexbuf)) }
-| '-' (* -.�������󤷤ˤ��ʤ��Ƥ��ɤ�? ��Ĺ����? *)
+| '-' 
     { MINUS(get_pos lexbuf) }
-| '+' (* +.�������󤷤ˤ��ʤ��Ƥ��ɤ�? ��Ĺ����? *)
+| '+' 
     { PLUS(get_pos lexbuf) }
+| '*'
+    { AST(get_pos lexbuf) }
 | "-."
     { MINUS_DOT(get_pos lexbuf) }
 | "+."
@@ -104,6 +105,11 @@ rule token = parse
     failwith "lex error" }
     
 and comment = parse
+| newline
+    { end_of_previousline := (Lexing.lexeme_end lexbuf);
+      line := !line + 1;
+      Lexing.new_line lexbuf;
+      comment lexbuf }
 | "*)"
     { () }
 | "(*"

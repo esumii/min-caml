@@ -7,7 +7,7 @@ let perr_handling pos =
   let open Lexing in 
     Format.eprintf "\x1b[1mline %d, column %d\x1b[0m: @.\x1b[1m\x1b[31mError\x1b[39m\x1b[0m: Syntax error@."
     pos.pos_lnum
-    pos.pos_cnum
+    (pos.Lexing.pos_cnum - pos.Lexing.pos_bol)
     (* (Lexing.lexeme lexbuf) *)
     
 %}
@@ -19,6 +19,7 @@ let perr_handling pos =
 %token <Id.pos> NOT
 %token <Id.pos> MINUS
 %token <Id.pos> PLUS
+%token <Id.pos> AST
 %token <Id.pos> MINUS_DOT
 %token <Id.pos> PLUS_DOT
 %token <Id.pos> AST_DOT
@@ -142,7 +143,7 @@ exp: /* (* ���̤μ� (caml2html: parser_exp) *) */
     %prec prec_app
     { Array($1, $2, $3) }
 | error
-    { perr_handling (Parsing.symbol_end_pos ()); failwith "parse error" }
+    { perr_handling (Parsing.symbol_start_pos ()); failwith "parse error" }
     
 
 
@@ -183,5 +184,5 @@ let exp (lexfun : Lexing.lexbuf -> token) (lexbuf : Lexing.lexbuf) =
     (Parsing.yyparse yytables 1 lexfun lexbuf : Syntax.t)
   with
     | Parsing.Parse_error -> 
-      perr_handling (Lexing.lexeme_start_p lexbuf); failwith "parse error"
+      perr_handling lexbuf.Lexing.lex_curr_p; failwith "parse error"
 
