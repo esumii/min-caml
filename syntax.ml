@@ -1,7 +1,7 @@
 
 
 
-type t = (* MinCaml�ι�ʸ��ɽ�������ǡ����� (caml2html: syntax_t) *)
+type t =
   | Unit
   | Bool of bool
   | Int of int
@@ -10,6 +10,8 @@ type t = (* MinCaml�ι�ʸ��ɽ�������ǡ����� (cam
   | Neg of Id.pos * t
   | Add of Id.pos * t * t
   | Sub of Id.pos * t * t
+  | Mul of Id.pos * t * t 
+  | Div of Id.pos * t * t
   | FNeg of Id.pos * t
   | FAdd of Id.pos * t * t
   | FSub of Id.pos * t * t

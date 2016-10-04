@@ -20,6 +20,7 @@ let perr_handling pos =
 %token <Id.pos> MINUS
 %token <Id.pos> PLUS
 %token <Id.pos> AST
+%token <Id.pos> SLASH
 %token <Id.pos> MINUS_DOT
 %token <Id.pos> PLUS_DOT
 %token <Id.pos> AST_DOT

@@ -48,6 +48,8 @@ rule token = parse
     { PLUS(get_pos lexbuf) }
 | '*'
     { AST(get_pos lexbuf) }
+| '/'
+    { SLASH(get_pos lexbuf) }
 | "-."
     { MINUS_DOT(get_pos lexbuf) }
 | "+."
