@@ -1616,7 +1616,7 @@ let rec trace_reflections index diffuse hilight_scale dirvec =
 
     (*反射光を逆にたどり、実際にその鏡面に当たれば、反射光が届く可能性有り *)
     if judge_intersection_fast dvec then
-      let surface_id = intersected_object_id.(0) *. 4 + intsec_rectside.(0) in 
+      let surface_id = intersected_object_id.(0) * 4 + intsec_rectside.(0) in 
       if surface_id = r_surface_id rinfo then
         (* 鏡面との衝突点が光源の影になっていなければ反射光は届く *)
         if not (shadow_check_one_or_matrix 0 or_net.(0)) then
@@ -1652,7 +1652,7 @@ let rec trace_ray nref energy dirvec pixel dist =
       utexture obj intersection_point; (*テクスチャを計算 *)
 
       (* pixel tupleに情報を格納する *)
-      surface_ids.(nref) <- obj_id *. 4 + intsec_rectside.(0);
+      surface_ids.(nref) <- obj_id * 4 + intsec_rectside.(0);
       let intersection_points = p_intersection_points pixel in
       veccpy intersection_points.(nref) intersection_point;
 
@@ -2289,8 +2289,8 @@ let rec rt size_x size_y =
   (
     image_size.(0) <- size_x;
     image_size.(1) <- size_y;
-    image_center.(0) <- size_x /. 2;
-    image_center.(1) <- size_y /. 2;
+    image_center.(0) <- size_x / 2;
+    image_center.(1) <- size_y / 2;
     scan_pitch.(0) <- 128.0 /. float_of_int size_x;
     let prev = create_pixelline () in
     let cur  = create_pixelline () in

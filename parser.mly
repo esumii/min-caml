@@ -97,6 +97,10 @@ exp: /* (* ���̤μ� (caml2html: parser_exp) *) */
     { Add($2, $1, $3) }
 | exp MINUS exp
     { Sub($2, $1, $3) }
+| exp AST exp
+    { Mul($2, $1, $3) }
+| exp SLASH exp
+    { Div($2, $1, $3) }
 | exp EQUAL exp
     { Eq($2, $1, $3) }
 | exp LESS_GREATER exp
@@ -138,8 +142,13 @@ exp: /* (* ���̤μ� (caml2html: parser_exp) *) */
     { LetTuple($1, $3, $6, $8) }
 | simple_exp DOT LPAREN exp RPAREN LESS_MINUS exp
     { Put($2, $1, $4, $7) }
+/* 
 | exp SEMICOLON exp
     { Let($2, ((Id.gentmp Type.Unit), Type.Unit), $1, $3) }
+*/
+| semis
+    { $1 }
+
 | ARRAY_CREATE simple_exp simple_exp
     %prec prec_app
     { Array($1, $2, $3) }
@@ -178,6 +187,18 @@ pat:
 | IDENT COMMA IDENT
     { [addtyp (snd $1); addtyp (snd $3)] }
 
+semis:
+| exp SEMICOLON semis
+    { Let($2, ((Id.gentmp Type.Unit), Type.Unit), $1, $3) }
+| semitail
+    { $1 }
+
+semitail:
+| exp SEMICOLON exp
+    { Let($2, ((Id.gentmp Type.Unit), Type.Unit), $1, $3) }
+| exp SEMICOLON
+    { Let($2, ((Id.gentmp Type.Unit), Type.Unit), $1, Unit)}
+
 %%
 
 let exp (lexfun : Lexing.lexbuf -> token) (lexbuf : Lexing.lexbuf) =
@@ -186,4 +207,3 @@ let exp (lexfun : Lexing.lexbuf -> token) (lexbuf : Lexing.lexbuf) =
   with
     | Parsing.Parse_error -> 
       perr_handling lexbuf.Lexing.lex_curr_p; failwith "parse error"
-
