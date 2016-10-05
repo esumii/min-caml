@@ -96,8 +96,12 @@ let err_handler p x y =
        "\x1b[1mline %d, column %d\x1b[0m: @.\x1b[1m\x1b[31mError\x1b[39m\x1b[0m: This expression has type %s but an expression was expected of type %s @."
        (fst p)
        (snd p)
+       (*
        (Type.show (deref_typ y))
-       (Type.show (deref_typ x)));
+       (Type.show (deref_typ x)))
+       *)
+       (Type.show y) (Type.show x))
+    ;
     raise ex
 
 let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)
@@ -136,6 +140,7 @@ let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)
     | Let(p, (x, t), e1, e2) -> (* letの型推論 (caml2html: typing_let) *)
       err_handler p t (g env e1);
       g (M.add x t env) e2
+    (* | Var(_, x) when (M.mem x env && x = "m_invert") -> print_endline ("----"^(Type.show (M.find x env))); M.find x env *)
     | Var(_, x) when M.mem x env -> M.find x env (* 変数の型推論 (caml2html: typing_var) *)
     | Var(_, x) when M.mem x !extenv -> M.find x !extenv
     | Var(_, x) -> (* �����ѿ��η����� (caml2html: typing_extvar) *)
@@ -150,8 +155,11 @@ let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)
     | App(e, es) -> (* 関数適用の型推論 (caml2html: typing_app) *)
       (* TODO : エラーメッセージを改良する(parserの定義が結構変わる) *)
       let t = Type.gentyp () in
-      unify (g env e) (Type.Fun(List.map (g env) es, t));
-      t 
+      (try
+         unify (g env e) (Type.Fun(List.map (g env) es, t))
+       with
+         Unify (t1, t2) -> failwith "app error")
+    ;t 
     | Tuple(es) -> Type.Tuple(List.map (g env) es)
     | LetTuple(p, xts, e1, e2) ->
       err_handler p (Type.Tuple(List.map snd xts)) (g env e1);
