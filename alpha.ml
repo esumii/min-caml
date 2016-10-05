@@ -4,13 +4,15 @@ open KNormal
 
 let find x env = try M.find x env with Not_found -> x
 
-let rec g env = function (* ¦ÁÊÑ´¹¥ë¡¼¥Á¥óËÜÂÎ (caml2html: alpha_g) *)
+let rec g env = function (* ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ë¡¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (caml2html: alpha_g) *)
   | Unit -> Unit
   | Int(i) -> Int(i)
   | Float(d) -> Float(d)
   | Neg(x) -> Neg(find x env)
   | Add(x, y) -> Add(find x env, find y env)
   | Sub(x, y) -> Sub(find x env, find y env)
+  | Mul(x, y) -> Mul(find x env, find y env)
+  | Div(x, y) -> Div(find x env, find y env)
   | FNeg(x) -> FNeg(find x env)
   | FAdd(x, y) -> FAdd(find x env, find y env)
   | FSub(x, y) -> FSub(find x env, find y env)
@@ -18,11 +20,11 @@ let rec g env = function (* ¦ÁÊÑ´¹¥ë¡¼¥Á¥óËÜÂÎ (caml2html: alpha_g) *)
   | FDiv(x, y) -> FDiv(find x env, find y env)
   | IfEq(x, y, e1, e2) -> IfEq(find x env, find y env, g env e1, g env e2)
   | IfLE(x, y, e1, e2) -> IfLE(find x env, find y env, g env e1, g env e2)
-  | Let((x, t), e1, e2) -> (* let¤Î¦ÁÊÑ´¹ (caml2html: alpha_let) *)
+  | Let((x, t), e1, e2) -> (* letï¿½Î¦ï¿½ï¿½Ñ´ï¿½ (caml2html: alpha_let) *)
       let x' = Id.genid x in
       Let((x', t), g env e1, g (M.add x x' env) e2)
   | Var(x) -> Var(find x env)
-  | LetRec({ name = (x, t); args = yts; body = e1 }, e2) -> (* let rec¤Î¦ÁÊÑ´¹ (caml2html: alpha_letrec) *)
+  | LetRec({ name = (x, t); args = yts; body = e1 }, e2) -> (* let recï¿½Î¦ï¿½ï¿½Ñ´ï¿½ (caml2html: alpha_letrec) *)
       let env = M.add x (Id.genid x) env in
       let ys = List.map fst yts in
       let env' = M.add_list2 ys (List.map Id.genid ys) env in
@@ -32,7 +34,7 @@ let rec g env = function (* ¦ÁÊÑ´¹¥ë¡¼¥Á¥óËÜÂÎ (caml2html: alpha_g) *)
 	     g env e2)
   | App(x, ys) -> App(find x env, List.map (fun y -> find y env) ys)
   | Tuple(xs) -> Tuple(List.map (fun x -> find x env) xs)
-  | LetTuple(xts, y, e) -> (* LetTuple¤Î¦ÁÊÑ´¹ (caml2html: alpha_lettuple) *)
+  | LetTuple(xts, y, e) -> (* LetTupleï¿½Î¦ï¿½ï¿½Ñ´ï¿½ (caml2html: alpha_lettuple) *)
       let xs = List.map fst xts in
       let env' = M.add_list2 xs (List.map Id.genid xs) env in
       LetTuple(List.map (fun (x, t) -> (find x env', t)) xts,

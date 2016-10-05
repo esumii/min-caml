@@ -1,11 +1,13 @@
 type closure = { entry : Id.l; actual_fv : Id.t list }
-type t = (* ¥¯¥í¡¼¥¸¥ãÊÑ´¹¸å¤Î¼° (caml2html: closure_t) *)
+type t = (* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½Î¼ï¿½ (caml2html: closure_t) *)
   | Unit
   | Int of int
   | Float of float
   | Neg of Id.t
   | Add of Id.t * Id.t
   | Sub of Id.t * Id.t
+  | Mul of Id.t * Id.t
+  | Div of Id.t * Id.t
   | FNeg of Id.t
   | FAdd of Id.t * Id.t
   | FSub of Id.t * Id.t
@@ -32,7 +34,7 @@ type prog = Prog of fundef list * t
 let rec fv = function
   | Unit | Int(_) | Float(_) | ExtArray(_) -> S.empty
   | Neg(x) | FNeg(x) -> S.singleton x
-  | Add(x, y) | Sub(x, y) | FAdd(x, y) | FSub(x, y) | FMul(x, y) | FDiv(x, y) | Get(x, y) -> S.of_list [x; y]
+  | Add(x, y) | Sub(x, y) | Mul(x,y) | Div(x, y) | FAdd(x, y) | FSub(x, y) | FMul(x, y) | FDiv(x, y) | Get(x, y) -> S.of_list [x; y]
   | IfEq(x, y, e1, e2)| IfLE(x, y, e1, e2) -> S.add x (S.add y (S.union (fv e1) (fv e2)))
   | Let((x, t), e1, e2) -> S.union (fv e1) (S.remove x (fv e2))
   | Var(x) -> S.singleton x
@@ -44,13 +46,15 @@ let rec fv = function
 
 let toplevel : fundef list ref = ref []
 
-let rec g env known = function (* ¥¯¥í¡¼¥¸¥ãÊÑ´¹¥ë¡¼¥Á¥óËÜÂÎ (caml2html: closure_g) *)
+let rec g env known = function (* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ë¡¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (caml2html: closure_g) *)
   | KNormal.Unit -> Unit
   | KNormal.Int(i) -> Int(i)
   | KNormal.Float(d) -> Float(d)
   | KNormal.Neg(x) -> Neg(x)
   | KNormal.Add(x, y) -> Add(x, y)
   | KNormal.Sub(x, y) -> Sub(x, y)
+  | KNormal.Mul(x, y) -> Mul(x, y)
+  | KNormal.Div(x, y) -> Div(x, y)
   | KNormal.FNeg(x) -> FNeg(x)
   | KNormal.FAdd(x, y) -> FAdd(x, y)
   | KNormal.FSub(x, y) -> FSub(x, y)
@@ -60,36 +64,36 @@ let rec g env known = function (* ¥¯¥í¡¼¥¸¥ãÊÑ´¹¥ë¡¼¥Á¥óËÜÂÎ (caml2html: closure
   | KNormal.IfLE(x, y, e1, e2) -> IfLE(x, y, g env known e1, g env known e2)
   | KNormal.Let((x, t), e1, e2) -> Let((x, t), g env known e1, g (M.add x t env) known e2)
   | KNormal.Var(x) -> Var(x)
-  | KNormal.LetRec({ KNormal.name = (x, t); KNormal.args = yts; KNormal.body = e1 }, e2) -> (* ´Ø¿ôÄêµÁ¤Î¾ì¹ç (caml2html: closure_letrec) *)
-      (* ´Ø¿ôÄêµÁlet rec x y1 ... yn = e1 in e2¤Î¾ì¹ç¤Ï¡¢
-	 x¤Ë¼«Í³ÊÑ¿ô¤¬¤Ê¤¤(closure¤ò²ð¤µ¤ºdirect¤Ë¸Æ¤Ó½Ð¤»¤ë)
-	 ¤È²¾Äê¤·¡¢known¤ËÄÉ²Ã¤·¤Æe1¤ò¥¯¥í¡¼¥¸¥ãÊÑ´¹¤·¤Æ¤ß¤ë *)
+  | KNormal.LetRec({ KNormal.name = (x, t); KNormal.args = yts; KNormal.body = e1 }, e2) -> (* ï¿½Ø¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½ (caml2html: closure_letrec) *)
+      (* ï¿½Ø¿ï¿½ï¿½ï¿½ï¿½ï¿½let rec x y1 ... yn = e1 in e2ï¿½Î¾ï¿½ï¿½ï¿½ï¿½Ï¡ï¿½
+	 xï¿½Ë¼ï¿½Í³ï¿½Ñ¿ï¿½ï¿½ï¿½ï¿½Ê¤ï¿½(closureï¿½ï¿½ï¿½ð¤µ¤ï¿½directï¿½Ë¸Æ¤Ó½Ð¤ï¿½ï¿½ï¿½)
+	 ï¿½È²ï¿½ï¿½ê¤·ï¿½ï¿½knownï¿½ï¿½ï¿½É²Ã¤ï¿½ï¿½ï¿½e1ï¿½ò¥¯¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½Æ¤ß¤ï¿½ *)
       let toplevel_backup = !toplevel in
       let env' = M.add x t env in
       let known' = S.add x known in
       let e1' = g (M.add_list yts env') known' e1 in
-      (* ËÜÅö¤Ë¼«Í³ÊÑ¿ô¤¬¤Ê¤«¤Ã¤¿¤«¡¢ÊÑ´¹·ë²Ìe1'¤ò³ÎÇ§¤¹¤ë *)
-      (* Ãí°Õ: e1'¤Ëx¼«¿È¤¬ÊÑ¿ô¤È¤·¤Æ½Ð¸½¤¹¤ë¾ì¹ç¤Ïclosure¤¬É¬Í×!
-         (thanks to nuevo-namasute and azounoman; test/cls-bug2.ml»²¾È) *)
+      (* ï¿½ï¿½ï¿½ï¿½ï¿½Ë¼ï¿½Í³ï¿½Ñ¿ï¿½ï¿½ï¿½ï¿½Ê¤ï¿½ï¿½Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½ï¿½e1'ï¿½ï¿½ï¿½ï¿½Ç§ï¿½ï¿½ï¿½ï¿½ *)
+      (* ï¿½ï¿½ï¿½ï¿½: e1'ï¿½ï¿½xï¿½ï¿½ï¿½È¤ï¿½ï¿½Ñ¿ï¿½ï¿½È¤ï¿½ï¿½Æ½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½closureï¿½ï¿½É¬ï¿½ï¿½!
+         (thanks to nuevo-namasute and azounoman; test/cls-bug2.mlï¿½ï¿½ï¿½ï¿½) *)
       let zs = S.diff (fv e1') (S.of_list (List.map fst yts)) in
       let known', e1' =
 	if S.is_empty zs then known', e1' else
-	(* ÂÌÌÜ¤À¤Ã¤¿¤é¾õÂÖ(toplevel¤ÎÃÍ)¤òÌá¤·¤Æ¡¢¥¯¥í¡¼¥¸¥ãÊÑ´¹¤ò¤ä¤êÄ¾¤¹ *)
+	(* ï¿½ï¿½ï¿½Ü¤ï¿½ï¿½Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(toplevelï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½á¤·ï¿½Æ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ *)
 	(Format.eprintf "free variable(s) %s found in function %s@." (Id.pp_list (S.elements zs)) x;
 	 Format.eprintf "function %s cannot be directly applied in fact@." x;
 	 toplevel := toplevel_backup;
 	 let e1' = g (M.add_list yts env') known e1 in
 	 known, e1') in
-      let zs = S.elements (S.diff (fv e1') (S.add x (S.of_list (List.map fst yts)))) in (* ¼«Í³ÊÑ¿ô¤Î¥ê¥¹¥È *)
-      let zts = List.map (fun z -> (z, M.find z env')) zs in (* ¤³¤³¤Ç¼«Í³ÊÑ¿ôz¤Î·¿¤ò°ú¤¯¤¿¤á¤Ë°ú¿ôenv¤¬É¬Í× *)
-      toplevel := { name = (Id.L(x), t); args = yts; formal_fv = zts; body = e1' } :: !toplevel; (* ¥È¥Ã¥×¥ì¥Ù¥ë´Ø¿ô¤òÄÉ²Ã *)
+      let zs = S.elements (S.diff (fv e1') (S.add x (S.of_list (List.map fst yts)))) in (* ï¿½ï¿½Í³ï¿½Ñ¿ï¿½ï¿½Î¥ê¥¹ï¿½ï¿½ *)
+      let zts = List.map (fun z -> (z, M.find z env')) zs in (* ï¿½ï¿½ï¿½ï¿½ï¿½Ç¼ï¿½Í³ï¿½Ñ¿ï¿½zï¿½Î·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë°ï¿½ï¿½ï¿½envï¿½ï¿½É¬ï¿½ï¿½ *)
+      toplevel := { name = (Id.L(x), t); args = yts; formal_fv = zts; body = e1' } :: !toplevel; (* ï¿½È¥Ã¥×¥ï¿½ï¿½Ù¥ï¿½ï¿½Ø¿ï¿½ï¿½ï¿½ï¿½É²ï¿½ *)
       let e2' = g env' known' e2 in
-      if S.mem x (fv e2') then (* x¤¬ÊÑ¿ô¤È¤·¤Æe2'¤Ë½Ð¸½¤¹¤ë¤« *)
-	MakeCls((x, t), { entry = Id.L(x); actual_fv = zs }, e2') (* ½Ð¸½¤·¤Æ¤¤¤¿¤éºï½ü¤·¤Ê¤¤ *)
+      if S.mem x (fv e2') then (* xï¿½ï¿½ï¿½Ñ¿ï¿½ï¿½È¤ï¿½ï¿½ï¿½e2'ï¿½Ë½Ð¸ï¿½ï¿½ï¿½ï¿½ë¤« *)
+	MakeCls((x, t), { entry = Id.L(x); actual_fv = zs }, e2') (* ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Æ¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¤ï¿½ *)
       else
 	(Format.eprintf "eliminating closure(s) %s@." x;
-	 e2') (* ½Ð¸½¤·¤Ê¤±¤ì¤ÐMakeCls¤òºï½ü *)
-  | KNormal.App(x, ys) when S.mem x known -> (* ´Ø¿ôÅ¬ÍÑ¤Î¾ì¹ç (caml2html: closure_app) *)
+	 e2') (* ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Ê¤ï¿½ï¿½ï¿½ï¿½ï¿½MakeClsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ *)
+  | KNormal.App(x, ys) when S.mem x known -> (* ï¿½Ø¿ï¿½Å¬ï¿½Ñ¤Î¾ï¿½ï¿½ï¿½ (caml2html: closure_app) *)
       Format.eprintf "directly applying %s@." x;
       AppDir(Id.L(x), ys)
   | KNormal.App(f, xs) -> AppCls(f, xs)
