@@ -32,6 +32,8 @@ let rec deref_term = function
   | Neg(p, e) -> Neg(p, deref_term e)
   | Add(p, e1, e2) -> Add(p, deref_term e1, deref_term e2)
   | Sub(p, e1, e2) -> Sub(p, deref_term e1, deref_term e2)
+  | Mul(p, e1, e2) -> Mul(p, deref_term e1, deref_term e2)
+  | Div(p, e1, e2) -> Div(p, deref_term e1, deref_term e2)
   | Eq(p, e1, e2) -> Eq(p, deref_term e1, deref_term e2)
   | LE(p, e1, e2) -> LE(p, deref_term e1, deref_term e2)
   | FNeg(p, e) -> FNeg(p, deref_term e)
@@ -111,7 +113,7 @@ let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)
     | Neg(p, e) ->
       err_handler p Type.Int (g env e);
       Type.Int
-    | Add(p, e1, e2) | Sub(p, e1, e2) -> (* 足し算（と引き算）の型推論 (caml2html: typing_add) *)
+    | Add(p, e1, e2) | Sub(p, e1, e2) | Mul(p, e1, e2) | Div(p, e1, e2) -> (* 足し算（と引き算）の型推論 (caml2html: typing_add) *)
       err_handler p Type.Int (g env e1);
       err_handler p Type.Int (g env e2);
       Type.Int

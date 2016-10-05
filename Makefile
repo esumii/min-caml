@@ -11,6 +11,7 @@ PACKS = ppx_deriving.std
 OCAMLLDFLAGS = -warn-error -31
 # OCAMLYACC = menhir
 # YFLAGS = --lalr
+OCAMLDOT = ~/Downloads/ocamldot/ocamldot
 
 
 default: debug-code top $(RESULT) do_test
@@ -21,6 +22,12 @@ $(RESULT): debug-code top
 ##   .mli�������ѥ��뤵���Ƥ��ޤ��Τǡ�ξ���Ȥ�default:�α��դ���������
 ##   ��make���ˡ�.mli���ѹ������Ƥ����Τǡ�.ml���ƥ����ѥ��뤵����
 clean:: nobackup
+
+dep:
+	ocamldep *.ml | $(OCAMLDOT) | dot -Tpng -o dep.png; ocamldep *.ml | $(OCAMLDOT) -fullgraph | dot -Tpdf -o dep.pdf
+
+depc:
+	rm dep.png dep.pdf
 
 # ���⤷��������¤�����顢�����˹��碌���Ѥ���
 SOURCES = float.c type.ml id.ml m.ml s.ml \
