@@ -26,5 +26,7 @@ type t =
   | ExtFunApp of Id.t * Id.t list
 and fundef = { name : Id.t * Type.t; args : (Id.t * Type.t) list; body : t }
 
+val show : t -> string
 val fv : t -> S.t
 val f : Syntax.t -> t
+

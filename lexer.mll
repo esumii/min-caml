@@ -10,7 +10,7 @@ let end_of_previousline = ref 0
 let get_pos lexbuf = (!line, (Lexing.lexeme_start lexbuf)-(!end_of_previousline))
 }
 
-(* ����ɽ����ά�� *)
+
 let space = [' ' '\t']
 let newline = ['\n' '\r']
 let digit = ['0'-'9']
@@ -88,6 +88,8 @@ rule token = parse
     { IDENT(get_pos lexbuf, Id.gentmp Type.Unit) }
 | "create_array" (* [XX] ad hoc *)
     { ARRAY_CREATE(get_pos lexbuf) }
+| "Array.create"
+    { ARRAY_CREATE(get_pos lexbuf) }    
 | '.'
     { DOT(get_pos lexbuf) }
 | "<-"

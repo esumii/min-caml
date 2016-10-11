@@ -1,8 +1,5 @@
 open Asm
 
-(* for register coalescing *)
-(* [XXX] Call�����ä��顢������������̵��̣�Ȥ������ո��̤ʤΤ��ɤ��ʤ���
-         ���Τ����ˡ�Call�����ä����ɤ����פ��֤��ͤ���1���Ǥ˴ޤ��롣 *)
 let rec target' src (dest, t) = function
   | Mr(x) when x = src && is_reg dest ->
       assert (t <> Type.Unit);

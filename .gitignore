@@ -3,4 +3,5 @@
 *.o
 *.s
 *.DS_Store
+*.dSYM
 .depend

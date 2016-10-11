@@ -60,14 +60,13 @@ let perr_handling pos =
 %left prec_app
 %left DOT
 
-/* (* ���ϵ��������� *) */
 %type <Syntax.t> exp
 %start exp
 
 %%
 
 
-simple_exp: /* (* ���̤��Ĥ��ʤ��Ƥ��ؿ��ΰ����ˤʤ��뼰 (caml2html: parser_simple) *) */
+simple_exp: 
 | LPAREN exp RPAREN
     { $2 }
 | LPAREN RPAREN

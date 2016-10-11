@@ -1,1 +1,1 @@
-Minips/Makefile
+x86/Makefile

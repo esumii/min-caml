@@ -1,10 +1,10 @@
-type pos = int * int (* for error message: (line number, column number) *)
+type pos = int * int
 [@@deriving show]
 
-type t = string  (* �ѿ���̾�� (caml2html: id_t) *)
+type t = string
 [@@deriving show]
 
-type l = L of string (* �ȥåץ��٥��ؿ��䥰�����Х������Υ��٥� (caml2html: id_l) *)
+type l = L of string
 [@@deriving show]
 
 let dmy_pos = (-1, -1)

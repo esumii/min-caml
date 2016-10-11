@@ -31,7 +31,12 @@ CPU実験で配布されたレイトレーサープログラムの, min-camlで�
     * bool型を全部int型でやっていく? -> 厳しいことがわかった
     * 全部bool型でやっていく -> とりあえずappの型が合わないのでやっていく
       * ->  ```create_array```で落ちてた
+      * -> lexerの段階で```Array.make```? にエイリアスする
+      * -> 型があう
+    * 結局 ```true``` と ```false``` はmincamlのデフォルトで行った.
 
+#### バックエンド
+* 
 
 #### その他のメモ
 * /doc/raytracer にあるtestrt.mlがtrueとfalseだけ書きかえたもの

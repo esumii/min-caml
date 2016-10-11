@@ -1,5 +1,8 @@
 let limit = ref 1000
 
+let syntax_option = ref false
+let knormal_option = ref false
+
 let rec iter n e = (* ��Ŭ�������򤯤꤫���� (caml2html: main_iter) *)
   Format.eprintf "iteration %d@." n;
   if n = 0 then e else
@@ -7,7 +10,7 @@ let rec iter n e = (* ��Ŭ�������򤯤꤫���� (caml2htm
     if e = e' then e else
       iter (n - 1) e'
 
-let lexbuf outchan l = (* �Хåե��򥳥��ѥ��뤷�ƥ������ͥ��ؽ��Ϥ��� (caml2html: main_lexbuf) *)
+let lexbuf outchan l = 
   Id.counter := 0;
   Typing.extenv := M.empty;
   Emit.f outchan
@@ -17,13 +20,11 @@ let lexbuf outchan l = (* �Хåե��򥳥��ѥ��뤷�ƥ�����
              (Closure.f
                 (iter !limit
                    (Alpha.f
-                      (KNormal.f
-                         (Typing.f
-                            (*
-                            (let ast = Parser.exp Lexer.token l in
-                              print_string (Syntax.show ast); ast) *)
-                              (Parser.exp Lexer.token l)
-                         ))))))))
+                      (let ast =  KNormal.f
+                           (Typing.f 
+                              (let ast = Parser.exp Lexer.token l in
+                               if !syntax_option then print_endline (Syntax.show ast) else () ; ast))
+                       in if !knormal_option then print_endline (KNormal.show ast) else () ; ast)))))))
 
 let string s = lexbuf stdout (Lexing.from_string s) (* ʸ�����򥳥��ѥ��뤷��ɸ�����Ϥ�ɽ������ (caml2html: main_string) *)
 
@@ -36,11 +37,13 @@ let file f = (* �ե������򥳥��ѥ��뤷�ƥե�����
     close_out outchan;
   with e -> (close_in inchan; close_out outchan; raise e)
 
-let () = (* �������饳���ѥ����μ¹Ԥ����Ϥ����� (caml2html: main_entry) *)
+let () =
   let files = ref [] in
   Arg.parse
     [("-inline", Arg.Int(fun i -> Inline.threshold := i), "maximum size of functions inlined");
-     ("-iter", Arg.Int(fun i -> limit := i), "maximum number of optimizations iterated")]
+     ("-iter", Arg.Int(fun i -> limit := i), "maximum number of optimizations iterated");
+     ("-syntax", Arg.Unit(fun () -> syntax_option := true), "dump ast of syntax");
+     ("-knormal", Arg.Unit(fun () -> knormal_option := true), "dump ast of knormal")]
     (fun s -> files := !files @ [s])
     ("Mitou Min-Caml Compiler (C) Eijiro Sumii\n" ^
      Printf.sprintf "usage: %s [-inline m] [-iter n] ...filenames without \".ml\"..." Sys.argv.(0));
