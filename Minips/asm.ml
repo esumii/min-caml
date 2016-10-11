@@ -1,11 +1,10 @@
-(* PowerPC assembly with a few virtual instructions *)
+(* MIniPS assembly with a few virtual instructions *)
 
 type id_or_imm = V of Id.t | C of int
 type t = 
   | Ans of exp
   | Let of (Id.t * Type.t) * exp * t
 and exp = 
-(* fd sa *)
   | Nop
   | Li of int
   | FLi of Id.l

@@ -31,13 +31,13 @@ let expand xts ini addf addi =
     (fun (offset, acc) x t ->
       (offset + 4, addi x t offset acc))
 
-let rec g env = function (* ���β��ۥޥ��󥳡������� (caml2html: virtual_g) *)
+let rec g env = function 
   | Closure.Unit -> Ans(Nop)
   | Closure.Int(i) -> Ans(Set(i))
   | Closure.Float(d) ->
       let l =
 	try
-	  (* ���Ǥ������ơ��֥��ˤ��ä��������� *)
+	  
 	  let (l, _) = List.find (fun (_, d') -> d = d') !data in
 	  l
 	with Not_found ->

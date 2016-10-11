@@ -1,1 +1,1 @@
-x86/asm.mli
+Minips/asm.mli

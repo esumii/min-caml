@@ -1,1 +1,1 @@
-x86/asm.ml
+Minips/asm.ml

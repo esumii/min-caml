@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+ln -sf Minips/{*.ml{,i},libmincaml.S} .
+cd shootout; ln -sf Minips/Makefile .
+cd ../bytemark; ln -sf Minips/Makefile .
+cd ../min-rt; ln -sf Minips/globals.s .
+cd ..

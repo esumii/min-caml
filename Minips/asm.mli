@@ -34,8 +34,8 @@ and exp =
   (* closure address, integer arguments, and float arguments *)
   | CallCls of Id.t * Id.t list * Id.t list
   | CallDir of Id.l * Id.t list * Id.t list
-  | Save of Id.t * Id.t (* �쥸�����ѿ����ͤ򥹥��å��ѿ�����¸ *)
-  | Restore of Id.t (* �����å��ѿ������ͤ����� *)
+  | Save of Id.t * Id.t
+  | Restore of Id.t
 type fundef =
     { name : Id.l; args : Id.t list; fargs : Id.t list; body : t; ret : Type.t }
 type prog = Prog of (Id.l * float) list * fundef list * t

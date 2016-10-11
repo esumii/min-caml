@@ -1,1 +1,1 @@
-x86/regAlloc.ml
+Minips/regAlloc.ml

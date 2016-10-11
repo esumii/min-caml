@@ -86,7 +86,7 @@ rule token = parse
     { COMMA }
 | '_'
     { IDENT(get_pos lexbuf, Id.gentmp Type.Unit) }
-| "Array.create" (* [XX] ad hoc *)
+| "create_array" (* [XX] ad hoc *)
     { ARRAY_CREATE(get_pos lexbuf) }
 | '.'
     { DOT(get_pos lexbuf) }

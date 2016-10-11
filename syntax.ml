@@ -23,7 +23,7 @@ type t =
   | Let of Id.pos * (Id.t * Type.t) * t * t
   | Var of Id.pos * Id.t
   | LetRec of Id.pos * fundef * t
-  | App of t * (t list)
+  | App of Id.pos * t * (t list)
   | Tuple of (t list)
   | LetTuple of Id.pos * (Id.t * Type.t) list * t * t
   | Array of Id.pos * t * t

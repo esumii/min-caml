@@ -48,7 +48,7 @@ let rec deref_term = function
                 args = List.map deref_id_typ yts;
                 body = deref_term e1 },
            deref_term e2)
-  | App(e, es) -> App(deref_term e, List.map deref_term es)
+  | App(p, e, es) -> App(p, deref_term e, List.map deref_term es)
   | Tuple(es) -> Tuple(List.map deref_term es)
   | LetTuple(p, xts, e1, e2) -> LetTuple(p, List.map deref_id_typ xts, deref_term e1, deref_term e2)
   | Array(p, e1, e2) -> Array(p, deref_term e1, deref_term e2)
@@ -98,8 +98,8 @@ let err_handler p x y =
        (snd p)
        (*
        (Type.show (deref_typ y))
-       (Type.show (deref_typ x)))
-       *)
+       (Type.show (deref_typ x)))*)
+
        (Type.show y) (Type.show x))
     ;
     raise ex
@@ -140,7 +140,7 @@ let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)
     | Let(p, (x, t), e1, e2) -> (* letの型推論 (caml2html: typing_let) *)
       err_handler p t (g env e1);
       g (M.add x t env) e2
-    (* | Var(_, x) when (M.mem x env && x = "m_invert") -> print_endline ("----"^(Type.show (M.find x env))); M.find x env *)
+    (* | Var(p, x) when (M.mem x env && x = "d_vec") -> let line = fst p in if line = 2302 then print_endline ("----"^(string_of_int line)^(Type.show (deref_typ (M.find x env)))); M.find x env *)
     | Var(_, x) when M.mem x env -> M.find x env (* 変数の型推論 (caml2html: typing_var) *)
     | Var(_, x) when M.mem x !extenv -> M.find x !extenv
     | Var(_, x) -> (* �����ѿ��η����� (caml2html: typing_extvar) *)
@@ -152,14 +152,10 @@ let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)
       let env = M.add x t env in
       err_handler p t (Type.Fun(List.map snd yts, g (M.add_list yts env) e1));
       g env e2
-    | App(e, es) -> (* 関数適用の型推論 (caml2html: typing_app) *)
-      (* TODO : エラーメッセージを改良する(parserの定義が結構変わる) *)
+    | App(p ,e, es) -> (* 関数適用の型推論 (caml2html: typing_app) *)
       let t = Type.gentyp () in
-      (try
-         unify (g env e) (Type.Fun(List.map (g env) es, t))
-       with
-         Unify (t1, t2) -> failwith "app error")
-    ;t 
+      err_handler p (g env e) (Type.Fun(List.map (g env) es, t));
+      t 
     | Tuple(es) -> Type.Tuple(List.map (g env) es)
     | LetTuple(p, xts, e1, e2) ->
       err_handler p (Type.Tuple(List.map snd xts)) (g env e1);

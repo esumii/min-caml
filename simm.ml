@@ -1,1 +1,1 @@
-x86/simm.ml
+Minips/simm.ml

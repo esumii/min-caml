@@ -55,7 +55,7 @@ let perr_handling pos =
 %left COMMA
 %left EQUAL LESS_GREATER LESS GREATER LESS_EQUAL GREATER_EQUAL
 %left PLUS MINUS PLUS_DOT MINUS_DOT
-%left AST_DOT SLASH_DOT
+%left AST SLASH AST_DOT SLASH_DOT
 %right prec_unary_minus
 %left prec_app
 %left DOT
@@ -65,6 +65,7 @@ let perr_handling pos =
 %start exp
 
 %%
+
 
 simple_exp: /* (* ���̤��Ĥ��ʤ��Ƥ��ؿ��ΰ����ˤʤ��뼰 (caml2html: parser_simple) *) */
 | LPAREN exp RPAREN
@@ -135,7 +136,7 @@ exp: /* (* ���̤μ� (caml2html: parser_exp) *) */
     { LetRec($1, $3, $5) }
 | exp actual_args
     %prec prec_app
-    { App($1, $2) }
+    { App(((Parsing.symbol_start_pos ()).Lexing.pos_lnum, -10) , $1, $2) }
 | elems
     { Tuple($1) }
 | LET LPAREN pat RPAREN EQUAL exp IN exp
