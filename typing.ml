@@ -96,11 +96,9 @@ let err_handler p x y =
        "\x1b[1mline %d, column %d\x1b[0m: @.\x1b[1m\x1b[31mError\x1b[39m\x1b[0m: This expression has type %s but an expression was expected of type %s @."
        (fst p)
        (snd p)
-       (*
+    
        (Type.show (deref_typ y))
-       (Type.show (deref_typ x)))*)
-
-       (Type.show y) (Type.show x))
+       (Type.show (deref_typ x)))
     ;
     raise ex
 
@@ -143,7 +141,7 @@ let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)
     (* | Var(p, x) when (M.mem x env && x = "d_vec") -> let line = fst p in if line = 2302 then print_endline ("----"^(string_of_int line)^(Type.show (deref_typ (M.find x env)))); M.find x env *)
     | Var(_, x) when M.mem x env -> M.find x env (* 変数の型推論 (caml2html: typing_var) *)
     | Var(_, x) when M.mem x !extenv -> M.find x !extenv
-    | Var(_, x) -> (* �����ѿ��η����� (caml2html: typing_extvar) *)
+    | Var(_, x) -> 
       Format.eprintf "free variable %s assumed as external@." x;
       let t = Type.gentyp () in
       extenv := M.add x t !extenv;

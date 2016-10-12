@@ -135,7 +135,8 @@ exp: /* (* ���̤μ� (caml2html: parser_exp) *) */
     { LetRec($1, $3, $5) }
 | exp actual_args
     %prec prec_app
-    { App(((Parsing.symbol_start_pos ()).Lexing.pos_lnum, -10) , $1, $2) }
+    { let pos = Parsing.symbol_start_pos () in
+        App(((pos.Lexing.pos_lnum, (pos.Lexing.pos_cnum - pos.Lexing.pos_bol))) , $1, $2) }
 | elems
     { Tuple($1) }
 | LET LPAREN pat RPAREN EQUAL exp IN exp
