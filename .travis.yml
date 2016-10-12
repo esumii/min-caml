@@ -1,0 +1,8 @@
+language: python
+python:
+  - '2.7'
+  install: "pip install -r .install.txt; bash -ex .travis-ocaml.sh"
+  sudo: required
+  script: make do_test
+  env:
+    - OCAML_VERSION=4.03 DEPOPTS=ppx_deriving
