@@ -3,7 +3,7 @@ let limit = ref 1000
 let syntax_option = ref false
 let knormal_option = ref false
 
-let rec iter n e = (* ��Ŭ�������򤯤꤫���� (caml2html: main_iter) *)
+let rec iter n e = 
   Format.eprintf "iteration %d@." n;
   if n = 0 then e else
     let e' = Elim.f (ConstFold.f (Inline.f (Assoc.f (Beta.f e)))) in
@@ -26,9 +26,9 @@ let lexbuf outchan l =
                                if !syntax_option then print_endline (Syntax.show ast) else () ; ast))
                        in if !knormal_option then print_endline (KNormal.show ast) else () ; ast)))))))
 
-let string s = lexbuf stdout (Lexing.from_string s) (* ʸ�����򥳥��ѥ��뤷��ɸ�����Ϥ�ɽ������ (caml2html: main_string) *)
+let string s = lexbuf stdout (Lexing.from_string s)
 
-let file f = (* �ե������򥳥��ѥ��뤷�ƥե������˽��Ϥ��� (caml2html: main_file) *)
+let file f = 
   let inchan = open_in (f ^ ".ml") in
   let outchan = open_out (f ^ ".s") in
   try

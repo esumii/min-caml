@@ -1,1 +1,23 @@
 PKG ppx_deriving.std
+S aplpha
+S asm_
+S assoc
+S beta
+S closure
+S constFold
+S elim
+S emit
+S id
+S inline
+S kNormal
+S m
+S main
+S regAlloc
+S s
+S simm
+S syntax
+S type
+S typint
+S virtual
+S Minips/**
+

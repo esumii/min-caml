@@ -1,7 +1,7 @@
 # Sumii's Makefile for Min-Caml (for GNU Make)
 # 
-# ack.ml�ʤɤΥƥ��ȥץ���������test/���Ѱդ���make do_test���¹Ԥ����ȡ�
-# min-caml��ocaml�ǥ����ѥ��롦�¹Ԥ������̤���ư�����Ӥ��ޤ���
+# ack.ml???��??????????????test/????????make do_test???????????
+# min-caml??ocaml????????????????????????????????????
 
 RESULT = min-caml
 NCSUFFIX = .opt
@@ -10,18 +10,12 @@ CFLAGS = -g -O2 -Wall
 PACKS = ppx_deriving.std
 OCAMLLDFLAGS = -warn-error -31
 # OCAMLYACC = menhir
-# YFLAGS = --lalr
 OCAMLDOT = ~/Downloads/ocamldot/ocamldot
 
-
 default: debug-code top $(RESULT) do_test
-$(RESULT): debug-code top
-## [��ʬ�ʽ������Ѥ���]
-## ��OCamlMakefile���Ť�GNU Make�ΥХ�(?)�Ǿ��Τ褦��������ɬ��(??)
-## ��OCamlMakefile�Ǥ�debug-code��native-code�Τ��줾����
-##   .mli�������ѥ��뤵���Ƥ��ޤ��Τǡ�ξ���Ȥ�default:�α��դ���������
-##   ��make���ˡ�.mli���ѹ������Ƥ����Τǡ�.ml���ƥ����ѥ��뤵����
-clean:: nobackup
+$(RESULT): debug-code #top
+
+clean:: nobackup cleand 
 
 dep:
 	ocamldep *.ml | $(OCAMLDOT) | dot -Tpng -o dep.png; ocamldep *.ml | $(OCAMLDOT) -fullgraph | dot -Tpdf -o dep.pdf
@@ -29,7 +23,6 @@ dep:
 depc:
 	rm dep.png dep.pdf
 
-# ���⤷��������¤�����顢�����˹��碌���Ѥ���
 SOURCES = float.c type.ml id.ml m.ml s.ml \
 syntax.ml parser.mly lexer.mll typing.mli typing.ml kNormal.mli kNormal.ml \
 alpha.mli alpha.ml beta.mli beta.ml assoc.mli assoc.ml \
@@ -38,7 +31,8 @@ closure.mli closure.ml asm.mli asm.ml virtual.mli virtual.ml \
 simm.mli simm.ml regAlloc.mli regAlloc.ml emit.mli emit.ml \
 main.mli main.ml
 
-# ���ƥ��ȥץ������ब�������顢���������䤹
+#SOURCES = src/$(FILES)
+
 TESTS = print sum-tail gcd sum fib ack even-odd \
 adder funcomp cls-rec cls-bug cls-bug2 cls-reg-bug \
 shuffle spill spill2 spill3 join-stack join-stack2 join-stack3 \
