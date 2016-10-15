@@ -1,7 +1,7 @@
 (* http://smpl.seesaa.net/article/9342186.html#comment *)
 let rec f _ = 12345 in
 let rec g y = y + 1 in
-let z = Array.create 10 1 in
+let z = Array.make 10 1 in
 let x = f () in
 let y = 67890 in
 let z0 = z.(0) in

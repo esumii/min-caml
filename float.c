@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <caml/mlvalues.h>
 #include <caml/alloc.h>
 
 typedef union {
-  int32 i[2];
+  int32_t i[2];
   double d;
 } dbl;
 

@@ -287,13 +287,13 @@ in
       let refltype = read_int () in
       let isrot_p = read_int () in
 
-      let abc = Array.create 3 0.0 in
+      let abc = Array.make 3 0.0 in
 
       abc.(0) <- read_float ();
       abc.(1) <- read_float (); (* 5 *)
       abc.(2) <- read_float ();
       
-      let xyz = Array.create 3 0.0 in
+      let xyz = Array.make 3 0.0 in
 
       xyz.(0) <- read_float ();
       xyz.(1) <- read_float ();
@@ -301,18 +301,18 @@ in
 
       let m_invert = 0.0 > (read_float ()) in (* 10 *)
 
-      let reflparam = Array.create 2 0.0 in
+      let reflparam = Array.make 2 0.0 in
       
       reflparam.(0) <- read_float (); (* diffuse *)
       reflparam.(1) <- read_float (); (* hilight *)
 
-      let color = Array.create 3 0.0 in
+      let color = Array.make 3 0.0 in
 
       color.(0) <- read_float ();
       color.(1) <- read_float ();
       color.(2) <- read_float (); (* 15 *)
 
-      let rotation = Array.create 3 0.0 in
+      let rotation = Array.make 3 0.0 in
       if isrot_p <> 0 then
 	(
 	 rotation.(0) <- rad (read_float ());
@@ -424,7 +424,7 @@ in
 (*MINCAML*)let rec read_net_item length =
 (*NOMINCAML let rec read_net_item length =*)
   let item = read_int () in
-  if item = -1 then Array.create (length + 1) (-1)
+  if item = -1 then Array.make (length + 1) (-1)
   else
     let v = read_net_item (length + 1) in
     (v.(length) <- item; v)
@@ -434,7 +434,7 @@ in
 (*NOMINCAML let rec read_or_network length =*)
   let net = read_net_item 0 in
   if net.(0) = -1 then 
-    Array.create (length + 1) net
+    Array.make (length + 1) net
   else
     let v = read_or_network (length + 1) in
     (v.(length) <- net; v)

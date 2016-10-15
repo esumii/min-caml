@@ -7,6 +7,7 @@ RESULT = min-caml
 NCSUFFIX = .opt
 CC = gcc
 CFLAGS = -g -O2 -Wall
+OCAMLLDFLAGS=-warn-error -31
 
 default: debug-code top $(RESULT) do_test
 $(RESULT): debug-code top
