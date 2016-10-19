@@ -26,9 +26,9 @@ let lexbuf outchan l =
                              (let ast =  KNormal.f
                                   (Typing.f 
                                      (let ast = Parser.exp Lexer.token l in
-                                      if !syntax_option then print_endline (Syntax.show ast) else () ; ast))
-                              in if !knormal_option then print_endline (KNormal.show ast) else () ; ast)
-                         in if !alpha_option then print_endline (KNormal.show ast) else (); ast)
+                                      if !syntax_option then print_endline ("syntax : \n" ^ (Syntax.show ast)) else () ; ast))
+                              in if !knormal_option then print_endline ("knormal : \n" ^ (KNormal.show ast)) else () ; ast)
+                         in if !alpha_option then print_endline ("alpha : \n" ^ (KNormal.show ast)) else (); ast)
                     in if !cse_option then print_endline ("cse : \n" ^ (KNormal.show ast)) else (); ast)
                 )))))
 
