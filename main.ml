@@ -2,6 +2,8 @@ let limit = ref 1000
 
 let syntax_option = ref false
 let knormal_option = ref false
+let alpha_option = ref false
+let cse_option = ref false
 
 let rec iter n e = 
   Format.eprintf "iteration %d@." n;
@@ -19,12 +21,16 @@ let lexbuf outchan l =
           (Virtual.f
              (Closure.f
                 (iter !limit
-                   (Alpha.f
-                      (let ast =  KNormal.f
-                           (Typing.f 
-                              (let ast = Parser.exp Lexer.token l in
-                               if !syntax_option then print_endline (Syntax.show ast) else () ; ast))
-                       in if !knormal_option then print_endline (KNormal.show ast) else () ; ast)))))))
+                   (let ast = Cse.f
+                        (let ast = Alpha.f
+                             (let ast =  KNormal.f
+                                  (Typing.f 
+                                     (let ast = Parser.exp Lexer.token l in
+                                      if !syntax_option then print_endline (Syntax.show ast) else () ; ast))
+                              in if !knormal_option then print_endline (KNormal.show ast) else () ; ast)
+                         in if !alpha_option then print_endline (KNormal.show ast) else (); ast)
+                    in if !cse_option then print_endline ("cse : \n" ^ (KNormal.show ast)) else (); ast)
+                )))))
 
 let string s = lexbuf stdout (Lexing.from_string s)
 
@@ -43,7 +49,9 @@ let () =
     [("-inline", Arg.Int(fun i -> Inline.threshold := i), "maximum size of functions inlined");
      ("-iter", Arg.Int(fun i -> limit := i), "maximum number of optimizations iterated");
      ("-syntax", Arg.Unit(fun () -> syntax_option := true), "dump ast of syntax");
-     ("-knormal", Arg.Unit(fun () -> knormal_option := true), "dump ast of knormal")]
+     ("-knormal", Arg.Unit(fun () -> knormal_option := true), "dump ast of knormal");
+     ("-alpha", Arg.Unit(fun () -> alpha_option := true), "dump ast of alpha");
+     ("-cse", Arg.Unit(fun () -> cse_option := true), "dump ast of cse")]
     (fun s -> files := !files @ [s])
     ("Mitou Min-Caml Compiler (C) Eijiro Sumii\n" ^
      Printf.sprintf "usage: %s [-inline m] [-iter n] ...filenames without \".ml\"..." Sys.argv.(0));
