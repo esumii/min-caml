@@ -144,7 +144,7 @@ and g' dest cont regenv = function (* 各命令のレジスタ割り当て (caml2html: regal
       else
 	g'_call dest cont regenv exp (fun ys zs -> CallCls(find x Type.Int regenv, ys, zs)) ys zs
   | CallDir(Id.L(x), ys, zs) as exp ->
-      if List.length ys > Array.length regs - 1 || List.length zs > Array.length fregs - 2 then
+      if List.length ys > Array.length regs - 1 || List.length zs > Array.length fregs - 1 then
 	failwith (Format.sprintf "cannot allocate registers for arugments to %s" x)
       else
 	g'_call dest cont regenv exp (fun ys zs -> CallDir(Id.L(x), ys, zs)) ys zs
