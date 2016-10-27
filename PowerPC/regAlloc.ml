@@ -139,12 +139,12 @@ and g' dest cont regenv = function (* 各命令のレジスタ割り当て (caml2html: regal
   | IfFEq(x, y, e1, e2) as exp -> g'_if dest cont regenv exp (fun e1' e2' -> IfFEq(find x Type.Float regenv, find y Type.Float regenv, e1', e2')) e1 e2
   | IfFLE(x, y, e1, e2) as exp -> g'_if dest cont regenv exp (fun e1' e2' -> IfFLE(find x Type.Float regenv, find y Type.Float regenv, e1', e2')) e1 e2
   | CallCls(x, ys, zs) as exp ->
-      if List.length ys > Array.length regs - 1 || List.length zs > Array.length fregs then
+      if List.length ys > Array.length regs - 2 || List.length zs > Array.length fregs - 1 then
 	failwith (Format.sprintf "cannot allocate registers for arugments to %s" x)
       else
 	g'_call dest cont regenv exp (fun ys zs -> CallCls(find x Type.Int regenv, ys, zs)) ys zs
   | CallDir(Id.L(x), ys, zs) as exp ->
-      if List.length ys > Array.length regs || List.length zs > Array.length fregs then
+      if List.length ys > Array.length regs - 1 || List.length zs > Array.length fregs - 2 then
 	failwith (Format.sprintf "cannot allocate registers for arugments to %s" x)
       else
 	g'_call dest cont regenv exp (fun ys zs -> CallDir(Id.L(x), ys, zs)) ys zs
