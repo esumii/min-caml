@@ -25,6 +25,15 @@ http://esumii.github.io/min-caml/paper.pdf (English academic paper)
    though it takes time because of OCaml bytecode (for testing by
    comparison), not MinCaml
 
+[FAQ 1] Is there an x86_64 version?
+
+[A] There is, but it is left as an exercise for students and _not_
+included in this distribution.
+
+[FAQ 2] Is there a version that emits C code?
+
+[A] See above.
+
 [Updates on October 9, 2013]
 
 - Moved from SourceForge https://sourceforge.net/p/min-caml/code/ to

@@ -106,7 +106,7 @@ let rec g dest cont regenv = function (* 命令列のレジスタ割り当て (caml2html: re
 	  let (e2', regenv2) = g dest cont (add x r (M.remove y regenv1)) e in
 	  let save =
 	    try Save(M.find y regenv, y)
-	    with Not_found -> Nop in	    
+	    with Not_found -> Nop in
 	  (seq(save, concat e1' (r, t) e2'), regenv2)
       | Alloc(r) ->
 	  let (e2', regenv2) = g dest cont (add x r regenv1) e in
