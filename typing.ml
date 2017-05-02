@@ -38,9 +38,9 @@ let rec deref_term = function
   | Let(xt, e1, e2) -> Let(deref_id_typ xt, deref_term e1, deref_term e2)
   | LetRec({ name = xt; args = yts; body = e1 }, e2) ->
       LetRec({ name = deref_id_typ xt;
-	       args = List.map deref_id_typ yts;
-	       body = deref_term e1 },
-	     deref_term e2)
+               args = List.map deref_id_typ yts;
+               body = deref_term e1 },
+             deref_term e2)
   | App(e, es) -> App(deref_term e, List.map deref_term es)
   | Tuple(es) -> Tuple(List.map deref_term es)
   | LetTuple(xts, e1, e2) -> LetTuple(List.map deref_id_typ xts, deref_term e1, deref_term e2)
@@ -88,66 +88,66 @@ let rec g env e = (* ·¿¿äÏÀ¥ë¡¼¥Á¥ó (caml2html: typing_g) *)
     | Int(_) -> Type.Int
     | Float(_) -> Type.Float
     | Not(e) ->
-	unify Type.Bool (g env e);
-	Type.Bool
+        unify Type.Bool (g env e);
+        Type.Bool
     | Neg(e) ->
-	unify Type.Int (g env e);
-	Type.Int
+        unify Type.Int (g env e);
+        Type.Int
     | Add(e1, e2) | Sub(e1, e2) -> (* Â­¤·»»¡Ê¤È°ú¤­»»¡Ë¤Î·¿¿äÏÀ (caml2html: typing_add) *)
-	unify Type.Int (g env e1);
-	unify Type.Int (g env e2);
-	Type.Int
+        unify Type.Int (g env e1);
+        unify Type.Int (g env e2);
+        Type.Int
     | FNeg(e) ->
-	unify Type.Float (g env e);
-	Type.Float
+        unify Type.Float (g env e);
+        Type.Float
     | FAdd(e1, e2) | FSub(e1, e2) | FMul(e1, e2) | FDiv(e1, e2) ->
-	unify Type.Float (g env e1);
-	unify Type.Float (g env e2);
-	Type.Float
+        unify Type.Float (g env e1);
+        unify Type.Float (g env e2);
+        Type.Float
     | Eq(e1, e2) | LE(e1, e2) ->
-	unify (g env e1) (g env e2);
-	Type.Bool
+        unify (g env e1) (g env e2);
+        Type.Bool
     | If(e1, e2, e3) ->
-	unify (g env e1) Type.Bool;
-	let t2 = g env e2 in
-	let t3 = g env e3 in
-	unify t2 t3;
-	t2
+        unify (g env e1) Type.Bool;
+        let t2 = g env e2 in
+        let t3 = g env e3 in
+        unify t2 t3;
+        t2
     | Let((x, t), e1, e2) -> (* let¤Î·¿¿äÏÀ (caml2html: typing_let) *)
-	unify t (g env e1);
-	g (M.add x t env) e2
+        unify t (g env e1);
+        g (M.add x t env) e2
     | Var(x) when M.mem x env -> M.find x env (* ÊÑ¿ô¤Î·¿¿äÏÀ (caml2html: typing_var) *)
     | Var(x) when M.mem x !extenv -> M.find x !extenv
     | Var(x) -> (* ³°ÉôÊÑ¿ô¤Î·¿¿äÏÀ (caml2html: typing_extvar) *)
-	Format.eprintf "free variable %s assumed as external@." x;
-	let t = Type.gentyp () in
-	extenv := M.add x t !extenv;
-	t
+        Format.eprintf "free variable %s assumed as external@." x;
+        let t = Type.gentyp () in
+        extenv := M.add x t !extenv;
+        t
     | LetRec({ name = (x, t); args = yts; body = e1 }, e2) -> (* let rec¤Î·¿¿äÏÀ (caml2html: typing_letrec) *)
-	let env = M.add x t env in
-	unify t (Type.Fun(List.map snd yts, g (M.add_list yts env) e1));
-	g env e2
+        let env = M.add x t env in
+        unify t (Type.Fun(List.map snd yts, g (M.add_list yts env) e1));
+        g env e2
     | App(e, es) -> (* ´Ø¿ôÅ¬ÍÑ¤Î·¿¿äÏÀ (caml2html: typing_app) *)
-	let t = Type.gentyp () in
-	unify (g env e) (Type.Fun(List.map (g env) es, t));
-	t
+        let t = Type.gentyp () in
+        unify (g env e) (Type.Fun(List.map (g env) es, t));
+        t
     | Tuple(es) -> Type.Tuple(List.map (g env) es)
     | LetTuple(xts, e1, e2) ->
-	unify (Type.Tuple(List.map snd xts)) (g env e1);
-	g (M.add_list xts env) e2
+        unify (Type.Tuple(List.map snd xts)) (g env e1);
+        g (M.add_list xts env) e2
     | Array(e1, e2) -> (* must be a primitive for "polymorphic" typing *)
-	unify (g env e1) Type.Int;
-	Type.Array(g env e2)
+        unify (g env e1) Type.Int;
+        Type.Array(g env e2)
     | Get(e1, e2) ->
-	let t = Type.gentyp () in
-	unify (Type.Array(t)) (g env e1);
-	unify Type.Int (g env e2);
-	t
+        let t = Type.gentyp () in
+        unify (Type.Array(t)) (g env e1);
+        unify Type.Int (g env e2);
+        t
     | Put(e1, e2, e3) ->
-	let t = g env e3 in
-	unify (Type.Array(t)) (g env e1);
-	unify Type.Int (g env e2);
-	Type.Unit
+        let t = g env e3 in
+        unify (Type.Array(t)) (g env e1);
+        unify Type.Int (g env e2);
+        Type.Unit
   with Unify(t1, t2) -> raise (Error(deref_term e, deref_typ t1, deref_typ t2))
 
 let f e =

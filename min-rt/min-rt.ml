@@ -314,11 +314,11 @@ in
 
       let rotation = Array.make 3 0.0 in
       if isrot_p <> 0 then
-	(
-	 rotation.(0) <- rad (read_float ());
-	 rotation.(1) <- rad (read_float ());
-	 rotation.(2) <- rad (read_float ()) (* 18 *)
-	) 
+        (
+         rotation.(0) <- rad (read_float ());
+         rotation.(1) <- rad (read_float ());
+         rotation.(2) <- rad (read_float ()) (* 18 *)
+        ) 
       else ();
 
       (* パラメータの正規化 *)
@@ -328,68 +328,68 @@ in
 
       (* ここからあとは abc と rotation しか操作しない。*)
       let obj = 
-	(texture, form, refltype, isrot_p,
-	 abc, xyz, (* x-z *)
-	 m_invert2,
-	 reflparam, (* reflection paramater *)
-	 color, (* color *)
-	 rotation (* rotation *)
-	) in
+        (texture, form, refltype, isrot_p,
+         abc, xyz, (* x-z *)
+         m_invert2,
+         reflparam, (* reflection paramater *)
+         color, (* color *)
+         rotation (* rotation *)
+        ) in
       objects.(n) <- obj;
 
       if form = 3 then
-	(
-	  (* 2次曲面: X,Y,Z サイズから2次方程式の係数へ *)
-	 let a = abc.(0) in
-	 abc.(0) <- if 0.0 = a then 0.0 else (sgn a) /. (fsqr a);
-	 let b = abc.(1) in
-	 abc.(1) <- if 0.0 = b then 0.0 else (sgn b) /. (fsqr b);
-	 let c = abc.(2) in
-	 abc.(2) <- if 0.0 = c then 0.0 else (sgn c) /. (fsqr c)
-	)
+        (
+          (* 2次曲面: X,Y,Z サイズから2次方程式の係数へ *)
+         let a = abc.(0) in
+         abc.(0) <- if 0.0 = a then 0.0 else (sgn a) /. (fsqr a);
+         let b = abc.(1) in
+         abc.(1) <- if 0.0 = b then 0.0 else (sgn b) /. (fsqr b);
+         let c = abc.(2) in
+         abc.(2) <- if 0.0 = c then 0.0 else (sgn c) /. (fsqr c)
+        )
       else if form = 2 then
-	(* 平面: 法線ベクトルを正規化, 極性を負に統一 *)
-	normalize_vector abc (not m_invert)
+        (* 平面: 法線ベクトルを正規化, 極性を負に統一 *)
+        normalize_vector abc (not m_invert)
       else
-	();
+        ();
 
       if isrot_p <> 0 then
-	(
-	 cs_temp.(10) <- cos rotation.(0);
-	 cs_temp.(11) <- sin rotation.(0);
-	 cs_temp.(12) <- cos rotation.(1);
-	 cs_temp.(13) <- sin rotation.(1);
-	 cs_temp.(14) <- cos rotation.(2);
-	 cs_temp.(15) <- sin rotation.(2);
-	 cs_temp.(0) <- cs_temp.(12) *. cs_temp.(14); (* cy cz *)
-	 cs_temp.(1) <- 
-	   (cs_temp.(11) *. cs_temp.(13) *. cs_temp.(14)) -. (cs_temp.(10) *. cs_temp.(15));
-	 cs_temp.(2) <-	
-	   (cs_temp.(10) *. cs_temp.(13) *. cs_temp.(14)) +. (cs_temp.(11) *. cs_temp.(15));
-	 cs_temp.(3) <-	cs_temp.(12) *. cs_temp.(15);
-	 cs_temp.(4) <-	
-	   (cs_temp.(11) *. cs_temp.(13) *. cs_temp.(15)) +. (cs_temp.(10) *. cs_temp.(14));
-	 cs_temp.(5) <-	
-	   (cs_temp.(10) *. cs_temp.(13) *. cs_temp.(15)) -. (cs_temp.(11) *. cs_temp.(14));
-	 cs_temp.(6) <-	-.cs_temp.(13);
-	 cs_temp.(7) <-	cs_temp.(11) *. cs_temp.(12);
-	 cs_temp.(8) <-	cs_temp.(10) *. cs_temp.(12);
-	 let ao = abc.(0) in
-	 let bo = abc.(1) in
-	 let co = abc.(2) in
-	 abc.(0) <- ao *. fsqr cs_temp.(0) +. bo *. fsqr cs_temp.(3) +. co *. fsqr cs_temp.(6);
-	 abc.(1) <- ao *. fsqr cs_temp.(1) +. bo *. fsqr cs_temp.(4) +. co *. fsqr cs_temp.(7);
-	 abc.(2) <- ao *. fsqr cs_temp.(2) +. bo *. fsqr cs_temp.(5) +. co *. fsqr cs_temp.(8);
-	 rotation.(0) <- 2.0 *. (ao *. cs_temp.(1) *. cs_temp.(2)
-				   +. bo *. cs_temp.(4) *. cs_temp.(5)
-				   +. co *. cs_temp.(7) *. cs_temp.(8));
-	 rotation.(1) <- 2.0 *. (ao *. cs_temp.(0) *. cs_temp.(2)
-				   +. bo *. cs_temp.(3) *. cs_temp.(5)
-				   +. co *. cs_temp.(6) *. cs_temp.(8));
-	 rotation.(2) <- 2.0 *. (ao *. cs_temp.(0) *. cs_temp.(1)
-				   +. bo *. cs_temp.(3) *. cs_temp.(4)
-				   +. co *. cs_temp.(6) *. cs_temp.(7))
-	)
+        (
+         cs_temp.(10) <- cos rotation.(0);
+         cs_temp.(11) <- sin rotation.(0);
+         cs_temp.(12) <- cos rotation.(1);
+         cs_temp.(13) <- sin rotation.(1);
+         cs_temp.(14) <- cos rotation.(2);
+         cs_temp.(15) <- sin rotation.(2);
+         cs_temp.(0) <- cs_temp.(12) *. cs_temp.(14); (* cy cz *)
+         cs_temp.(1) <- 
+           (cs_temp.(11) *. cs_temp.(13) *. cs_temp.(14)) -. (cs_temp.(10) *. cs_temp.(15));
+         cs_temp.(2) <-        
+           (cs_temp.(10) *. cs_temp.(13) *. cs_temp.(14)) +. (cs_temp.(11) *. cs_temp.(15));
+         cs_temp.(3) <-        cs_temp.(12) *. cs_temp.(15);
+         cs_temp.(4) <-        
+           (cs_temp.(11) *. cs_temp.(13) *. cs_temp.(15)) +. (cs_temp.(10) *. cs_temp.(14));
+         cs_temp.(5) <-        
+           (cs_temp.(10) *. cs_temp.(13) *. cs_temp.(15)) -. (cs_temp.(11) *. cs_temp.(14));
+         cs_temp.(6) <-        -.cs_temp.(13);
+         cs_temp.(7) <-        cs_temp.(11) *. cs_temp.(12);
+         cs_temp.(8) <-        cs_temp.(10) *. cs_temp.(12);
+         let ao = abc.(0) in
+         let bo = abc.(1) in
+         let co = abc.(2) in
+         abc.(0) <- ao *. fsqr cs_temp.(0) +. bo *. fsqr cs_temp.(3) +. co *. fsqr cs_temp.(6);
+         abc.(1) <- ao *. fsqr cs_temp.(1) +. bo *. fsqr cs_temp.(4) +. co *. fsqr cs_temp.(7);
+         abc.(2) <- ao *. fsqr cs_temp.(2) +. bo *. fsqr cs_temp.(5) +. co *. fsqr cs_temp.(8);
+         rotation.(0) <- 2.0 *. (ao *. cs_temp.(1) *. cs_temp.(2)
+                                   +. bo *. cs_temp.(4) *. cs_temp.(5)
+                                   +. co *. cs_temp.(7) *. cs_temp.(8));
+         rotation.(1) <- 2.0 *. (ao *. cs_temp.(0) *. cs_temp.(2)
+                                   +. bo *. cs_temp.(3) *. cs_temp.(5)
+                                   +. co *. cs_temp.(6) *. cs_temp.(8));
+         rotation.(2) <- 2.0 *. (ao *. cs_temp.(0) *. cs_temp.(1)
+                                   +. bo *. cs_temp.(3) *. cs_temp.(4)
+                                   +. co *. cs_temp.(6) *. cs_temp.(7))
+        )
       else ();
 
 (*      ;
@@ -479,14 +479,14 @@ in
   let answera = 
     if 0.0 = l.(0) then false else (
       let d = 
-	if xor (o_isinvert m) (0.0 > l.(0)) then (o_param_a m) else -.(o_param_a m)
+        if xor (o_isinvert m) (0.0 > l.(0)) then (o_param_a m) else -.(o_param_a m)
       in
       let d2 = (d -. solver_w_vec.(0)) /. l.(0) 
       in
       if abs_float (d2 *. l.(1) +. solver_w_vec.(1)) < o_param_b m then
-	if abs_float (d2 *. l.(2) +. solver_w_vec.(2)) < o_param_c m
-	then (solver_dist.(0) <- d2; true)
-	else false
+        if abs_float (d2 *. l.(2) +. solver_w_vec.(2)) < o_param_c m
+        then (solver_dist.(0) <- d2; true)
+        else false
       else false
    )
   in
@@ -496,14 +496,14 @@ in
   let answerb = 
     if 0.0 = l.(1) then false else (
       let d = 
-	if xor (o_isinvert m) (0.0 > l.(1)) then (o_param_b m) else -.(o_param_b m)
+        if xor (o_isinvert m) (0.0 > l.(1)) then (o_param_b m) else -.(o_param_b m)
       in
       let d2 = (d -. solver_w_vec.(1)) /. l.(1)
       in
       if abs_float (d2 *. l.(2) +. solver_w_vec.(2)) < o_param_c m then
-	if abs_float (d2 *. l.(0) +. solver_w_vec.(0)) < o_param_a m
-	then (solver_dist.(0) <- d2; true)
-	else false
+        if abs_float (d2 *. l.(0) +. solver_w_vec.(0)) < o_param_a m
+        then (solver_dist.(0) <- d2; true)
+        else false
       else false
     )
   in
@@ -513,14 +513,14 @@ in
   let answerc = 
     if 0.0 = l.(2) then false else (
       let d = 
-	if xor (o_isinvert m) (0.0 > l.(2)) then (o_param_c m) else -.(o_param_c m)
+        if xor (o_isinvert m) (0.0 > l.(2)) then (o_param_c m) else -.(o_param_c m)
       in
       let d2 = (d -. solver_w_vec.(2)) /. l.(2)
       in
       if abs_float (d2 *. l.(0) +. solver_w_vec.(0)) < o_param_a m then
-	if abs_float (d2 *. l.(1) +. solver_w_vec.(1)) < o_param_b m
-	then (solver_dist.(0) <- d2; true)
-	else false
+        if abs_float (d2 *. l.(1) +. solver_w_vec.(1)) < o_param_b m
+        then (solver_dist.(0) <- d2; true)
+        else false
       else false
    )
   in
@@ -589,7 +589,7 @@ in
      let cc0 = in_prod_sqr_obj m solver_w_vec in
      let cc1 = 
        if o_isrot m <> 0 then
-	 (cc0 +. in_prod_co_objrot m solver_w_vec)
+         (cc0 +. in_prod_co_objrot m solver_w_vec)
        else cc0 in
      let cc =
        if o_form m = 3
@@ -602,9 +602,9 @@ in
      if 0.0 < d
      then
        (
-	let sd = sqrt d in
-	let t1 = if o_isinvert m then sd else -.sd in
-	(solver_dist.(0) <- ((t1 -. bb) /. 2.0 /. aa); 1)
+        let sd = sqrt d in
+        let t1 = if o_isinvert m then sd else -.sd in
+        (solver_dist.(0) <- ((t1 -. bb) /. 2.0 /. aa); 1)
        )
      else 0
     )
@@ -632,7 +632,7 @@ in
   if 
     (if abs_float isoutside_q.(0) < o_param_a m then
       if abs_float isoutside_q.(1) < o_param_b m then
-	if abs_float isoutside_q.(2) < o_param_c m then true else false
+        if abs_float isoutside_q.(2) < o_param_c m then true else false
       else false
     else false
     )
@@ -642,8 +642,8 @@ in
 (*MINCAML*)let rec is_plane_outside m =
 (*NOMINCAML let is_plane_outside m =*)
   let w = (o_param_a m *. isoutside_q.(0)
-	     +. o_param_b m *. isoutside_q.(1)
-	     +. o_param_c m *. isoutside_q.(2)) in
+             +. o_param_b m *. isoutside_q.(1)
+             +. o_param_c m *. isoutside_q.(2)) in
   let s = 0.0 > w in
   not (xor (o_isinvert m) s)
 in
@@ -716,7 +716,7 @@ in
       if (check_all_inside 0 and_group) 
       then true
       else shadow_check_and_group (iand_ofs + 1) and_group p
-	  (* 次のオブジェクトから候補点を探す *)
+          (* 次のオブジェクトから候補点を探す *)
     else
       (* 交点がない場合: 極性が正(内側が真)の場合、    *)
       (* AND ネットの共通部分はその内部に含まれるため、*)
@@ -759,12 +759,12 @@ in
       (* range primitive とぶつからなければ *)
       (* or group との交点はない            *)
       if t <> 0 then
-	if solver_dist.(0) < -0.1
-	then
-	  if shadow_check_one_or_group 1 head p
-	  then true
-	  else shadow_check_one_or_matrix (ofs + 1) or_matrix p
-	else shadow_check_one_or_matrix (ofs + 1) or_matrix p
+        if solver_dist.(0) < -0.1
+        then
+          if shadow_check_one_or_group 1 head p
+          then true
+          else shadow_check_one_or_matrix (ofs + 1) or_matrix p
+        else shadow_check_one_or_matrix (ofs + 1) or_matrix p
       else shadow_check_one_or_matrix (ofs + 1) or_matrix p
   )
 in
@@ -785,24 +785,24 @@ in
         (* 今までの中で最小の t の値と比べる。*)
        let t0p = solver_dist.(0) in
        if -0.1 < t0p then
-	 if t0p < tmin.(0) then
-	   (
-	    let t = t0p +. 0.01 in
-	    chkinside_p.(0) <- vscan.(0) *. t +. viewpoint.(0);
-	    chkinside_p.(1) <- vscan.(1) *. t +. viewpoint.(1);
-	    chkinside_p.(2) <- vscan.(2) *. t +. viewpoint.(2);
-	    if check_all_inside 0 and_group then 
-	      ( 
-		tmin.(0) <- t;
-		crashed_point.(0) <- chkinside_p.(0);
-		crashed_point.(1) <- chkinside_p.(1);
-		crashed_point.(2) <- chkinside_p.(2);
-		intsec_rectside.(0) <- t0;
-		crashed_object.(0) <- iobj
-	       )
-	    else ()
-	   )
-	 else ()
+         if t0p < tmin.(0) then
+           (
+            let t = t0p +. 0.01 in
+            chkinside_p.(0) <- vscan.(0) *. t +. viewpoint.(0);
+            chkinside_p.(1) <- vscan.(1) *. t +. viewpoint.(1);
+            chkinside_p.(2) <- vscan.(2) *. t +. viewpoint.(2);
+            if check_all_inside 0 and_group then 
+              ( 
+                tmin.(0) <- t;
+                crashed_point.(0) <- chkinside_p.(0);
+                crashed_point.(1) <- chkinside_p.(1);
+                crashed_point.(2) <- chkinside_p.(2);
+                intsec_rectside.(0) <- t0;
+                crashed_object.(0) <- iobj
+               )
+            else ()
+           )
+         else ()
        else ()
       )
     else 
@@ -840,14 +840,14 @@ in
     then (solve_one_or_network 1 head)
     else 
       (
-	(* range primitive の衝突しなければ交点はない *)
-	let t = solver range_primitive vscan viewpoint in
-	if t <> 0 then
-	  let tp = solver_dist.(0) in
-	  if tp < tmin.(0)
-	  then (solve_one_or_network 1 head)
-	  else ()
-	else ()
+        (* range primitive の衝突しなければ交点はない *)
+        let t = solver range_primitive vscan viewpoint in
+        if t <> 0 then
+          let tp = solver_dist.(0) in
+          if tp < tmin.(0)
+          then (solve_one_or_network 1 head)
+          else ()
+        else ()
       );
     trace_or_matrix (ofs + 1) or_network
   )
@@ -926,15 +926,15 @@ in
   nvector_w.(0) <- p.(0) -. o_param_x m;
   nvector_w.(1) <- p.(1) -. o_param_y m;
   nvector_w.(2) <- p.(2) -. o_param_z m;
-  nvector.(0) <- (nvector_w.(0)	*. o_param_a m 
-		    +. fhalf (nvector_w.(1) *. o_param_r3 m
-				+. nvector_w.(2) *. o_param_r2 m));
-  nvector.(1) <- (nvector_w.(1)	*. o_param_b m 
-		    +. fhalf (nvector_w.(0) *. o_param_r3 m
-				+. nvector_w.(2) *. o_param_r1 m));
-  nvector.(2) <- (nvector_w.(2)	*. o_param_c m
-		    +. fhalf (nvector_w.(0) *. o_param_r2 m
-				+. nvector_w.(1) *. o_param_r1 m));
+  nvector.(0) <- (nvector_w.(0)        *. o_param_a m 
+                    +. fhalf (nvector_w.(1) *. o_param_r3 m
+                                +. nvector_w.(2) *. o_param_r2 m));
+  nvector.(1) <- (nvector_w.(1)        *. o_param_b m 
+                    +. fhalf (nvector_w.(0) *. o_param_r3 m
+                                +. nvector_w.(2) *. o_param_r1 m));
+  nvector.(2) <- (nvector_w.(2)        *. o_param_c m
+                    +. fhalf (nvector_w.(0) *. o_param_r2 m
+                                +. nvector_w.(1) *. o_param_r1 m));
   normalize_vector nvector (o_isinvert m)
 in
 
@@ -1004,21 +1004,21 @@ in
     let w4 = sqrt ((fsqr w1) +. (fsqr w3)) in
     let w7 = 
       if abs_float w1 < 1.0e-4 then
-	15.0 (* atan +infty = pi/2 *)
+        15.0 (* atan +infty = pi/2 *)
       else
-	let w5 = abs_float (w3 /. w1)
-	in
-	(atan w5) *. (30.0 /. 3.1415927)
+        let w5 = abs_float (w3 /. w1)
+        in
+        (atan w5) *. (30.0 /. 3.1415927)
     in
     let w9 = w7 -. (floor w7) in
 
     let w2 = (p.(1) -. o_param_y m) *. (sqrt (o_param_b m)) in
     let w8 =
       if abs_float w7 < 1.0e-4 then
-	15.0
+        15.0
       else 
-	let w6 = abs_float (w2 /. w4)
-	in (atan w6) *. (30.0 /. 3.1415927)
+        let w6 = abs_float (w2 /. w4)
+        in (atan w6) *. (30.0 /. 3.1415927)
     in
     let w10 = w8 -. (floor w8) in
     let w11 = 0.15 -. (fsqr (0.5 -. w9)) -. (fsqr (0.5 -. w10)) in
@@ -1056,17 +1056,17 @@ in
   if (not crashed_p) then
     if nref <> 0 then 
       ( 
-	let hl = -.(in_prod vscan light) in
-	(* 90°を超える場合は0 (光なし) *)
-	if 0.0 < hl then
-	  (
-	   (* ハイライト強度は角度の cos^3 に比例 *)
-	   let ihl = fsqr hl *. hl *. energy *. beam.(0) in
-	   rgb.(0) <- rgb.(0) +. ihl;
-	   rgb.(1) <- rgb.(1) +. ihl;
-	   rgb.(2) <- rgb.(2) +. ihl
-	  )
-	else ()
+        let hl = -.(in_prod vscan light) in
+        (* 90°を超える場合は0 (光なし) *)
+        if 0.0 < hl then
+          (
+           (* ハイライト強度は角度の cos^3 に比例 *)
+           let ihl = fsqr hl *. hl *. energy *. beam.(0) in
+           rgb.(0) <- rgb.(0) +. ihl;
+           rgb.(1) <- rgb.(1) +. ihl;
+           rgb.(2) <- rgb.(2) +. ihl
+          )
+        else ()
        )
     else ()
   else ();
@@ -1078,57 +1078,57 @@ in
       let cobj = objects.(crashed_object.(0)) in
       get_nvector cobj crashed_point;
       let bright = 
-	if (shadow_check_one_or_matrix 0 or_net.(0) crashed_point)
-	then 
-	  0.0 (* 影なので光は当たらない *)
-	else (
-	  let br = -.(in_prod nvector light) in
-	  let br1 = if 0.0 > br then 0.2 else br +. 0.2 in
-	  br1 *. energy *. o_diffuse cobj
-	 )
+        if (shadow_check_one_or_matrix 0 or_net.(0) crashed_point)
+        then 
+          0.0 (* 影なので光は当たらない *)
+        else (
+          let br = -.(in_prod nvector light) in
+          let br1 = if 0.0 > br then 0.2 else br +. 0.2 in
+          br1 *. energy *. o_diffuse cobj
+         )
       in
       utexture cobj crashed_point; (* テクスチャを計算 *)
       accumulate_vec_mul rgb texture_color bright;
 
       if nref > 4 then () else
       if 0.1 < energy then 
-	( 
-	  (* 2. 反射光 *)
-	  let w = (-2.0) *. in_prod vscan nvector in
-	  (* 反射光の方向にトレース方向を変更 *)
-	  accumulate_vec_mul vscan nvector w;
-	  
-	  let m_surface = o_reflectiontype cobj in
-	  if m_surface = 1 then
-	    (* 乱反射 : ハイライトを計算 *)
-	    (
-	     if 0.0 = (o_hilight cobj) then 
-	       ()
-	     else
-	       let hl = -.(in_prod vscan light) in
-	       if 0.0 < hl then
-		 ( 
-		   let ihl =
-		     fsqr (fsqr hl) *. energy *. bright
-		       *. o_hilight cobj
-		   in
-		   rgb.(0) <- rgb.(0) +. ihl;
-		   rgb.(1) <- rgb.(1) +. ihl;
-		   rgb.(2) <- rgb.(2) +. ihl
-		  )
-	       else ()
-	    )
-	  else if m_surface = 2 then
-	    (* 鏡面反射: 再帰的にトレース *)
-	    ( 
-	      viewpoint.(0) <- crashed_point.(0);
-	      viewpoint.(1) <- crashed_point.(1);
-	      viewpoint.(2) <- crashed_point.(2);
-	      let energy2 = energy *. (1.0 -. o_diffuse cobj) in
-	      raytracing (nref + 1) energy2
-	     )
-	  else ()
-	 )
+        ( 
+          (* 2. 反射光 *)
+          let w = (-2.0) *. in_prod vscan nvector in
+          (* 反射光の方向にトレース方向を変更 *)
+          accumulate_vec_mul vscan nvector w;
+          
+          let m_surface = o_reflectiontype cobj in
+          if m_surface = 1 then
+            (* 乱反射 : ハイライトを計算 *)
+            (
+             if 0.0 = (o_hilight cobj) then 
+               ()
+             else
+               let hl = -.(in_prod vscan light) in
+               if 0.0 < hl then
+                 ( 
+                   let ihl =
+                     fsqr (fsqr hl) *. energy *. bright
+                       *. o_hilight cobj
+                   in
+                   rgb.(0) <- rgb.(0) +. ihl;
+                   rgb.(1) <- rgb.(1) +. ihl;
+                   rgb.(2) <- rgb.(2) +. ihl
+                  )
+               else ()
+            )
+          else if m_surface = 2 then
+            (* 鏡面反射: 再帰的にトレース *)
+            ( 
+              viewpoint.(0) <- crashed_point.(0);
+              viewpoint.(1) <- crashed_point.(1);
+              viewpoint.(2) <- crashed_point.(2);
+              let energy2 = energy *. (1.0 -. o_diffuse cobj) in
+              raytracing (nref + 1) energy2
+             )
+          else ()
+         )
       else ()
      )
   else ()
@@ -1211,15 +1211,15 @@ in
   if scany < size.(0) then
     ( 
 (*      if dbg.(0) then
-	( 
-	  print_string "scanning y = ";
-	  print_int scany;
-	  print_string "\n";
-	)
+        ( 
+          print_string "scanning y = ";
+          print_int scany;
+          print_string "\n";
+        )
       else ();*)
       scan_sscany.(0) <- (
-	let t = (scan_offset.(0) -. 1.0 -. float_of_int scany) in
-	scan_d.(0) *. t);
+        let t = (scan_offset.(0) -. 1.0 -. float_of_int scany) in
+        scan_d.(0) *. t);
       (* 走査線への距離の2乗 *)
       scan_met1.(0) <- fsqr scan_sscany.(0) +. 40000.0;
       (* wscan 視点から走査線までのベクトルの成分 *)

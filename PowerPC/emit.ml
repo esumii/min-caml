@@ -44,10 +44,10 @@ let rec shuffle sw xys =
   | [], [] -> []
   | (x, y) :: xys, [] -> (* no acyclic moves; resolve a cyclic move *)
       (y, sw) :: (x, y) :: shuffle sw (List.map
-					 (function
-					   | (y', z) when y = y' -> (sw, z)
-					   | yz -> yz)
-					 xys)
+                                         (function
+                                           | (y', z) when y = y' -> (sw, z)
+                                           | yz -> yz)
+                                         xys)
   | xys, acyc -> acyc @ shuffle sw xys
 
 type dest = Tail | NonTail of Id.t (* 末尾かどうかを表すデータ型 (caml2html: emit_dest) *)
@@ -195,9 +195,9 @@ and g' oc = function (* 各命令のアセンブリ生成 (caml2html: emit_gprime) *)
       Printf.fprintf oc "\tsubi\t%s, %s, %d\n" (reg reg_sp) (reg reg_sp) ss;
       Printf.fprintf oc "\tlwz\t%s, %d(%s)\n" (reg reg_tmp) (ss - 4) (reg reg_sp);
       if List.mem a allregs && a <> regs.(0) then
-	Printf.fprintf oc "\tmr\t%s, %s\n" (reg a) (reg regs.(0))
+        Printf.fprintf oc "\tmr\t%s, %s\n" (reg a) (reg regs.(0))
       else if List.mem a allfregs && a <> fregs.(0) then
-	Printf.fprintf oc "\tfmr\t%s, %s\n" (reg a) (reg fregs.(0));
+        Printf.fprintf oc "\tfmr\t%s, %s\n" (reg a) (reg fregs.(0));
       Printf.fprintf oc "\tmtlr\t%s\n" (reg reg_tmp)
   | (NonTail(a), CallDir(Id.L(x), ys, zs)) ->
       Printf.fprintf oc "\tmflr\t%s\n" (reg reg_tmp);
@@ -209,9 +209,9 @@ and g' oc = function (* 各命令のアセンブリ生成 (caml2html: emit_gprime) *)
       Printf.fprintf oc "\tsubi\t%s, %s, %d\n" (reg reg_sp) (reg reg_sp) ss;
       Printf.fprintf oc "\tlwz\t%s, %d(%s)\n" (reg reg_tmp) (ss - 4) (reg reg_sp);
       if List.mem a allregs && a <> regs.(0) then
-	Printf.fprintf oc "\tmr\t%s, %s\n" (reg a) (reg regs.(0))
+        Printf.fprintf oc "\tmr\t%s, %s\n" (reg a) (reg regs.(0))
       else if List.mem a allfregs && a <> fregs.(0) then
-	Printf.fprintf oc "\tfmr\t%s, %s\n" (reg a) (reg fregs.(0));
+        Printf.fprintf oc "\tfmr\t%s, %s\n" (reg a) (reg fregs.(0));
       Printf.fprintf oc "\tmtlr\t%s\n" (reg reg_tmp)
 and g'_tail_if oc e1 e2 b bn =
   let b_else = Id.genid (b ^ "_else") in
@@ -265,10 +265,10 @@ let f oc (Prog(data, fundefs, e)) =
     (Printf.fprintf oc "\t.data\n\t.literal8\n";
      List.iter
        (fun (Id.L(x), d) ->
-	 Printf.fprintf oc "\t.align 3\n";
-	 Printf.fprintf oc "%s:\t # %f\n" x d;
-	 Printf.fprintf oc "\t.long\t%ld\n" (gethi d);
-	 Printf.fprintf oc "\t.long\t%ld\n" (getlo d))
+         Printf.fprintf oc "\t.align 3\n";
+         Printf.fprintf oc "%s:\t # %f\n" x d;
+         Printf.fprintf oc "\t.long\t%ld\n" (gethi d);
+         Printf.fprintf oc "\t.long\t%ld\n" (getlo d))
        data);
   Printf.fprintf oc "\t.text\n";
   Printf.fprintf oc "\t.globl _min_caml_start\n";

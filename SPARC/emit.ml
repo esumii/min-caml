@@ -37,10 +37,10 @@ let rec shuffle sw xys =
   | [], [] -> []
   | (x, y) :: xys, [] -> (* no acyclic moves; resolve a cyclic move *)
       (y, sw) :: (x, y) :: shuffle sw (List.map
-					 (function
-					   | (y', z) when y = y' -> (sw, z)
-					   | yz -> yz)
-					 xys)
+                                         (function
+                                           | (y', z) when y = y' -> (sw, z)
+                                           | yz -> yz)
+                                         xys)
   | xys, acyc -> acyc @ shuffle sw xys
 
 type dest = Tail | NonTail of Id.t (* 末尾かどうかを表すデータ型 (caml2html: emit_dest) *)
@@ -164,10 +164,10 @@ and g' oc = function (* 各命令のアセンブリ生成 (caml2html: emit_gprime) *)
       Printf.fprintf oc "\tsub\t%s, %d, %s\n" reg_sp ss reg_sp;
       Printf.fprintf oc "\tld\t[%s + %d], %s\n" reg_sp (ss - 4) reg_ra;
       if List.mem a allregs && a <> regs.(0) then
-	Printf.fprintf oc "\tmov\t%s, %s\n" regs.(0) a
+        Printf.fprintf oc "\tmov\t%s, %s\n" regs.(0) a
       else if List.mem a allfregs && a <> fregs.(0) then
-	(Printf.fprintf oc "\tfmovs\t%s, %s\n" fregs.(0) a;
-	 Printf.fprintf oc "\tfmovs\t%s, %s\n" (co_freg fregs.(0)) (co_freg a))
+        (Printf.fprintf oc "\tfmovs\t%s, %s\n" fregs.(0) a;
+         Printf.fprintf oc "\tfmovs\t%s, %s\n" (co_freg fregs.(0)) (co_freg a))
   | NonTail(a), CallDir(Id.L(x), ys, zs) ->
       g'_args oc [] ys zs;
       let ss = stacksize () in
@@ -177,10 +177,10 @@ and g' oc = function (* 各命令のアセンブリ生成 (caml2html: emit_gprime) *)
       Printf.fprintf oc "\tsub\t%s, %d, %s\n" reg_sp ss reg_sp;
       Printf.fprintf oc "\tld\t[%s + %d], %s\n" reg_sp (ss - 4) reg_ra;
       if List.mem a allregs && a <> regs.(0) then
-	Printf.fprintf oc "\tmov\t%s, %s\n" regs.(0) a
+        Printf.fprintf oc "\tmov\t%s, %s\n" regs.(0) a
       else if List.mem a allfregs && a <> fregs.(0) then
-	(Printf.fprintf oc "\tfmovs\t%s, %s\n" fregs.(0) a;
-	 Printf.fprintf oc "\tfmovs\t%s, %s\n" (co_freg fregs.(0)) (co_freg a))
+        (Printf.fprintf oc "\tfmovs\t%s, %s\n" fregs.(0) a;
+         Printf.fprintf oc "\tfmovs\t%s, %s\n" (co_freg fregs.(0)) (co_freg a))
 and g'_tail_if oc e1 e2 b bn =
   let b_else = Id.genid (b ^ "_else") in
   Printf.fprintf oc "\t%s\t%s\n" bn b_else;

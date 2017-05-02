@@ -84,10 +84,10 @@ rule token = parse
     { IDENT(Lexing.lexeme lexbuf) }
 | _
     { failwith
-	(Printf.sprintf "unknown token %s near characters %d-%d"
-	   (Lexing.lexeme lexbuf)
-	   (Lexing.lexeme_start lexbuf)
-	   (Lexing.lexeme_end lexbuf)) }
+        (Printf.sprintf "unknown token %s near characters %d-%d"
+           (Lexing.lexeme lexbuf)
+           (Lexing.lexeme_start lexbuf)
+           (Lexing.lexeme_end lexbuf)) }
 and comment = parse
 | "*)"
     { () }

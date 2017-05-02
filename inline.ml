@@ -20,11 +20,11 @@ let rec g env = function (* インライン展開ルーチン本体 (caml2html: inline_g) *)
       let (zs, e) = M.find x env in
       Format.eprintf "inlining %s@." x;
       let env' =
-	List.fold_left2
-	  (fun env' (z, t) y -> M.add z y env')
-	  M.empty
-	  zs
-	  ys in
+        List.fold_left2
+          (fun env' (z, t) y -> M.add z y env')
+          M.empty
+          zs
+          ys in
       Alpha.g env' e
   | LetTuple(xts, y, e) -> LetTuple(xts, y, g env e)
   | e -> e

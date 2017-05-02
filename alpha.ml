@@ -27,17 +27,17 @@ let rec g env = function (* α変換ルーチン本体 (caml2html: alpha_g) *)
       let ys = List.map fst yts in
       let env' = M.add_list2 ys (List.map Id.genid ys) env in
       LetRec({ name = (find x env, t);
-	       args = List.map (fun (y, t) -> (find y env', t)) yts;
-	       body = g env' e1 },
-	     g env e2)
+               args = List.map (fun (y, t) -> (find y env', t)) yts;
+               body = g env' e1 },
+             g env e2)
   | App(x, ys) -> App(find x env, List.map (fun y -> find y env) ys)
   | Tuple(xs) -> Tuple(List.map (fun x -> find x env) xs)
   | LetTuple(xts, y, e) -> (* LetTupleのα変換 (caml2html: alpha_lettuple) *)
       let xs = List.map fst xts in
       let env' = M.add_list2 xs (List.map Id.genid xs) env in
       LetTuple(List.map (fun (x, t) -> (find x env', t)) xts,
-	       find y env,
-	       g env' e)
+               find y env,
+               g env' e)
   | Get(x, y) -> Get(find x env, find y env)
   | Put(x, y, z) -> Put(find x env, find y env, find z env)
   | ExtArray(x) -> ExtArray(x)

@@ -135,9 +135,9 @@ exp: /* (* ∞Ï»Ã§Œº∞ (caml2html: parser_exp) *) */
     { Array($2, $3) }
 | error
     { failwith
-	(Printf.sprintf "parse error near characters %d-%d"
-	   (Parsing.symbol_start ())
-	   (Parsing.symbol_end ())) }
+        (Printf.sprintf "parse error near characters %d-%d"
+           (Parsing.symbol_start ())
+           (Parsing.symbol_end ())) }
 
 fundef:
 | IDENT formal_args EQUAL exp

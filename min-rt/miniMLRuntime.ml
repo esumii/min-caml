@@ -10,11 +10,11 @@ let rec read_token in_token =
     let c = input_char stdin (* chan *) in
     match c with
       ' ' | '\t' | '\r' | '\n' ->
-	if in_token then ()
-	else read_token false
+        if in_token then ()
+        else read_token false
     | _ ->
-	Buffer.add_char buf c;
-	read_token true
+        Buffer.add_char buf c;
+        read_token true
   with
     End_of_file ->
       if in_token then () else raise End_of_file

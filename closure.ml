@@ -24,9 +24,9 @@ type t = (* クロージャ変換後の式 (caml2html: closure_t) *)
   | Put of Id.t * Id.t * Id.t
   | ExtArray of Id.l
 type fundef = { name : Id.l * Type.t;
-		args : (Id.t * Type.t) list;
-		formal_fv : (Id.t * Type.t) list;
-		body : t }
+                args : (Id.t * Type.t) list;
+                formal_fv : (Id.t * Type.t) list;
+                body : t }
 type prog = Prog of fundef list * t
 
 let rec fv = function
@@ -62,8 +62,8 @@ let rec g env known = function (* クロージャ変換ルーチン本体 (caml2html: closure
   | KNormal.Var(x) -> Var(x)
   | KNormal.LetRec({ KNormal.name = (x, t); KNormal.args = yts; KNormal.body = e1 }, e2) -> (* 関数定義の場合 (caml2html: closure_letrec) *)
       (* 関数定義let rec x y1 ... yn = e1 in e2の場合は、
-	 xに自由変数がない(closureを介さずdirectに呼び出せる)
-	 と仮定し、knownに追加してe1をクロージャ変換してみる *)
+         xに自由変数がない(closureを介さずdirectに呼び出せる)
+         と仮定し、knownに追加してe1をクロージャ変換してみる *)
       let toplevel_backup = !toplevel in
       let env' = M.add x t env in
       let known' = S.add x known in
@@ -73,22 +73,22 @@ let rec g env known = function (* クロージャ変換ルーチン本体 (caml2html: closure
          (thanks to nuevo-namasute and azounoman; test/cls-bug2.ml参照) *)
       let zs = S.diff (fv e1') (S.of_list (List.map fst yts)) in
       let known', e1' =
-	if S.is_empty zs then known', e1' else
-	(* 駄目だったら状態(toplevelの値)を戻して、クロージャ変換をやり直す *)
-	(Format.eprintf "free variable(s) %s found in function %s@." (Id.pp_list (S.elements zs)) x;
-	 Format.eprintf "function %s cannot be directly applied in fact@." x;
-	 toplevel := toplevel_backup;
-	 let e1' = g (M.add_list yts env') known e1 in
-	 known, e1') in
+        if S.is_empty zs then known', e1' else
+        (* 駄目だったら状態(toplevelの値)を戻して、クロージャ変換をやり直す *)
+        (Format.eprintf "free variable(s) %s found in function %s@." (Id.pp_list (S.elements zs)) x;
+         Format.eprintf "function %s cannot be directly applied in fact@." x;
+         toplevel := toplevel_backup;
+         let e1' = g (M.add_list yts env') known e1 in
+         known, e1') in
       let zs = S.elements (S.diff (fv e1') (S.add x (S.of_list (List.map fst yts)))) in (* 自由変数のリスト *)
       let zts = List.map (fun z -> (z, M.find z env')) zs in (* ここで自由変数zの型を引くために引数envが必要 *)
       toplevel := { name = (Id.L(x), t); args = yts; formal_fv = zts; body = e1' } :: !toplevel; (* トップレベル関数を追加 *)
       let e2' = g env' known' e2 in
       if S.mem x (fv e2') then (* xが変数としてe2'に出現するか *)
-	MakeCls((x, t), { entry = Id.L(x); actual_fv = zs }, e2') (* 出現していたら削除しない *)
+        MakeCls((x, t), { entry = Id.L(x); actual_fv = zs }, e2') (* 出現していたら削除しない *)
       else
-	(Format.eprintf "eliminating closure(s) %s@." x;
-	 e2') (* 出現しなければMakeClsを削除 *)
+        (Format.eprintf "eliminating closure(s) %s@." x;
+         e2') (* 出現しなければMakeClsを削除 *)
   | KNormal.App(x, ys) when S.mem x known -> (* 関数適用の場合 (caml2html: closure_app) *)
       Format.eprintf "directly applying %s@." x;
       AppDir(Id.L(x), ys)

@@ -40,10 +40,10 @@ let rec g env = function (* 定数畳み込みルーチン本体 (caml2html: constfold_g) *)
       LetRec({ name = x; args = ys; body = g env e1 }, g env e2)
   | LetTuple(xts, y, e) when memt y env ->
       List.fold_left2
-	(fun e' xt z -> Let(xt, Var(z), e'))
-	(g env e)
-	xts
-	(findt y env)
+        (fun e' xt z -> Let(xt, Var(z), e'))
+        (g env e)
+        xts
+        (findt y env)
   | LetTuple(xts, y, e) -> LetTuple(xts, y, g env e)
   | e -> e
 
