@@ -38,6 +38,7 @@ let addtyp x = (x, Type.gentyp ())
 %token EOF
 
 /* (* 優先順位とassociativityの定義（低い方から高い方へ） (caml2html: parser_prior) *) */
+%nonassoc IN
 %right prec_let
 %right SEMICOLON
 %right prec_if
