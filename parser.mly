@@ -42,6 +42,7 @@ let addtyp x = (x, Type.gentyp ())
 %right SEMICOLON
 %right prec_if
 %right LESS_MINUS
+%nonassoc prec_tuple
 %left COMMA
 %left EQUAL LESS_GREATER LESS GREATER LESS_EQUAL GREATER_EQUAL
 %left PLUS MINUS PLUS_DOT MINUS_DOT
@@ -123,6 +124,7 @@ exp: /* (* ∞Ï»Ã§Œº∞ (caml2html: parser_exp) *) */
     %prec prec_app
     { App($1, $2) }
 | elems
+    %prec prec_tuple
     { Tuple($1) }
 | LET LPAREN pat RPAREN EQUAL exp IN exp
     { LetTuple($3, $6, $8) }
