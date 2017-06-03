@@ -119,7 +119,7 @@ exp: /* (* ∞Ï»Ã§Œº∞ (caml2html: parser_exp) *) */
 | LET REC fundef IN exp
     %prec prec_let
     { LetRec($3, $5) }
-| exp actual_args
+| simple_exp actual_args
     %prec prec_app
     { App($1, $2) }
 | elems
