@@ -63,8 +63,8 @@ min_caml_prerr_byte:
 	pushl	%ebp
 	movl	%esp, %ebp
 	ALIGNSTACK2
-	pushl	%eax
 	pushl	U(min_caml_stderr)
+	pushl	%eax
 	call	U(fputc)
 	movl	%ebp, %esp
 	popl	%ebp
