@@ -94,13 +94,13 @@ exp: /* (* ∞Ï»Ã§Œº∞ (caml2html: parser_exp) *) */
 | exp LESS_GREATER exp
     { Not(Eq($1, $3)) }
 | exp LESS exp
-    { Not(LE($3, $1)) }
+    { Not(GE($1, $3)) }
 | exp GREATER exp
     { Not(LE($1, $3)) }
 | exp LESS_EQUAL exp
     { LE($1, $3) }
 | exp GREATER_EQUAL exp
-    { LE($3, $1) }
+    { GE($1, $3) }
 | IF exp THEN exp ELSE exp
     %prec prec_if
     { If($2, $4, $6) }

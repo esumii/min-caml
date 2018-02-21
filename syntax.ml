@@ -14,6 +14,7 @@ type t = (* MinCamlの構文を表現するデータ型 (caml2html: syntax_t) *)
   | FDiv of t * t
   | Eq of t * t
   | LE of t * t
+  | GE of t * t
   | If of t * t * t
   | Let of (Id.t * Type.t) * t * t
   | Var of Id.t
