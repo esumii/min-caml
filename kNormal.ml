@@ -85,7 +85,7 @@ let rec g env = function (* K正規化ルーチン本体 (caml2html: knormal_g) *)
       insert_let (g env e1)
         (fun x -> insert_let (g env e2)
             (fun y -> FDiv(x, y), Type.Float))
-  | Syntax.Eq _ | Syntax.LE _ as cmp ->
+  | Syntax.Eq _ | Syntax.LE _ | Syntax.GE _ as cmp ->
       g env (Syntax.If(cmp, Syntax.Bool(true), Syntax.Bool(false)))
   | Syntax.If(Syntax.Not(e1), e2, e3) -> g env (Syntax.If(e1, e3, e2)) (* notによる分岐を変換 (caml2html: knormal_not) *)
   | Syntax.If(Syntax.Eq(e1, e2), e3, e4) ->
@@ -102,6 +102,13 @@ let rec g env = function (* K正規化ルーチン本体 (caml2html: knormal_g) *)
               let e3', t3 = g env e3 in
               let e4', t4 = g env e4 in
               IfLE(x, y, e3', e4'), t3))
+  | Syntax.If(Syntax.GE(e1, e2), e3, e4) ->
+      insert_let (g env e1)
+        (fun x -> insert_let (g env e2)
+            (fun y ->
+              let e3', t3 = g env e3 in
+              let e4', t4 = g env e4 in
+              IfLE(y, x, e3', e4'), t3))
   | Syntax.If(e1, e2, e3) -> g env (Syntax.If(Syntax.Eq(e1, Syntax.Bool(false)), e3, e2)) (* 比較のない分岐を変換 (caml2html: knormal_if) *)
   | Syntax.Let((x, t), e1, e2) ->
       let e1', t1 = g env e1 in

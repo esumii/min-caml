@@ -29,6 +29,7 @@ let rec deref_term = function
   | Sub(e1, e2) -> Sub(deref_term e1, deref_term e2)
   | Eq(e1, e2) -> Eq(deref_term e1, deref_term e2)
   | LE(e1, e2) -> LE(deref_term e1, deref_term e2)
+  | GE(e1, e2) -> GE(deref_term e1, deref_term e2)
   | FNeg(e) -> FNeg(deref_term e)
   | FAdd(e1, e2) -> FAdd(deref_term e1, deref_term e2)
   | FSub(e1, e2) -> FSub(deref_term e1, deref_term e2)
@@ -104,7 +105,7 @@ let rec g env e = (* 型推論ルーチン (caml2html: typing_g) *)
         unify Type.Float (g env e1);
         unify Type.Float (g env e2);
         Type.Float
-    | Eq(e1, e2) | LE(e1, e2) ->
+    | Eq(e1, e2) | LE(e1, e2) | GE(e1, e2) ->
         unify (g env e1) (g env e2);
         Type.Bool
     | If(e1, e2, e3) ->
