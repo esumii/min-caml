@@ -13,7 +13,7 @@
 <h3><a name="bytecode"></a>Why don't you generate byte code / C / <a href="http://www.cminusminus.org/">C<tt>--</tt></a> / GCC's RTL / (you name it)?</h3>
 <p>Because they hide too many important details <strong>and</strong> require extra knowledge. Generating an intermediate language shows only some part of compilers' work. In addition, there is a not-so-small overhead of learning the intermediate language itself.</p>
 <!-- <p>In other words, consider the following story: you ask me how to get to Tokyo from New York; I tell you to fly to Moscow. You not only have to find the way from Moscow to Tokyo, but also are making a long detour. In addition, you have to learn Russian to get through there. (OK, maybe not in real Moscow, but you get the idea.)</p> -->
-<h3><a name="fold"></a>There seems to be a lot of boilerplate code for fold/visitor pattern!</h3>
+<h3><a name="fold"></a>There seems to be a lot of boilerplate code for fold/visitor patterns!</h3>
 <p>Yes.  Since MinCaml was designed for an undergraduate class, I preferred simple brute force over sophisticated patterns.</p>
 <h3><a name="extentions"></a>Could you add polymorphism / data types / pattern matching / garbage collection / modules / etc.?</h3>
 <p>I'd love to, but there is a tradeoff between simplicity and functionality (even in ML). Adding those features would have made the compiler too complex for the original audience&#8212;that is, undergraduate students. On the other hand, it would be nice projects for more advanced audience (such as graduate students).</p>
