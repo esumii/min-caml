@@ -8,7 +8,7 @@
 <body bgcolor="#FFFFFF" link=blue vlink=purple class="Normal">
 <div>
   <h3>Type Inference (<tt>typing.ml</tt>)</h3>
-  <p>As in ordinary ML, MinCaml infers the types of variables and functions even if they are not written in the program. This functionality is called <em>type inference</em>. Type inference in general is very useful for programs with polymorphic and higher-order functions in particular (though MinCaml itself is monomorphic as specified by <a href="http://esumii.github.io/min-caml/tutorial-mincaml-4.eng.htm">the syntax of types</a>).</p>
+  <p>As in ordinary ML, MinCaml infers the types of variables and functions even though they are not written in the program. This functionality is called <em>type inference</em>. Type inference in general is very useful for programs with polymorphic and higher-order functions in particular (though MinCaml itself is monomorphic as specified by <a href="http://esumii.github.io/min-caml/tutorial-mincaml-4.eng.htm">the syntax of types</a>).</p>
   <p>The core of type inference in MinCaml is function <a target="srcview"
 href="min-caml.html#typing_g"><tt>Typing.g</tt></a>. This function  takes <em>type environment</em> <tt>env</tt> (mapping from the names of variables to their types) and expression <tt>e</tt>, and returns the inferred type of <tt>e</tt>. It also checks the types of sub-expressions. If an undefined type variable is found, it is substituted with an appropriate type. This checking and substitution are implemented by function <a target="srcview"
 href="min-caml.html#typing_unify"><tt>Typing.unify</tt></a>.</p>
