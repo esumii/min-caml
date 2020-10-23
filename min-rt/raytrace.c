@@ -2,7 +2,7 @@
 
 /*********************************************************************
 
-			       ³°Éô´Ø¿ô
+			       å¤–éƒ¨é–¢æ•°
 
 *********************************************************************/
 
@@ -17,14 +17,14 @@
 #define fabs __builtin_fabs
 
 extern "C" {
-  extern double fhalf (double) __attribute__ ((const)); // È¾Ê¬
-  extern double inv (double) __attribute__ ((const)); // µÕ¿ô
-  extern double sqrt (double) __attribute__ ((const)); // Ê¿Êıº¬
-  extern double sqrtinv (double) __attribute__ ((const)); // Ê¿Êıº¬¤ÎµÕ¿ô
-  extern double cos (double) __attribute__ ((const)); // Í¾¸¹
-  extern double atan (double) __attribute__ ((const)); // ÀµÀÜ¤ÎµÕ´Ø¿ô
-  extern double fmod20 (double) __attribute__ ((const)); // ¾êÍ¾
-  extern double frac (double) __attribute__ ((const)); // ¾®¿ôÉôÊ¬
+  extern double fhalf (double) __attribute__ ((const)); // åŠåˆ†
+  extern double inv (double) __attribute__ ((const)); // é€†æ•°
+  extern double sqrt (double) __attribute__ ((const)); // å¹³æ–¹æ ¹
+  extern double sqrtinv (double) __attribute__ ((const)); // å¹³æ–¹æ ¹ã®é€†æ•°
+  extern double cos (double) __attribute__ ((const)); // ä½™å¼¦
+  extern double atan (double) __attribute__ ((const)); // æ­£æ¥ã®é€†é–¢æ•°
+  extern double fmod20 (double) __attribute__ ((const)); // å‰°ä½™
+  extern double frac (double) __attribute__ ((const)); // å°æ•°éƒ¨åˆ†
 }
 
 #else // __tsu__
@@ -74,7 +74,7 @@ static double frac (double x) {
 
 /*********************************************************************
 
-			   ´ğËÜÅª¤ÊÆÉ¤ß½ñ¤­
+			   åŸºæœ¬çš„ãªèª­ã¿æ›¸ã
 
 *********************************************************************/
 
@@ -86,18 +86,18 @@ static int read_int (void) {
   return (int) read_double ();
 }
 
-#define write_queue_size 256 // ¥µ¥¤¥º
-static unsigned write_queue_num = 0; // ¸½ºß¤Î¿ô
-static int write_queue [write_queue_size]; // ¥­¥å¡¼
-static int * write_queue_head = NULL; // ÀèÆ¬
-static int * write_queue_tail = NULL; // ËöÈø
+#define write_queue_size 256 // ã‚µã‚¤ã‚º
+static unsigned write_queue_num = 0; // ç¾åœ¨ã®æ•°
+static int write_queue [write_queue_size]; // ã‚­ãƒ¥ãƒ¼
+static int * write_queue_head = NULL; // å…ˆé ­
+static int * write_queue_tail = NULL; // æœ«å°¾
 
 static void write_init (void) {
   write_queue_head = write_queue;
   write_queue_tail = write_queue;
 }
 
-// ½ñ¤­½Ğ¤·¤ò»î¤ß¤ë
+// æ›¸ãå‡ºã—ã‚’è©¦ã¿ã‚‹
 
 static void write_flush (void) {
   if (write_queue_num != 0 && sio_writable ()) {
@@ -111,7 +111,7 @@ static void write_flush (void) {
   }
 }
 
-// ½ñ¤­¹ş¤ß¥­¥å¡¼¤ò¤¹¤Ù¤Æ¥Õ¥é¥Ã¥·¥å¤¹¤ë
+// æ›¸ãè¾¼ã¿ã‚­ãƒ¥ãƒ¼ã‚’ã™ã¹ã¦ãƒ•ãƒ©ãƒƒã‚·ãƒ¥ã™ã‚‹
 
 static void write_flush_all (void) {
   while (write_queue_num != 0) {
@@ -119,7 +119,7 @@ static void write_flush_all (void) {
   }
 }
 
-// 1¥ª¥¯¥Æ¥Ã¥È¤ò½ñ¤­¹ş¤ß¥­¥å¡¼¤ËÆş¤ì¤ë
+// 1ã‚ªã‚¯ãƒ†ãƒƒãƒˆã‚’æ›¸ãè¾¼ã¿ã‚­ãƒ¥ãƒ¼ã«å…¥ã‚Œã‚‹
 
 static void write_octet (int x) {
   while (write_queue_num >= write_queue_size) {
@@ -135,7 +135,7 @@ static void write_octet (int x) {
   }
 }
 
-// À°¿ô¤òÊ¸»úÎó¤Ë¤·¤Æ½ñ¤­½Ğ¤¹
+// æ•´æ•°ã‚’æ–‡å­—åˆ—ã«ã—ã¦æ›¸ãå‡ºã™
 
 static void write_int (int x) {
   {
@@ -206,40 +206,40 @@ static void write_int (int x) {
 
 /*********************************************************************
 
-			       ·¿¤ÎÄêµÁ
+			       å‹ã®å®šç¾©
 
 *********************************************************************/
 
-typedef unsigned bool_t; // ¿¿µ¶ÃÍ¡Ê0¤Ê¤éµ¶¡¢¤½¤ì°Ê³°¤Ï¿¿¡Ë
-typedef unsigned card_t; // Êª¤Î¸Ä¿ô
+typedef unsigned bool_t; // çœŸå½å€¤ï¼ˆ0ãªã‚‰å½ã€ãã‚Œä»¥å¤–ã¯çœŸï¼‰
+typedef unsigned card_t; // ç‰©ã®å€‹æ•°
 
-typedef double deg_t; // ³ÑÅÙ¡ÊÅÙ¡Ë
-typedef double rad_t; // ³ÑÅÙ¡Ê¥é¥¸¥¢¥ó¡Ë
+typedef double deg_t; // è§’åº¦ï¼ˆåº¦ï¼‰
+typedef double rad_t; // è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
 
-// µ÷Î¥
+// è·é›¢
 
 typedef double dist_t;
 
-#define dist_max 1e+15 // ºÇÂç¤ÎÄ¹¤µ¤È¤·¤ÆÍÑ¤¤¤ë½é´üÃÍ
-#define dist_far 1e+14 // Ìµ»ë¤Ç¤­¤ë¤Û¤É¤Î±ó¤µ
-#define dist_back -0.1 // ¸åÊı¤«¤É¤¦¤«¤ÎÈ½Äê´ğ½à
-#define dist_delta 0.01 // ¸íº¹¤ò²óÈò¤¹¤ë¤¿¤á¤ÎÈùÄ´À°
+#define dist_max 1e+15 // æœ€å¤§ã®é•·ã•ã¨ã—ã¦ç”¨ã„ã‚‹åˆæœŸå€¤
+#define dist_far 1e+14 // ç„¡è¦–ã§ãã‚‹ã»ã©ã®é ã•
+#define dist_back -0.1 // å¾Œæ–¹ã‹ã©ã†ã‹ã®åˆ¤å®šåŸºæº–
+#define dist_delta 0.01 // èª¤å·®ã‚’å›é¿ã™ã‚‹ãŸã‚ã®å¾®èª¿æ•´
 
-// ²èÁÇ¤ÎÌÀ¤ë¤µ
+// ç”»ç´ ã®æ˜ã‚‹ã•
 
 typedef double hil_t;
 
 #define hil_min 0.0
 #define hil_max 256.0
 
-// »°³Ñ´Ø¿ô¤ÎÃÍ¤ÇÉ½¸½¤µ¤ì¤¿³ÑÅÙ
+// ä¸‰è§’é–¢æ•°ã®å€¤ã§è¡¨ç¾ã•ã‚ŒãŸè§’åº¦
 
 typedef struct {
   double cos;
   double sin;
 } trig_t;
 
-// ¥Ô¥¯¥»¥ëÃÍ
+// ãƒ”ã‚¯ã‚»ãƒ«å€¤
 
 typedef struct {
   hil_t r;
@@ -250,7 +250,7 @@ typedef struct {
 static const pixel_t black_pixel = { hil_min, hil_min, hil_min };
 static const pixel_t white_pixel = { hil_max, hil_max, hil_max };
 
-// 3¼¡¸µ¥Ù¥¯¥È¥ë
+// 3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
 
 typedef struct {
   dist_t x;
@@ -258,113 +258,113 @@ typedef struct {
   dist_t z;
 } vec_t;
 
-// 3¼¡¸µ¶õ´Ö¤Ë¤ª¤±¤ë²óÅ¾
+// 3æ¬¡å…ƒç©ºé–“ã«ãŠã‘ã‚‹å›è»¢
 
-// ¸µ¤Î¥×¥í¥°¥é¥à¤Ç¤Ï¿Í´Ö¤Ë¤ï¤«¤ê¤ä¤¹¤¤¤è¤¦¡¢¥Ñ¥é¥á¡¼¥¿¤¬
-// 3¤Ä¤¢¤ë¤È¤³¤í¤â¤¢¤ë¤¬¡¢¿ô³ØÅª¤Ë¤Ï2¤Ä¤Ç½½Ê¬
+// å…ƒã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã§ã¯äººé–“ã«ã‚ã‹ã‚Šã‚„ã™ã„ã‚ˆã†ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒ
+// 3ã¤ã‚ã‚‹ã¨ã“ã‚ã‚‚ã‚ã‚‹ãŒã€æ•°å­¦çš„ã«ã¯2ã¤ã§ååˆ†
 
 typedef struct {
-  trig_t tx; // x¼´¤ò²óÅ¾¼´¤È¤·¤Æ²óÅ¾
-  trig_t ty; // y¼´¤ò²óÅ¾¼´¤È¤·¤Æ²óÅ¾
+  trig_t tx; // xè»¸ã‚’å›è»¢è»¸ã¨ã—ã¦å›è»¢
+  trig_t ty; // yè»¸ã‚’å›è»¢è»¸ã¨ã—ã¦å›è»¢
 } rot2_t;
 
 typedef struct {
-  trig_t tx; // x¼´¤ò²óÅ¾¼´¤È¤·¤Æ²óÅ¾
-  trig_t ty; // y¼´¤ò²óÅ¾¼´¤È¤·¤Æ²óÅ¾
-  trig_t tz; // z¼´¤ò²óÅ¾¼´¤È¤·¤Æ²óÅ¾
+  trig_t tx; // xè»¸ã‚’å›è»¢è»¸ã¨ã—ã¦å›è»¢
+  trig_t ty; // yè»¸ã‚’å›è»¢è»¸ã¨ã—ã¦å›è»¢
+  trig_t tz; // zè»¸ã‚’å›è»¢è»¸ã¨ã—ã¦å›è»¢
 } rot3_t;
 
-// ½ĞÎÏ²èÁü¤Ë´Ø¤¹¤ë¾ğÊó
+// å‡ºåŠ›ç”»åƒã«é–¢ã™ã‚‹æƒ…å ±
 
-// ¥¹¥¯¥ê¡¼¥ó¤¬ÀµÊı·Á¤Ê¤Î¤Ç¡¢½ĞÎÏ²èÁü¤âÀµÊı·Á¤Ë¸Â¤ë
-// Áöºº¤ò³«»Ï¤¹¤ë¹Ô¤Ï0¤Ë¸ÇÄê
+// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãŒæ­£æ–¹å½¢ãªã®ã§ã€å‡ºåŠ›ç”»åƒã‚‚æ­£æ–¹å½¢ã«é™ã‚‹
+// èµ°æŸ»ã‚’é–‹å§‹ã™ã‚‹è¡Œã¯0ã«å›ºå®š
 
 typedef struct {
-  card_t size; // °ìÊÕ¤ÎÄ¹¤µ
-  card_t half; // °ìÊÕ¤ÎÄ¹¤µ¤ÎÈ¾Ê¬
+  card_t size; // ä¸€è¾ºã®é•·ã•
+  card_t half; // ä¸€è¾ºã®é•·ã•ã®åŠåˆ†
 } output_t;
 
-// ¥¹¥¯¥ê¡¼¥ó¤Ë´Ø¤¹¤ë¾ğÊó
+// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã«é–¢ã™ã‚‹æƒ…å ±
 
-#define screen_size 128.0 // °ìÊÕ¤ÎÄ¹¤µ
-#define screen_orig_view_z -200.0 // ÊÑ´¹Á°¤Î»ëÅÀ¡Êz¼´¾å¤Ë¸ÇÄê¡Ë
+#define screen_size 128.0 // ä¸€è¾ºã®é•·ã•
+#define screen_orig_view_z -200.0 // å¤‰æ›å‰ã®è¦–ç‚¹ï¼ˆzè»¸ä¸Šã«å›ºå®šï¼‰
 
 typedef struct {
-  vec_t pos; // °ÌÃÖ
-  rot2_t dir; // ¸ş¤­
-  vec_t rot_view; // ²óÅ¾¸å¤Î»ëÅÀ
-  vec_t trans_view; // ²óÅ¾¡¦Ê¿¹Ô°ÜÆ°¸å¤Î»ëÅÀ
+  vec_t pos; // ä½ç½®
+  rot2_t dir; // å‘ã
+  vec_t rot_view; // å›è»¢å¾Œã®è¦–ç‚¹
+  vec_t trans_view; // å›è»¢ãƒ»å¹³è¡Œç§»å‹•å¾Œã®è¦–ç‚¹
 } screen_t;
 
-// ¸÷¸»¤Ë´Ø¤¹¤ë¾ğÊó
+// å…‰æºã«é–¢ã™ã‚‹æƒ…å ±
 
 typedef struct {
-  rot2_t dir; // ³ÑÅÙ¤Ç¤¢¤é¤ï¤·¤¿Êı¸ş
-  vec_t vec; // Ã±°Ì¥Ù¥¯¥È¥ë¤Ç¤¢¤é¤ï¤·¤¿Êı¸ş
-  double str; // ¶¯¤µ
+  rot2_t dir; // è§’åº¦ã§ã‚ã‚‰ã‚ã—ãŸæ–¹å‘
+  vec_t vec; // å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã§ã‚ã‚‰ã‚ã—ãŸæ–¹å‘
+  double str; // å¼·ã•
 } light_t;
 
-// ¥Æ¥¯¥¹¥Á¥å¥¢ÈÖ¹æ
+// ãƒ†ã‚¯ã‚¹ãƒãƒ¥ã‚¢ç•ªå·
 
 typedef enum {
-  tex_plain = 0, // ÌµÃÏ
-  tex_checker = 1, // ¥Á¥§¥Ã¥«
-  tex_stripe = 2, // ¥¹¥È¥é¥¤¥×
-  tex_circle = 3, // Æ±¿´±ß
-  tex_spot = 4 // ÈÃÅÀ
+  tex_plain = 0, // ç„¡åœ°
+  tex_checker = 1, // ãƒã‚§ãƒƒã‚«
+  tex_stripe = 2, // ã‚¹ãƒˆãƒ©ã‚¤ãƒ—
+  tex_circle = 3, // åŒå¿ƒå††
+  tex_spot = 4 // æ–‘ç‚¹
 } tex_t;
 
-// ¥×¥ê¥ß¥Æ¥£¥Ö¤Î¼ïÎà
+// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®ç¨®é¡
 
 typedef enum {
-  type_rect = 1, // Ä¾ÊıÂÎ
-  type_plane = 2, // Ê¿ÌÌ
-  type_quad = 3, // 2¼¡¶ÊÌÌ
-  type_cone = 4 // ¿î
+  type_rect = 1, // ç›´æ–¹ä½“
+  type_plane = 2, // å¹³é¢
+  type_quad = 3, // 2æ¬¡æ›²é¢
+  type_cone = 4 // éŒ˜
 } type_t;
 
-// É½ÌÌ¤ÎÆÃÀ­
+// è¡¨é¢ã®ç‰¹æ€§
 
 typedef enum {
-  surf_rand = 1, // ÍğÈ¿¼Í
-  surf_mirror = 2 // ¶ÀÌÌ
+  surf_rand = 1, // ä¹±åå°„
+  surf_mirror = 2 // é¡é¢
 } surf_t;
 
-// ¶ËÀ­
+// æ¥µæ€§
 
-// ÆâÉô¤«³°Éô¤«¤Î2ÃÍ¤Ê¤Î¤Ç¡¢ÆâÉô¤Ê¤é¿¿¡¢³°Éô¤Ê¤éµ¶¤È¤·¤Æ
-// ¿¿µ¶ÃÍ¤Ç¤¢¤é¤ï¤¹
+// å†…éƒ¨ã‹å¤–éƒ¨ã‹ã®2å€¤ãªã®ã§ã€å†…éƒ¨ãªã‚‰çœŸã€å¤–éƒ¨ãªã‚‰å½ã¨ã—ã¦
+// çœŸå½å€¤ã§ã‚ã‚‰ã‚ã™
 
 typedef bool_t pol_t;
 
-// ¥×¥ê¥ß¥Æ¥£¥Ö
+// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–
 
-#define max_prim 64 // ¥×¥ê¥ß¥Æ¥£¥Ö¤Î¿ô¤ÎºÇÂçÃÍ
+#define max_prim 64 // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®æ•°ã®æœ€å¤§å€¤
 
 typedef struct {
-  type_t type; // ¼ïÎà
-  pol_t pol; // ¶ËÀ­
+  type_t type; // ç¨®é¡
+  pol_t pol; // æ¥µæ€§
 
-  vec_t param; // ¥Ñ¥é¥á¡¼¥¿
-  vec_t offset; // ¥ª¥Õ¥»¥Ã¥È
+  vec_t param; // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+  vec_t offset; // ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 
-  tex_t tex; // ¥Æ¥¯¥¹¥Á¥å¥¢
-  pixel_t color; // ¿§
+  tex_t tex; // ãƒ†ã‚¯ã‚¹ãƒãƒ¥ã‚¢
+  pixel_t color; // è‰²
 
-  surf_t surf; // É½ÌÌ¤ÎÆÃÀ­
-  double ref; // ÍğÈ¿¼ÍÎ¨¡Êsurf¤¬ÍğÈ¿¼Í¤Î¤È¤­¤Ï1¡Ë
-  hil_t hil; // ¥Ï¥¤¥é¥¤¥È¶¯ÅÙ
+  surf_t surf; // è¡¨é¢ã®ç‰¹æ€§
+  double ref; // ä¹±åå°„ç‡ï¼ˆsurfãŒä¹±åå°„ã®ã¨ãã¯1ï¼‰
+  hil_t hil; // ãƒã‚¤ãƒ©ã‚¤ãƒˆå¼·åº¦
 
-  bool_t rot; // ²óÅ¾¤ÎÍ­Ìµ¡Ê2¼¡¶ÊÌÌ¤Î¤ß¥µ¥İ¡¼¥È¡Ë
-  rot3_t rot3; // ²óÅ¾³Ñ¡Êrot¤¬µ¶¤Î¤È¤­¤ÏÌµ°ÕÌ£¡Ë
-  vec_t cross; // ¥¯¥í¥¹¥¿¡¼¥à¤Î·¸¿ô¡Êrot¤¬µ¶¤Î¤È¤­¤ÏÌµ°ÕÌ£¡Ë
+  bool_t rot; // å›è»¢ã®æœ‰ç„¡ï¼ˆ2æ¬¡æ›²é¢ã®ã¿ã‚µãƒãƒ¼ãƒˆï¼‰
+  rot3_t rot3; // å›è»¢è§’ï¼ˆrotãŒå½ã®ã¨ãã¯ç„¡æ„å‘³ï¼‰
+  vec_t cross; // ã‚¯ãƒ­ã‚¹ã‚¿ãƒ¼ãƒ ã®ä¿‚æ•°ï¼ˆrotãŒå½ã®ã¨ãã¯ç„¡æ„å‘³ï¼‰
 } prim_t;
 
 static prim_t * const noprim = NULL;
 
-// AND¥×¥ê¥ß¥Æ¥£¥Ö
+// ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–
 
-#define max_andprim 32 // AND¥×¥ê¥ß¥Æ¥£¥Ö¤Î¿ô¤ÎºÇÂçÃÍ
+#define max_andprim 32 // ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®æ•°ã®æœ€å¤§å€¤
 
 typedef struct {
   prim_t * prims [max_prim];
@@ -372,9 +372,9 @@ typedef struct {
 
 static andprim_t * const noandprim = NULL;
 
-// OR¥×¥ê¥ß¥Æ¥£¥Ö
+// ORãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–
 
-#define max_orprim 32 // OR¥×¥ê¥ß¥Æ¥£¥Ö¤Î¿ô¤ÎºÇÂçÃÍ
+#define max_orprim 32 // ORãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®æ•°ã®æœ€å¤§å€¤
 
 typedef struct {
   prim_t * range;
@@ -383,51 +383,51 @@ typedef struct {
 
 static orprim_t * const noorprim = NULL;
 
-// Ä¾ÊıÂÎ¤ÎÌÌ¤ò»ØÄê
+// ç›´æ–¹ä½“ã®é¢ã‚’æŒ‡å®š
 
 typedef enum {
-  rectsurf_x = 1, // yzÊ¿ÌÌ¤ËÊ¿¹Ô¤ÊÌÌ
-  rectsurf_y = 2, // zxÊ¿ÌÌ¤ËÊ¿¹Ô¤ÊÌÌ
-  rectsurf_z = 3 // xyÊ¿ÌÌ¤ËÊ¿¹Ô¤ÊÌÌ
+  rectsurf_x = 1, // yzå¹³é¢ã«å¹³è¡Œãªé¢
+  rectsurf_y = 2, // zxå¹³é¢ã«å¹³è¡Œãªé¢
+  rectsurf_z = 3 // xyå¹³é¢ã«å¹³è¡Œãªé¢
 } rectsurf_t;
 
 /*********************************************************************
 
-			   ¼ï¡¹¤ÎºÙ¤«¤Ê´Ø¿ô
+			   ç¨®ã€…ã®ç´°ã‹ãªé–¢æ•°
 
 *********************************************************************/
 
-// ÇÓÂ¾ÅªÏÀÍıÏÂ
+// æ’ä»–çš„è«–ç†å’Œ
 
 inline bool_t my_xor (bool_t x, bool_t y) {
   return (x && ! y) || (! x && y);
 }
 
-// ÉâÆ°¾®¿ô¤ò2ÇÜ
+// æµ®å‹•å°æ•°ã‚’2å€
 
 inline static double fdbl (double x) {
   return x + x;
 }
 
-// ÉâÆ°¾®¿ô¤ò2¾è
+// æµ®å‹•å°æ•°ã‚’2ä¹—
 
 inline static double fsq (double x) {
   return x * x;
 }
 
-// ÉâÆ°¾®¿ô¤ò3¾è
+// æµ®å‹•å°æ•°ã‚’3ä¹—
 
 inline static double fcube (double x) {
   return fsq (x) * x;
 }
 
-// ÉâÆ°¾®¿ô¤ò4¾è
+// æµ®å‹•å°æ•°ã‚’4ä¹—
 
 inline static double fquad (double x) {
   return fsq (fsq (x));
 }
 
-// cos¤Èsin¤ò·×»»
+// cosã¨sinã‚’è¨ˆç®—
 
 inline static void cossin (trig_t * trig, rad_t rad) {
   trig -> cos = cos (rad);
@@ -438,7 +438,7 @@ inline static void cossin (trig_t * trig, rad_t rad) {
   }
 }
 
-// ÉâÆ°¾®¿ô¤ÎÀäÂĞÃÍ¤òµÕ¿ô¤Î2¾è¤ËÊÑ´¹¡ÊÉä¹æ¤Ï¤½¤Î¤Ş¤Ş¡Ë
+// æµ®å‹•å°æ•°ã®çµ¶å¯¾å€¤ã‚’é€†æ•°ã®2ä¹—ã«å¤‰æ›ï¼ˆç¬¦å·ã¯ãã®ã¾ã¾ï¼‰
 
 static double inv2 (double x) {
   double tmp;
@@ -456,22 +456,22 @@ static double inv2 (double x) {
   return tmp;
 }
 
-// ÅÙ¤ò¥é¥¸¥¢¥ó¤ËÊÑ´¹
+// åº¦ã‚’ãƒ©ã‚¸ã‚¢ãƒ³ã«å¤‰æ›
 
 inline static rad_t deg_to_rad (deg_t deg) {
   return deg * (pi / 180.0);
 }
 
-// ÆşÎÏ¥Ç¡¼¥¿¤Ë¤ª¤¤¤Æ½ªÎ»¤ò¤¢¤é¤ï¤¹À°¿ô¤òÈ½Äê
+// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã«ãŠã„ã¦çµ‚äº†ã‚’ã‚ã‚‰ã‚ã™æ•´æ•°ã‚’åˆ¤å®š
 
-// -1¤¬½ªÎ»¤ò¤¢¤é¤ï¤¹¤Î¤Ç¡¢1¤ò²Ã¤¨¤Æ0¤À¤Ã¤¿¤é½ªÎ»¡¢
-// 0¤Ç¤Ê¤«¤Ã¤¿¤é·ÑÂ³
+// -1ãŒçµ‚äº†ã‚’ã‚ã‚‰ã‚ã™ã®ã§ã€1ã‚’åŠ ãˆã¦0ã ã£ãŸã‚‰çµ‚äº†ã€
+// 0ã§ãªã‹ã£ãŸã‚‰ç¶™ç¶š
 
 inline static bool_t cont (unsigned num) {
   return (++ num);
 }
 
-// ¥Ù¥¯¥È¥ë¤ò¸ò´¹
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’äº¤æ›
 
 static void swap_vec (vec_t * x, vec_t * y) {
   vec_t tmp;
@@ -481,7 +481,7 @@ static void swap_vec (vec_t * x, vec_t * y) {
   * y = tmp;
 }
 
-// ¥Ù¥¯¥È¥ë¤òÈ¿Å¾
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’åè»¢
 
 inline static void neg_vec (vec_t * vec) {
   vec -> x = - vec -> x;
@@ -495,7 +495,7 @@ inline static void neg_vec_2 (vec_t * dest, const vec_t * src) {
   dest -> z = - src -> z;
 }
 
-// ¥Ù¥¯¥È¥ë¤òÈ¾Ê¬¤Ë¤¹¤ë
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠåˆ†ã«ã™ã‚‹
 
 inline static void half_vec (vec_t * vec) {
   vec -> x = fhalf (vec -> x);
@@ -503,7 +503,7 @@ inline static void half_vec (vec_t * vec) {
   vec -> z = fhalf (vec -> z);
 }
 
-// ¥Ù¥¯¥È¥ë¤ò¥¹¥«¥é¡¼ÇÜ
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’ã‚¹ã‚«ãƒ©ãƒ¼å€
 
 inline static void scale_vec_3 (vec_t * dest,
 				const vec_t * src,
@@ -513,7 +513,7 @@ inline static void scale_vec_3 (vec_t * dest,
   dest -> z = scalar * src -> z;
 }
 
-// ¥Ù¥¯¥È¥ë¤ÎÏÂ¤ò·×»»
+// ãƒ™ã‚¯ãƒˆãƒ«ã®å’Œã‚’è¨ˆç®—
 
 inline static void add_vec (vec_t * dest, const vec_t * src) {
   dest -> x += src -> x;
@@ -521,7 +521,7 @@ inline static void add_vec (vec_t * dest, const vec_t * src) {
   dest -> z += src -> z;
 }
 
-// ¥Ù¥¯¥È¥ë¤Îº¹¤ò·×»»
+// ãƒ™ã‚¯ãƒˆãƒ«ã®å·®ã‚’è¨ˆç®—
 
 inline static void sub_vec (vec_t * dest,
 			    const vec_t * src) {
@@ -538,7 +538,7 @@ inline static void sub_vec_3 (vec_t * dest,
   dest -> z = src1 -> z - src2 -> z;
 }
 
-// ¥Ù¥¯¥È¥ë¤ÎÍ×ÁÇ¤ò¤«¤±¤ë
+// ãƒ™ã‚¯ãƒˆãƒ«ã®è¦ç´ ã‚’ã‹ã‘ã‚‹
 
 inline static void mul_vec_3 (vec_t * dest,
 			      const vec_t * src1,
@@ -548,7 +548,7 @@ inline static void mul_vec_3 (vec_t * dest,
   dest -> z = src1 -> z * src2 -> z;
 }
 
-// ¥Ù¥¯¥È¥ë¤ÎÍ×ÁÇ¤ÎÊ¿Êıº¬¤ò¤È¤Ã¤Æ¤«¤±¤ë
+// ãƒ™ã‚¯ãƒˆãƒ«ã®è¦ç´ ã®å¹³æ–¹æ ¹ã‚’ã¨ã£ã¦ã‹ã‘ã‚‹
 
 inline static void mul_sqrt_vec (vec_t * dest,
 				 const vec_t * src) {
@@ -557,7 +557,7 @@ inline static void mul_sqrt_vec (vec_t * dest,
   dest -> z *= sqrt (src -> z);
 }
 
-// ¥Ù¥¯¥È¥ë¤ÎÆâÀÑ
+// ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 
 static double inprod_vec (const vec_t * vec1, const vec_t * vec2) {
   double tmp;
@@ -569,7 +569,7 @@ static double inprod_vec (const vec_t * vec1, const vec_t * vec2) {
   return tmp;
 }
 
-// ¥Ù¥¯¥È¥ë¤òÀµµ¬²½
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–
 
 static void norm_vec (vec_t * vec) {
   double tmp;
@@ -581,7 +581,7 @@ static void norm_vec (vec_t * vec) {
   vec -> z *= tmp;
 }
 
-// ¥Ù¥¯¥È¥ë¤ò½ä²ó¤·¤Ê¤¬¤é¤«¤±¤ë
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’å·¡å›ã—ãªãŒã‚‰ã‹ã‘ã‚‹
 
 static double rotprod_vec (const vec_t * a,
 			   const vec_t * b) {
@@ -594,7 +594,7 @@ static double rotprod_vec (const vec_t * a,
   return tmp;
 }
 
-// ¥Ù¥¯¥È¥ë¤ò2½Å¤Ë¤«¤±¤ë
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’2é‡ã«ã‹ã‘ã‚‹
 
 static double dblprod_vec (const vec_t * a, const vec_t * b) {
   double tmp;
@@ -606,7 +606,7 @@ static double dblprod_vec (const vec_t * a, const vec_t * b) {
   return tmp;
 }
 
-// ¥Ù¥¯¥È¥ë¤ò¤Í¤¸¤Ã¤Æ¤«¤±¤ë
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’ã­ã˜ã£ã¦ã‹ã‘ã‚‹
 
 static void twistprod_vec (vec_t * dest,
 			   const vec_t * src1,
@@ -618,11 +618,11 @@ static void twistprod_vec (vec_t * dest,
 
 /*********************************************************************
 
-			     Êä½õÅª¤Ê´Ø¿ô
+			     è£œåŠ©çš„ãªé–¢æ•°
 
 *********************************************************************/
 
-// 2¼¡¶ÊÌÌ¤Î²óÅ¾¤Ë¤ª¤¤¤Æ¡¢²óÅ¾¹ÔÎó¤ò·×»»
+// 2æ¬¡æ›²é¢ã®å›è»¢ã«ãŠã„ã¦ã€å›è»¢è¡Œåˆ—ã‚’è¨ˆç®—
 
 static void rotate_prim_1 (double r [3] [3],
 			   const rot3_t * rot3) {
@@ -648,7 +648,7 @@ static void rotate_prim_1 (double r [3] [3],
   r [2] [2] = cc;
 }
 
-// 2¼¡¶ÊÌÌ¤Î²óÅ¾¤Ë¤ª¤¤¤Æ¡¢¥¯¥í¥¹¥¿¡¼¥à¤ò·×»»
+// 2æ¬¡æ›²é¢ã®å›è»¢ã«ãŠã„ã¦ã€ã‚¯ãƒ­ã‚¹ã‚¿ãƒ¼ãƒ ã‚’è¨ˆç®—
 
 static void rotate_prim_2 (double r [3] [3],
 			   const vec_t * param,
@@ -667,7 +667,7 @@ static void rotate_prim_2 (double r [3] [3],
   cross -> z = fdbl (cross -> z);
 }
 
-// 2¼¡¶ÊÌÌ¤Î²óÅ¾¤Ë¤ª¤¤¤Æ¡¢2¾è¤Î¹à¤Î·¸¿ô¤ò·×»»
+// 2æ¬¡æ›²é¢ã®å›è»¢ã«ãŠã„ã¦ã€2ä¹—ã®é …ã®ä¿‚æ•°ã‚’è¨ˆç®—
 
 static void rotate_prim_3 (double r [3] [3],
 			   vec_t * param) {
@@ -690,7 +690,7 @@ static void rotate_prim_3 (double r [3] [3],
   param -> z = z;
 }
 
-// 2¼¡¶ÊÌÌ¤Î²óÅ¾¤ò½èÍı
+// 2æ¬¡æ›²é¢ã®å›è»¢ã‚’å‡¦ç†
 
 static void rotate_prim (prim_t * prim) {
   double r [3] [3];
@@ -702,45 +702,45 @@ static void rotate_prim (prim_t * prim) {
 
 /*********************************************************************
 
-			    ¥°¥í¡¼¥Ğ¥ëÊÑ¿ô
+			    ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 
 *********************************************************************/
 
-static output_t output; // ½ĞÎÏ²èÁü¤Î¾ğÊó
-static screen_t screen; // ¥¹¥¯¥ê¡¼¥ó¤Î¾ğÊó
-static light_t light; // ¸÷¸»¤Î¾ğÊó
+static output_t output; // å‡ºåŠ›ç”»åƒã®æƒ…å ±
+static screen_t screen; // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®æƒ…å ±
+static light_t light; // å…‰æºã®æƒ…å ±
 
-static dist_t dot; // ¥¹¥¯¥ê¡¼¥ó¾å¤Ç½ĞÎÏ²èÁü1¥É¥Ã¥È¤ËÅö¤¿¤ëÀµÊı·Á¤Î°ìÊÕ¤ÎÄ¹¤µ
+static dist_t dot; // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ä¸Šã§å‡ºåŠ›ç”»åƒ1ãƒ‰ãƒƒãƒˆã«å½“ãŸã‚‹æ­£æ–¹å½¢ã®ä¸€è¾ºã®é•·ã•
 
-static prim_t prims [max_prim]; // ¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÇÛÎó
-static card_t num_prims = 0; // ÆÉ¤ß¹ş¤ó¤À¥×¥ê¥ß¥Æ¥£¥Ö¤Î¿ô
+static prim_t prims [max_prim]; // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®é…åˆ—
+static card_t num_prims = 0; // èª­ã¿è¾¼ã‚“ã ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®æ•°
 
-static andprim_t andprims [max_andprim]; // AND¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÇÛÎó
-static card_t num_andprims = 0; // ÆÉ¤ß¹ş¤ó¤ÀAND¥×¥ê¥ß¥Æ¥£¥Ö¤Î¿ô
+static andprim_t andprims [max_andprim]; // ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®é…åˆ—
+static card_t num_andprims = 0; // èª­ã¿è¾¼ã‚“ã ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®æ•°
 
-static orprim_t orprims [max_orprim]; // OR¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÇÛÎó
-static card_t num_orprims = 0; // ÆÉ¤ß¹ş¤ó¤ÀOR¥×¥ê¥ß¥Æ¥£¥Ö¤Î¿ô
+static orprim_t orprims [max_orprim]; // ORãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®é…åˆ—
+static card_t num_orprims = 0; // èª­ã¿è¾¼ã‚“ã ORãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®æ•°
 
-static double energy; // ¸½ºß¤Î¸÷Àş¤Î¥¨¥Í¥ë¥®¡¼
-static double bright; // ¸½ºß¤ÎÌÀ¤ë¤µ
-static pixel_t pixel; // ¸½ºß·×»»Ãæ¤Î¥Ô¥¯¥»¥ëÃÍ
+static double energy; // ç¾åœ¨ã®å…‰ç·šã®ã‚¨ãƒãƒ«ã‚®ãƒ¼
+static double bright; // ç¾åœ¨ã®æ˜ã‚‹ã•
+static pixel_t pixel; // ç¾åœ¨è¨ˆç®—ä¸­ã®ãƒ”ã‚¯ã‚»ãƒ«å€¤
 
-static vec_t sightline; // ¸½ºß¤Î»ëÀşÊı¸ş¤ÎÃ±°Ì¥Ù¥¯¥È¥ë
-static vec_t viewpoint; // ¸½ºß¤Î»ëÅÀ
+static vec_t sightline; // ç¾åœ¨ã®è¦–ç·šæ–¹å‘ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«
+static vec_t viewpoint; // ç¾åœ¨ã®è¦–ç‚¹
 
-static vec_t intsec_cand; // intsec_point¤Î¸õÊä
-static vec_t intsec_point; // ¸½ºß¤Î¸òÅÀ
-static const prim_t * intsec_prim; // ¸òÅÀ¤Î¤¢¤ë¥×¥ê¥ß¥Æ¥£¥Ö
-static rectsurf_t intsec_rectsurf; // ¤É¤ÎÌÌ¤Ç¸ò¤ï¤Ã¤¿¤«¡ÊÄ¾ÊıÂÎ¤Î¾ì¹ç¡Ë
-static vec_t intsec_normal; // ¸òÅÀ¤Ë¤ª¤±¤ëË¡Àş
+static vec_t intsec_cand; // intsec_pointã®å€™è£œ
+static vec_t intsec_point; // ç¾åœ¨ã®äº¤ç‚¹
+static const prim_t * intsec_prim; // äº¤ç‚¹ã®ã‚ã‚‹ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–
+static rectsurf_t intsec_rectsurf; // ã©ã®é¢ã§äº¤ã‚ã£ãŸã‹ï¼ˆç›´æ–¹ä½“ã®å ´åˆï¼‰
+static vec_t intsec_normal; // äº¤ç‚¹ã«ãŠã‘ã‚‹æ³•ç·š
 
 /*********************************************************************
 
-		      ¥Ç¡¼¥¿¤ÎÆÉ¤ß½ñ¤­¤ò¹Ô¤¦´Ø¿ô
+		      ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿æ›¸ãã‚’è¡Œã†é–¢æ•°
 
 *********************************************************************/
 
-// ppm¤Î¥Ø¥Ã¥À¤ò½ñ¤¯
+// ppmã®ãƒ˜ãƒƒãƒ€ã‚’æ›¸ã
 
 static void write_header (void) {
   write_octet ('P');
@@ -758,7 +758,7 @@ static void write_header (void) {
   write_octet ('\n');
 }
 
-// ²èÁÇ¤ò½ñ¤­½Ğ¤¹
+// ç”»ç´ ã‚’æ›¸ãå‡ºã™
 
 static void write_hil (hil_t hil) {
   int x;
@@ -774,7 +774,7 @@ static void write_hil (hil_t hil) {
   write_octet (x);
 }
 
-// ¥Ô¥¯¥»¥ëÃÍ¤ò½ñ¤­½Ğ¤¹
+// ãƒ”ã‚¯ã‚»ãƒ«å€¤ã‚’æ›¸ãå‡ºã™
 
 static void write_pixel (pixel_t * p) {
   write_hil (p -> r);
@@ -782,7 +782,7 @@ static void write_pixel (pixel_t * p) {
   write_hil (p -> b);
 }
 
-// ¥Ô¥¯¥»¥ëÃÍ¤òÆÉ¤ß¹ş¤à
+// ãƒ”ã‚¯ã‚»ãƒ«å€¤ã‚’èª­ã¿è¾¼ã‚€
 
 static void read_pixel (pixel_t * p) {
   p -> r = read_double ();
@@ -790,7 +790,7 @@ static void read_pixel (pixel_t * p) {
   p -> b = read_double ();
 }
 
-// 3¼¡¸µ¥Ù¥¯¥È¥ë¤òÆÉ¤ß¹ş¤à
+// 3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’èª­ã¿è¾¼ã‚€
 
 static void read_vec (vec_t * vec) {
   vec -> x = read_double ();
@@ -798,7 +798,7 @@ static void read_vec (vec_t * vec) {
   vec -> z = read_double ();
 }
 
-// 3¼¡¸µ¶õ´Ö¤Ë¤ª¤±¤ë²óÅ¾¤òÆÉ¤ß¹ş¤à
+// 3æ¬¡å…ƒç©ºé–“ã«ãŠã‘ã‚‹å›è»¢ã‚’èª­ã¿è¾¼ã‚€
 
 static void read_rot2 (rot2_t * rot2) {
   cossin (& rot2 -> tx, deg_to_rad (read_double ()));
@@ -811,14 +811,14 @@ static void read_rot3 (rot3_t * rot3) {
   cossin (& rot3 -> tz, deg_to_rad (read_double ()));
 }
 
-// ½ĞÎÏ²èÁü¤Ë´Ø¤¹¤ë¾ğÊó¤òÆÉ¤ß¹ş¤à
+// å‡ºåŠ›ç”»åƒã«é–¢ã™ã‚‹æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
 
 static void read_output (output_t * o) {
   o -> size = read_int ();
   o -> half = o -> size / 2;
 }
 
-// ¥¹¥¯¥ê¡¼¥ó¤Ë´Ø¤¹¤ë¾ğÊó¤òÆÉ¤ß¹ş¤à
+// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã«é–¢ã™ã‚‹æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
 
 static void read_screen (screen_t * s) {
   read_vec (& s -> pos);
@@ -840,10 +840,10 @@ static void read_screen (screen_t * s) {
                       + s -> pos . z;
 }
 
-// ¸÷¸»¤Ë´Ø¤¹¤ë¾ğÊó¤òÆÉ¤ß¹ş¤à
+// å…‰æºã«é–¢ã™ã‚‹æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
 
 static void read_light (light_t * l) {
-  (void) read_double (); // ¸÷¸»¤Î¿ô¤Ï1¤Ë¸ÇÄê
+  (void) read_double (); // å…‰æºã®æ•°ã¯1ã«å›ºå®š
   read_rot2 (& l -> dir);
   l -> str = read_double ();
 
@@ -852,16 +852,16 @@ static void read_light (light_t * l) {
   l -> vec . z = l -> dir . tx . cos * l -> dir . ty . cos;
 }
 
-// ¥×¥ê¥ß¥Æ¥£¥Ö¤Î¥Ñ¥é¥á¡¼¥¿¤òÆÉ¤ß¹ş¤à
+// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
 
 static void read_param (vec_t * param, type_t type) {
   read_vec (param);
 
   switch (type) {
-  case type_plane: // Ê¿ÌÌ¤ÏË¡Àş¥Ù¥¯¥È¥ë¤òÀµµ¬²½
+  case type_plane: // å¹³é¢ã¯æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–
     norm_vec (param);
     return;
-  case type_quad: // 2¼¡¶ÊÌÌ¤Ï¥Ñ¥é¥á¡¼¥¿¤òÊÑ´¹
+  case type_quad: // 2æ¬¡æ›²é¢ã¯ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å¤‰æ›
     param -> x = inv2 (param -> x);
     param -> y = inv2 (param -> y);
     param -> z = inv2 (param -> z);
@@ -871,7 +871,7 @@ static void read_param (vec_t * param, type_t type) {
   }
 }
 
-// ¥×¥ê¥ß¥Æ¥£¥Ö¤òÆÉ¤ß¹ş¤à
+// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’èª­ã¿è¾¼ã‚€
 
 static bool_t read_prim (prim_t * prim) {
   unsigned tmp;
@@ -893,7 +893,7 @@ static bool_t read_prim (prim_t * prim) {
 
   read_pixel (& prim -> color);
 
-  // Ê¿ÌÌ¤Ï¶ËÀ­¤¬Éé¤Ë¤Ê¤ë¤è¤¦¤Ë¤¹¤ë
+  // å¹³é¢ã¯æ¥µæ€§ãŒè² ã«ãªã‚‹ã‚ˆã†ã«ã™ã‚‹
 
   if (prim -> type == type_plane) {
     if (prim -> pol) {
@@ -902,7 +902,7 @@ static bool_t read_prim (prim_t * prim) {
     }
   }
 
-  // 2¼¡¶ÊÌÌ¤Î²óÅ¾
+  // 2æ¬¡æ›²é¢ã®å›è»¢
 
   if (prim -> rot) {
     read_rot3 (& prim -> rot3);
@@ -912,7 +912,7 @@ static bool_t read_prim (prim_t * prim) {
   return 1;
 }
 
-// AND¥×¥ê¥ß¥Æ¥£¥Ö¤òÆÉ¤ß¹ş¤à
+// ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’èª­ã¿è¾¼ã‚€
 
 static bool_t read_andprim (andprim_t * andprim) {
   card_t i = 0;
@@ -932,7 +932,7 @@ static bool_t read_andprim (andprim_t * andprim) {
   }
 }
 
-// OR¥×¥ê¥ß¥Æ¥£¥Ö¤òÆÉ¤ß¹ş¤à
+// ORãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’èª­ã¿è¾¼ã‚€
 
 static bool_t read_orprim (orprim_t * orprim) {
   card_t i = 0;
@@ -952,16 +952,16 @@ static bool_t read_orprim (orprim_t * orprim) {
   }
 }
 
-// ¥Ç¡¼¥¿Á´ÂÎ¤òÆÉ¤ß¹ş¤à
+// ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã‚’èª­ã¿è¾¼ã‚€
 
 static void read_data (void) {
-  // ´ğËÜÅª¤Ê¾ğÊó¤òÆÉ¤ß¹ş¤à
+  // åŸºæœ¬çš„ãªæƒ…å ±ã‚’èª­ã¿è¾¼ã‚€
 
   read_output (& output);
   read_screen (& screen);
   read_light (& light);
 
-  // ¥×¥ê¥ß¥Æ¥£¥Ö¤òÆÉ¤ß¹ş¤à
+  // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’èª­ã¿è¾¼ã‚€
 
   while (1) {
     bool_t tmp;
@@ -970,7 +970,7 @@ static void read_data (void) {
     num_prims ++;
   }
 
-  // AND¥×¥ê¥ß¥Æ¥£¥Ö¤òÆÉ¤ß¹ş¤à
+  // ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’èª­ã¿è¾¼ã‚€
 
   while (1) {
     bool_t tmp;
@@ -979,7 +979,7 @@ static void read_data (void) {
     num_andprims ++;
   }
 
-  // OR¥×¥ê¥ß¥Æ¥£¥Ö¤òÆÉ¤ß¹ş¤à
+  // ORãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’èª­ã¿è¾¼ã‚€
 
   while (1) {
     bool_t tmp;
@@ -993,11 +993,11 @@ static void read_data (void) {
 
 /*********************************************************************
 
-			      ¼çÍ×¤Ê´Ø¿ô
+			      ä¸»è¦ãªé–¢æ•°
 
 *********************************************************************/
 
-// intsec_point¤Ë¤ª¤±¤ëintsec_prim¤ÎË¡Àş¥Ù¥¯¥È¥ë¤òµá¤á¤ë
+// intsec_pointã«ãŠã‘ã‚‹intsec_primã®æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
 
 static void normal_rect (void) {
   switch (intsec_rectsurf) {
@@ -1027,19 +1027,19 @@ static void normal_rect (void) {
     }
   default:
     {
-      return; // ¥³¥ó¥Ñ¥¤¥é¤Î·Ù¹ğ¤ò²óÈò
+      return; // ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®è­¦å‘Šã‚’å›é¿
     }
   }
 }
 
 static void normal_plane (void) {
-  neg_vec_2 (& intsec_normal, & intsec_prim -> param); // Ê¿ÌÌ¤Ï¶ËÀ­¤¬Éé
+  neg_vec_2 (& intsec_normal, & intsec_prim -> param); // å¹³é¢ã¯æ¥µæ€§ãŒè² 
 }
 
 static void normal_quad_cone (void) {
   vec_t ip;
 
-  sub_vec_3 (& ip, & intsec_point, & intsec_prim -> offset); // Ê¿¹Ô°ÜÆ°
+  sub_vec_3 (& ip, & intsec_point, & intsec_prim -> offset); // å¹³è¡Œç§»å‹•
   mul_vec_3 (& intsec_normal, & ip, & intsec_prim -> param);
 
   if (intsec_prim -> rot) {
@@ -1070,15 +1070,15 @@ static void normal (void) {
     normal_quad_cone ();
     return;
   default:
-    return; // ¥³¥ó¥Ñ¥¤¥é¤Î·Ù¹ğ¤ò²óÈò
+    return; // ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®è­¦å‘Šã‚’å›é¿
   }
 }
 
-// intsec_cand¤¬prim¤Ë´Ş¤Ş¤ì¤ë¤«¤É¤¦¤«¤òÈ½Äê
+// intsec_candãŒprimã«å«ã¾ã‚Œã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®š
 
 static bool_t interior (const prim_t * prim) {
   vec_t is;
-  sub_vec_3 (& is, & intsec_cand, & prim -> offset); // Ê¿¹Ô°ÜÆ°
+  sub_vec_3 (& is, & intsec_cand, & prim -> offset); // å¹³è¡Œç§»å‹•
 
   switch (prim -> type) {
   case type_rect:
@@ -1090,7 +1090,7 @@ static bool_t interior (const prim_t * prim) {
     }
   case type_plane:
     {
-      return inprod_vec (& prim -> param, & is) > 0.0; // Ê¿ÌÌ¤Ï¶ËÀ­¤¬Éé
+      return inprod_vec (& prim -> param, & is) > 0.0; // å¹³é¢ã¯æ¥µæ€§ãŒè² 
     }
   case type_quad:
   case type_cone:
@@ -1111,12 +1111,12 @@ static bool_t interior (const prim_t * prim) {
     }
   default:
     {
-      return 0; // ¥³¥ó¥Ñ¥¤¥é¤Î·Ù¹ğ¤ò²óÈò
+      return 0; // ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®è­¦å‘Šã‚’å›é¿
     }
   }
 }
 
-// »ëÀş¤È¥×¥ê¥ß¥Æ¥£¥Ö¤Î¸ò¤ï¤êÊı¤òÄ´¤Ù¤ë
+// è¦–ç·šã¨ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®äº¤ã‚ã‚Šæ–¹ã‚’èª¿ã¹ã‚‹
 
 static bool_t intersect_rect (const vec_t * vp,
 			      const prim_t * prim,
@@ -1124,10 +1124,10 @@ static bool_t intersect_rect (const vec_t * vp,
 			      rectsurf_t * rectsurf) {
   dist_t d;
 
-  // [BUG?] dist¤¬Éé¤Î¤È¤­¤Ë1¤¬ÊÖ¤ë²ÄÇ½À­
+  // [BUG?] distãŒè² ã®ã¨ãã«1ãŒè¿”ã‚‹å¯èƒ½æ€§
 
   if (sightline . x != 0.0) {
-    // yzÊ¿ÌÌ¤ËÊ¿¹Ô¤ÊÌÌ¤Ë´Ø¤·¤ÆÄ´¤Ù¤ë
+    // yzå¹³é¢ã«å¹³è¡Œãªé¢ã«é–¢ã—ã¦èª¿ã¹ã‚‹
 
     d = my_xor (prim -> pol, sightline . x > 0.0)
         ? (prim -> param . x)
@@ -1139,12 +1139,12 @@ static bool_t intersect_rect (const vec_t * vp,
 	fabs (vp -> z + sightline . z * d) <= prim -> param . z) {
       * rectsurf = rectsurf_x;
       * dist = d;
-      return 1; // ¸ò¤ï¤Ã¤¿
+      return 1; // äº¤ã‚ã£ãŸ
     }
   }
 
   if (sightline . y != 0.0) {
-    // zxÊ¿ÌÌ¤ËÊ¿¹Ô¤ÊÌÌ¤Ë´Ø¤·¤ÆÄ´¤Ù¤ë
+    // zxå¹³é¢ã«å¹³è¡Œãªé¢ã«é–¢ã—ã¦èª¿ã¹ã‚‹
 
     d = my_xor (prim -> pol, sightline . y > 0.0)
         ? (prim -> param . y)
@@ -1156,12 +1156,12 @@ static bool_t intersect_rect (const vec_t * vp,
 	fabs (vp -> x + sightline . x * d) <= prim -> param . x) {
       * rectsurf = rectsurf_y;
       * dist = d;
-      return 1; // ¸ò¤ï¤Ã¤¿
+      return 1; // äº¤ã‚ã£ãŸ
     }
   }
 
   if (sightline . z != 0.0) {
-    // xyÊ¿ÌÌ¤ËÊ¿¹Ô¤ÊÌÌ¤Ë´Ø¤·¤ÆÄ´¤Ù¤ë
+    // xyå¹³é¢ã«å¹³è¡Œãªé¢ã«é–¢ã—ã¦èª¿ã¹ã‚‹
 
     d = my_xor (prim -> pol, sightline . z > 0.0)
         ? (prim -> param . z)
@@ -1173,33 +1173,33 @@ static bool_t intersect_rect (const vec_t * vp,
 	fabs (vp -> y + sightline . y * d) <= prim -> param . y) {
       * rectsurf = rectsurf_z;
       * dist = d;
-      return 1; // ¸ò¤ï¤Ã¤¿
+      return 1; // äº¤ã‚ã£ãŸ
     }
   }
 
-  return 0; // ¸ò¤ï¤é¤Ê¤«¤Ã¤¿
+  return 0; // äº¤ã‚ã‚‰ãªã‹ã£ãŸ
 }
 
 static bool_t intersect_plane (const vec_t * vp,
 			       const prim_t * prim,
 			       dist_t * dist) {
-  dist_t d; // ÅÀ¤ÈÊ¿ÌÌ¤ÎÉä¹æ¤Ä¤­µ÷Î¥
+  dist_t d; // ç‚¹ã¨å¹³é¢ã®ç¬¦å·ã¤ãè·é›¢
 
-  d = inprod_vec (& sightline, & prim -> param); // Ê¿ÌÌ¤Ï¶ËÀ­¤¬Éé
+  d = inprod_vec (& sightline, & prim -> param); // å¹³é¢ã¯æ¥µæ€§ãŒè² 
 
   if (d <= 0.0) {
-    return 0; // Ê¿¹Ô¡¢¤¢¤ë¤¤¤Ï¸ş¤­¤¬µÕ
+    return 0; // å¹³è¡Œã€ã‚ã‚‹ã„ã¯å‘ããŒé€†
   }
 
   * dist = - inprod_vec (vp, & prim -> param) / d;
 
-  return 1; // ¸ò¤ï¤Ã¤¿
+  return 1; // äº¤ã‚ã£ãŸ
 }
 
 static bool_t intersect_quad (const vec_t * vp,
 			      const prim_t * prim,
 			      dist_t * dist) {
-  double a, b, c; // 2¼¡ÊıÄø¼°¤Î·¸¿ô
+  double a, b, c; // 2æ¬¡æ–¹ç¨‹å¼ã®ä¿‚æ•°
 
   a = dblprod_vec (& prim -> param, & sightline);
 
@@ -1230,7 +1230,7 @@ static bool_t intersect_quad (const vec_t * vp,
   }
 
   {
-    double d = fsq (b) - a * c; // È½ÊÌ¼°
+    double d = fsq (b) - a * c; // åˆ¤åˆ¥å¼
 
     if (d < 0.0) {
       return 0;
@@ -1249,7 +1249,7 @@ static bool_t intersect_quad (const vec_t * vp,
     * dist /= a;
   }
 
-  return 1; // ¸ò¤ï¤Ã¤¿
+  return 1; // äº¤ã‚ã£ãŸ
 }
 
 static bool_t intersect (const prim_t * prim,
@@ -1257,7 +1257,7 @@ static bool_t intersect (const prim_t * prim,
 			 rectsurf_t * rectsurf) {
   vec_t vp;
 
-  sub_vec_3 (& vp, & viewpoint, & prim -> offset); // Ê¿¹Ô°ÜÆ°
+  sub_vec_3 (& vp, & viewpoint, & prim -> offset); // å¹³è¡Œç§»å‹•
 
   switch (prim -> type) {
   case type_rect:
@@ -1268,17 +1268,17 @@ static bool_t intersect (const prim_t * prim,
   case type_cone:
     return intersect_quad (& vp, prim, dist);
   default:
-    return 0; // ¥³¥ó¥Ñ¥¤¥é¤Î·Ù¹ğ¤ò²óÈò
+    return 0; // ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®è­¦å‘Šã‚’å›é¿
   }
 }
 
-// »ëÀş¤ò¤¿¤É¤Ã¤ÆÊªÂÎ¤È¤Î¸òÅÀ¤òµá¤á¤ë
+// è¦–ç·šã‚’ãŸã©ã£ã¦ç‰©ä½“ã¨ã®äº¤ç‚¹ã‚’æ±‚ã‚ã‚‹
 
 static bool_t trace (void) {
   // const prim_t * prev_intsec_prim = intsec_prim;
   dist_t dist = dist_max;
 
-  // ¤¹¤Ù¤Æ¤ÎOR¥×¥ê¥ß¥Æ¥£¥ÖÄêµÁ¤ò½ç¤ËÄ´¤Ù¤Æ¤¤¤¯
+  // ã™ã¹ã¦ã®ORãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å®šç¾©ã‚’é †ã«èª¿ã¹ã¦ã„ã
 
   card_t id_orprim;
   for (id_orprim = 0;
@@ -1287,19 +1287,19 @@ static bool_t trace (void) {
     const orprim_t * orprim = & orprims [id_orprim];
 
     if (orprim -> range != noprim) {
-      // ¥ì¥ó¥¸¥×¥ê¥ß¥Æ¥£¥Ö¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ë¤Î¤Ç¡¢
-      // ¤Ş¤º¥ì¥ó¥¸¥×¥ê¥ß¥Æ¥£¥Ö¤È¤Î¸ò¤ï¤êÊı¤ò¥Á¥§¥Ã¥¯
+      // ãƒ¬ãƒ³ã‚¸ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹ã®ã§ã€
+      // ã¾ãšãƒ¬ãƒ³ã‚¸ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã¨ã®äº¤ã‚ã‚Šæ–¹ã‚’ãƒã‚§ãƒƒã‚¯
 
       rectsurf_t dummy;
       dist_t d;
 
       if (! intersect (orprim -> range, & d, & dummy) ||
 	  d >= dist) {
-	continue; // ¤Ş¤Ã¤¿¤¯¸ò¤ï¤é¤Ê¤¤¡¢¤¢¤ë¤¤¤Ï´ûÃÎ¤Î¤â¤Î¤è¤ê±ó¤¤
+	continue; // ã¾ã£ãŸãäº¤ã‚ã‚‰ãªã„ã€ã‚ã‚‹ã„ã¯æ—¢çŸ¥ã®ã‚‚ã®ã‚ˆã‚Šé ã„
       }
     }
 
-    // OR¤µ¤ì¤Æ¤¤¤ëAND¥×¥ê¥ß¥Æ¥£¥Ö¤ò½ç¤Ë¸«¤Æ¤¤¤¯
+    // ORã•ã‚Œã¦ã„ã‚‹ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’é †ã«è¦‹ã¦ã„ã
 
     card_t id_andprim;
     for (id_andprim = 0;
@@ -1307,7 +1307,7 @@ static bool_t trace (void) {
 	 id_andprim ++) {
       const andprim_t * andprim = orprim -> andprims [id_andprim];
 
-      // AND¤µ¤ì¤Æ¤¤¤ë¥×¥ê¥ß¥Æ¥£¥Ö¤ò½ç¤ËÄ´¤Ù¤ë
+      // ANDã•ã‚Œã¦ã„ã‚‹ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’é †ã«èª¿ã¹ã‚‹
 
       rectsurf_t rectsurf;
       dist_t d;
@@ -1319,32 +1319,32 @@ static bool_t trace (void) {
 	const prim_t * prim = andprim -> prims [id_prim];
 /*
 	if (prim == prev_intsec_prim) {
-	  continue; // [BUG?] Á°²ó¤ËÈ¿¼Í¤¬µ¯¤³¤Ã¤¿¥×¥ê¥ß¥Æ¥£¥Ö¤Ê¤Î¤Ç·×»»¤ÏÉÔÍ×?
+	  continue; // [BUG?] å‰å›ã«åå°„ãŒèµ·ã“ã£ãŸãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãªã®ã§è¨ˆç®—ã¯ä¸è¦?
 	}
 */
 	if (! intersect (prim, & d, & rectsurf)) {
-	  // ¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÉ½ÌÌ¤È»ëÀş¤¬¸ò¤ï¤é¤Ê¤¤
+	  // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®è¡¨é¢ã¨è¦–ç·šãŒäº¤ã‚ã‚‰ãªã„
 
 	  if (prim -> pol) {
-	    break; // ÆâÉô¤¬¿¿¤Ê¤Î¤Ç¡¢»ëÀş¤È¸ò¤ï¤é¤Ê¤¤
+	    break; // å†…éƒ¨ãŒçœŸãªã®ã§ã€è¦–ç·šã¨äº¤ã‚ã‚‰ãªã„
 	  } else {
-	    continue; // ³°Éô¤¬¿¿¤Ê¤Î¤Ç¡¢»ëÀş¤ò´°Á´¤Ë´Ş¤à
+	    continue; // å¤–éƒ¨ãŒçœŸãªã®ã§ã€è¦–ç·šã‚’å®Œå…¨ã«å«ã‚€
 	  }
 	}
 
 	if (d > dist || d < dist_back) {
-	  continue; // ´ûÃÎ¤Î¸òÅÀ¤è¤ê±ó¤¤¡¢¤¢¤ë¤¤¤Ï»ëÅÀ¤Î¸åÊı¤Ë¤¢¤ë
+	  continue; // æ—¢çŸ¥ã®äº¤ç‚¹ã‚ˆã‚Šé ã„ã€ã‚ã‚‹ã„ã¯è¦–ç‚¹ã®å¾Œæ–¹ã«ã‚ã‚‹
 	}
 
-	d += dist_delta; // ¸íº¹¤ò²óÈò
+	d += dist_delta; // èª¤å·®ã‚’å›é¿
 
-	// ¸òÅÀ¤Î¸õÊä¤òµá¤á¤ë
+	// äº¤ç‚¹ã®å€™è£œã‚’æ±‚ã‚ã‚‹
 
 	scale_vec_3 (& intsec_cand, & sightline, d);
 	add_vec (& intsec_cand, & viewpoint);
 
-	// ¼Âºİ¤Ë¤¹¤Ù¤Æ¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤Ë´Ş¤Ş¤ì¤Æ¤¤¤ë¤«¤É¤¦¤«
-	// ¸òÅÀ¤Î¸õÊä¤ò¿³ºº
+	// å®Ÿéš›ã«ã™ã¹ã¦ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã«å«ã¾ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹
+	// äº¤ç‚¹ã®å€™è£œã‚’å¯©æŸ»
 
 	{
 	  card_t id_prim2;
@@ -1354,16 +1354,16 @@ static bool_t trace (void) {
 	       prim2 != noprim;
 	       prim2 = andprim -> prims [++ id_prim2]) {
 	    if (prim == prim2) {
-	      continue; // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤Ë´Ş¤Ş¤ì¤ë¤Î¤Ï¼«ÌÀ
+	      continue; // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã«å«ã¾ã‚Œã‚‹ã®ã¯è‡ªæ˜
 	    }
 
 	    if (! interior (prim2)) {
-	      goto continue2; // ¿³ºº¼º³Ê
+	      goto continue2; // å¯©æŸ»å¤±æ ¼
 	    }
 	  }
 	}
 
-	// ¿³ºº¹ç³Ê
+	// å¯©æŸ»åˆæ ¼
 
 	dist = d;
 
@@ -1377,12 +1377,12 @@ static bool_t trace (void) {
     }
   }
 
-  // ±ó¤¹¤®¤ë¤È¤­¤ä¡¢¸åÊı¤Î¾ì¹ç¤Ïµ¶¤òÊÖ¤¹
+  // é ã™ãã‚‹ã¨ãã‚„ã€å¾Œæ–¹ã®å ´åˆã¯å½ã‚’è¿”ã™
 
   return (dist > dist_back && dist < dist_far); 
 }
 
-// ¸÷¸»¤ÎÇò¿§¸÷¤ò·×»»
+// å…‰æºã®ç™½è‰²å…‰ã‚’è¨ˆç®—
 
 static void lighten (void) {
   double tmp = - inprod_vec (& light . vec, & sightline);
@@ -1396,12 +1396,12 @@ static void lighten (void) {
   }
 }
 
-// ¿·¤·¤¤»ëÅÀ¡Ê¸½ºß¤Î¸òÅÀ¡Ë¤«¤é¸÷Àş¤òµÕ¤Ë¤¿¤É¤Ã¤Æ±Æ¤òµá¤á¤ë
+// æ–°ã—ã„è¦–ç‚¹ï¼ˆç¾åœ¨ã®äº¤ç‚¹ï¼‰ã‹ã‚‰å…‰ç·šã‚’é€†ã«ãŸã©ã£ã¦å½±ã‚’æ±‚ã‚ã‚‹
 
 static bool_t shadow (void) {
-  swap_vec (& sightline, & light . vec); // »ëÀş¤È¸÷Àş¤òÆş¤ì¤«¤¨¤ë
+  swap_vec (& sightline, & light . vec); // è¦–ç·šã¨å…‰ç·šã‚’å…¥ã‚Œã‹ãˆã‚‹
 
-  // ¤¹¤Ù¤Æ¤ÎOR¥×¥ê¥ß¥Æ¥£¥ÖÄêµÁ¤ò½ç¤ËÄ´¤Ù¤Æ¤¤¤¯
+  // ã™ã¹ã¦ã®ORãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å®šç¾©ã‚’é †ã«èª¿ã¹ã¦ã„ã
 
   card_t id_orprim;
   for (id_orprim = 0;
@@ -1410,19 +1410,19 @@ static bool_t shadow (void) {
     const orprim_t * orprim = & orprims [id_orprim];
 
     if (orprim -> range != noprim) {
-      // ¥ì¥ó¥¸¥×¥ê¥ß¥Æ¥£¥Ö¤¬»ØÄê¤µ¤ì¤Æ¤¤¤ë¤Î¤Ç¡¢
-      // ¤Ş¤º¥ì¥ó¥¸¥×¥ê¥ß¥Æ¥£¥Ö¤È¤Î¸ò¤ï¤êÊı¤ò¥Á¥§¥Ã¥¯
+      // ãƒ¬ãƒ³ã‚¸ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹ã®ã§ã€
+      // ã¾ãšãƒ¬ãƒ³ã‚¸ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã¨ã®äº¤ã‚ã‚Šæ–¹ã‚’ãƒã‚§ãƒƒã‚¯
 
       rectsurf_t dummy;
       dist_t d;
 
       if (! intersect (orprim -> range, & d, & dummy) ||
 	  d >= dist_back) {
-	continue; // ¤Ş¤Ã¤¿¤¯¸ò¤ï¤é¤Ê¤¤¡¢¤¢¤ë¤¤¤ÏÁ°Êı¤Ç¸ò¤ï¤ë
+	continue; // ã¾ã£ãŸãäº¤ã‚ã‚‰ãªã„ã€ã‚ã‚‹ã„ã¯å‰æ–¹ã§äº¤ã‚ã‚‹
       }
     }
 
-    // OR¤µ¤ì¤Æ¤¤¤ëAND¥×¥ê¥ß¥Æ¥£¥Ö¤ò½ç¤Ë¸«¤Æ¤¤¤¯
+    // ORã•ã‚Œã¦ã„ã‚‹ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’é †ã«è¦‹ã¦ã„ã
 
     card_t id_andprim;
     for (id_andprim = 0;
@@ -1430,7 +1430,7 @@ static bool_t shadow (void) {
 	 id_andprim ++) {
       const andprim_t * andprim = orprim -> andprims [id_andprim];
 
-      // AND¤µ¤ì¤Æ¤¤¤ë¥×¥ê¥ß¥Æ¥£¥Ö¤ò½ç¤ËÄ´¤Ù¤ë
+      // ANDã•ã‚Œã¦ã„ã‚‹ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚’é †ã«èª¿ã¹ã‚‹
 
       rectsurf_t rectsurf;
       dist_t d;
@@ -1441,34 +1441,34 @@ static bool_t shadow (void) {
 	   id_prim ++) {
 	const prim_t * prim = andprim -> prims [id_prim];
 /*
-        // ÆÌ¤Ç¤Ê¤¤AND¥×¥ê¥ß¥Æ¥£¥Ö¤âºî¤ì¤ë¤Î¤ÇÀµ¤·¤¯¤Ê¤¤?
+        // å‡¸ã§ãªã„ANDãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚‚ä½œã‚Œã‚‹ã®ã§æ­£ã—ããªã„?
 	if (prim == intsec_prim) {
-	  continue; // [BUG?] ¼«Ê¬¼«¿È¤Ê¤Î¤Ç¹ÍÎ¸¤·¤Ê¤¤? (¤¹¤Ç¤ËË¡Àş¥Ù¥¯¥È¥ë¤Ç¹ÍÎ¸?)
+	  continue; // [BUG?] è‡ªåˆ†è‡ªèº«ãªã®ã§è€ƒæ…®ã—ãªã„? (ã™ã§ã«æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã§è€ƒæ…®?)
 	}
 */
 	if (! intersect (prim, & d, & rectsurf)) {
-	  // ¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÉ½ÌÌ¤È¸÷Àş¤¬¸ò¤ï¤é¤Ê¤¤
+	  // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®è¡¨é¢ã¨å…‰ç·šãŒäº¤ã‚ã‚‰ãªã„
 
 	  if (prim -> pol) {
-	    break; // ÆâÉô¤¬¿¿¤Ê¤Î¤Ç¡¢¸÷Àş¤È¸ò¤ï¤é¤Ê¤¤
+	    break; // å†…éƒ¨ãŒçœŸãªã®ã§ã€å…‰ç·šã¨äº¤ã‚ã‚‰ãªã„
 	  } else {
-	    continue; // ³°Éô¤¬¿¿¤Ê¤Î¤Ç¡¢¸÷Àş¤ò´°Á´¤Ë´Ş¤à
+	    continue; // å¤–éƒ¨ãŒçœŸãªã®ã§ã€å…‰ç·šã‚’å®Œå…¨ã«å«ã‚€
 	  }
 	}
 
 	if (d >= dist_back) {
-	  continue; // ¸÷Àş¤ÎÁ°Êı¤Ç¸ò¤ï¤ë
+	  continue; // å…‰ç·šã®å‰æ–¹ã§äº¤ã‚ã‚‹
 	}
 
-	d += dist_delta; // ¸íº¹¤ò²óÈò
+	d += dist_delta; // èª¤å·®ã‚’å›é¿
 
-	// ¸òÅÀ¤Î¸õÊä¤òµá¤á¤ë
+	// äº¤ç‚¹ã®å€™è£œã‚’æ±‚ã‚ã‚‹
 
 	scale_vec_3 (& intsec_cand, & sightline, d);
 	add_vec (& intsec_cand, & viewpoint);
 
-	// ¼Âºİ¤Ë¤¹¤Ù¤Æ¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤Ë´Ş¤Ş¤ì¤Æ¤¤¤ë¤«¤É¤¦¤«
-	// ¸òÅÀ¤Î¸õÊä¤ò¿³ºº
+	// å®Ÿéš›ã«ã™ã¹ã¦ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã«å«ã¾ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹
+	// äº¤ç‚¹ã®å€™è£œã‚’å¯©æŸ»
 
 	{
 	  card_t id_prim2;
@@ -1478,19 +1478,19 @@ static bool_t shadow (void) {
 	       prim2 != noprim;
 	       prim2 = andprim -> prims [++ id_prim2]) {
 	    if (prim == prim2) {
-	      continue; // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤Ë´Ş¤Ş¤ì¤ë¤Î¤Ï¼«ÌÀ
+	      continue; // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã«å«ã¾ã‚Œã‚‹ã®ã¯è‡ªæ˜
 	    }
 
 	    if (! interior (prim2)) {
-	      goto continue2; // ¿³ºº¼º³Ê
+	      goto continue2; // å¯©æŸ»å¤±æ ¼
 	    }
 	  }
 	}
 
-	// ¿³ºº¹ç³Ê
+	// å¯©æŸ»åˆæ ¼
 
 	swap_vec (& sightline, & light . vec);
-	return 1; // ±Æ¤Ë¤Ê¤Ã¤Æ¤¤¤ë
+	return 1; // å½±ã«ãªã£ã¦ã„ã‚‹
 
       continue2:
 	;
@@ -1499,35 +1499,35 @@ static bool_t shadow (void) {
   }
 
   swap_vec (& sightline, & light . vec);
-  return 0; // ±Æ¤Ë¤Ê¤Ã¤Æ¤¤¤Ê¤¤
+  return 0; // å½±ã«ãªã£ã¦ã„ãªã„
 }
 
-// ÊªÂÎÉ½ÌÌ¤ÎÌÀ¤ë¤µ¤ò·×»»
+// ç‰©ä½“è¡¨é¢ã®æ˜ã‚‹ã•ã‚’è¨ˆç®—
 
 static void brighten (void) {
   if (shadow()) {
-    bright = 0.0; // ±Æ¤Ë¤Ê¤Ã¤Æ¤¤¤ë
+    bright = 0.0; // å½±ã«ãªã£ã¦ã„ã‚‹
     return;
   }
 
   bright = - inprod_vec (& light . vec, & intsec_normal);
 
   if (bright < 0.0) {
-    bright = 0.0; // ¸÷¤¬¤¢¤¿¤é¤Ê¤¤
+    bright = 0.0; // å…‰ãŒã‚ãŸã‚‰ãªã„
   }
 
-  bright += 0.2; // Äì¾å¤²
-  bright *= energy; // È¿¼Í¤Ë¤è¤ë¼å¤Ş¤ê
-  bright *= intsec_prim -> ref; // ¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÍğÈ¿¼ÍÎ¨
+  bright += 0.2; // åº•ä¸Šã’
+  bright *= energy; // åå°„ã«ã‚ˆã‚‹å¼±ã¾ã‚Š
+  bright *= intsec_prim -> ref; // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®ä¹±åå°„ç‡
 }
 
-// ¥Æ¥¯¥¹¥Á¥å¥¢¤ò½èÍı
+// ãƒ†ã‚¯ã‚¹ãƒãƒ¥ã‚¢ã‚’å‡¦ç†
 
 static void texture (void) {
   pixel_t p = intsec_prim -> color;
 
   switch (intsec_prim -> tex) {
-  case tex_checker: // zxÊı¸ş¤Î¥Á¥§¥Ã¥«
+  case tex_checker: // zxæ–¹å‘ã®ãƒã‚§ãƒƒã‚«
     {
       dist_t mod_z, mod_x;
       bool_t tmp;
@@ -1540,7 +1540,7 @@ static void texture (void) {
 
       break;
     }
-  case tex_stripe: // y¼´Êı¸ş¤Î¥¹¥È¥é¥¤¥×
+  case tex_stripe: // yè»¸æ–¹å‘ã®ã‚¹ãƒˆãƒ©ã‚¤ãƒ—
     {
       double tmp;
 
@@ -1551,7 +1551,7 @@ static void texture (void) {
 
       break;
     }
-  case tex_circle: // zxÊ¿ÌÌÊı¸ş¤ÎÆ±¿´±ß
+  case tex_circle: // zxå¹³é¢æ–¹å‘ã®åŒå¿ƒå††
     {
       double tmp;
 
@@ -1567,7 +1567,7 @@ static void texture (void) {
 
       break;
     }
-  case tex_spot: // µåÌÌ¾å¤ÎÈÃÅÀ
+  case tex_spot: // çƒé¢ä¸Šã®æ–‘ç‚¹
     {
       double d, u, v;
       vec_t vec;
@@ -1592,7 +1592,7 @@ static void texture (void) {
     }
   default:
     {
-      break; // ¥³¥ó¥Ñ¥¤¥é¤Î·Ù¹ğ¤ò²óÈò
+      break; // ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®è­¦å‘Šã‚’å›é¿
     }
   }
 
@@ -1601,7 +1601,7 @@ static void texture (void) {
   pixel . b += bright * p . b;
 }
 
-// È¿¼Í¤Î½èÍı
+// åå°„ã®å‡¦ç†
 
 static bool_t reflect (void) {
   double d;
@@ -1637,7 +1637,7 @@ static bool_t reflect (void) {
   return 1;
 }
 
-// ½ĞÎÏ²èÁü¤Î°ìÅÀ¤òÀ¸À®
+// å‡ºåŠ›ç”»åƒã®ä¸€ç‚¹ã‚’ç”Ÿæˆ
 
 static void render (void) {
   card_t ref = 0;
@@ -1647,10 +1647,10 @@ static void render (void) {
   while (1) {
     write_flush ();
 
-    // »ëÀş¤¬ÊªÂÎ¤È¸ò¤ï¤ë¤«Ä´¤Ù¤ë
+    // è¦–ç·šãŒç‰©ä½“ã¨äº¤ã‚ã‚‹ã‹èª¿ã¹ã‚‹
 
     if (! trace ()) {
-      // ¸÷¸»¤«¤éÄ¾ÀÜÌÜ¤ËÆş¤Ã¤Æ¤¯¤ë¸÷¤ÏÌµ»ë
+      // å…‰æºã‹ã‚‰ç›´æ¥ç›®ã«å…¥ã£ã¦ãã‚‹å…‰ã¯ç„¡è¦–
 
       if (ref != 0) {
 	lighten ();
@@ -1661,19 +1661,19 @@ static void render (void) {
 
     write_flush ();
 
-    normal (); // Ë¡Àş¥Ù¥¯¥È¥ë¤ò·×»»
+    normal (); // æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 
-    viewpoint = intsec_point; // È¿¼Í¤Î·×»»¤Î¤¿¤á¡¢¸òÅÀ¤ò¿·¤¿¤Ê»ëÅÀ¤È¤¹¤ë
-
-    write_flush ();
-
-    brighten (); // ÌÀ¤ë¤µ¤ò·×»»
+    viewpoint = intsec_point; // åå°„ã®è¨ˆç®—ã®ãŸã‚ã€äº¤ç‚¹ã‚’æ–°ãŸãªè¦–ç‚¹ã¨ã™ã‚‹
 
     write_flush ();
 
-    texture (); // ¥Æ¥¯¥¹¥Á¥å¥¢¤ò½èÍı
+    brighten (); // æ˜ã‚‹ã•ã‚’è¨ˆç®—
 
-    // ¥¨¥Í¥ë¥®¡¼¤¬¾®¤µ¤¯¤Ê¤Ã¤¿¤ê¡¢È¿¼Í¤Î²ó¿ô¤¬Â¿¤¯¤Ê¤Ã¤¿¤ê¤·¤¿¤é¤ä¤á¤ë
+    write_flush ();
+
+    texture (); // ãƒ†ã‚¯ã‚¹ãƒãƒ¥ã‚¢ã‚’å‡¦ç†
+
+    // ã‚¨ãƒãƒ«ã‚®ãƒ¼ãŒå°ã•ããªã£ãŸã‚Šã€åå°„ã®å›æ•°ãŒå¤šããªã£ãŸã‚Šã—ãŸã‚‰ã‚„ã‚ã‚‹
 
     if (energy < 0.1 || ref > 4) {
       break;
@@ -1681,50 +1681,50 @@ static void render (void) {
 
     write_flush ();
 
-    // È¿¼Í¤Î½èÍı
+    // åå°„ã®å‡¦ç†
 
     if (! reflect ()) {
-      break; // ÍğÈ¿¼Í¤·¤¿¤é½ª¤ï¤ê
+      break; // ä¹±åå°„ã—ãŸã‚‰çµ‚ã‚ã‚Š
     }
 
     ref ++;
   }
 }
 
-// ½ĞÎÏ²èÁü¤Î°ì¹Ô¤òÀ¸À®
+// å‡ºåŠ›ç”»åƒã®ä¸€è¡Œã‚’ç”Ÿæˆ
 
 static void scan_x (const vec_t * v0, dist_t len0) {
-  card_t x = 0; // ¥¹¥­¥ã¥ó¤¹¤ëÎó
+  card_t x = 0; // ã‚¹ã‚­ãƒ£ãƒ³ã™ã‚‹åˆ—
 
-  dist_t orig_x = - dot * (dist_t) (int) (output . half); // ÊÑ´¹Á°¤ÎxºÂÉ¸
-  dist_t d_orig_x = dot; // x¤Ë´Ø¤¹¤ëorig_x¤Îº¹Ê¬
+  dist_t orig_x = - dot * (dist_t) (int) (output . half); // å¤‰æ›å‰ã®xåº§æ¨™
+  dist_t d_orig_x = dot; // xã«é–¢ã™ã‚‹orig_xã®å·®åˆ†
 
-  vec_t v = // »ëÀşÊı¸ş¥Ù¥¯¥È¥ë
+  vec_t v = // è¦–ç·šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
     { orig_x * screen . dir . ty . cos,
       0.0,
       - orig_x * screen . dir . ty . sin };
   add_vec (& v, v0);
-  vec_t d_v = // x¤Ë´Ø¤¹¤ëv0¤Îº¹Ê¬
+  vec_t d_v = // xã«é–¢ã™ã‚‹v0ã®å·®åˆ†
     { d_orig_x * screen . dir . ty . cos,
       0.0,
       - d_orig_x * screen . dir . ty . sin };
 
   while (x < output . size) {
-    dist_t len = len0 + fsq (orig_x); // v¤ÎÄ¹¤µ¤Î2¾è
+    dist_t len = len0 + fsq (orig_x); // vã®é•·ã•ã®2ä¹—
 
-    // ¥°¥í¡¼¥Ğ¥ëÊÑ¿ô¤ò½é´ü²½
+    // ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã‚’åˆæœŸåŒ–
 
     viewpoint = screen . trans_view;
     scale_vec_3 (& sightline, & v, sqrtinv (len));
     intsec_prim = noprim;
     pixel = black_pixel;
 
-    // ¥Ô¥¯¥»¥ëÃÍ¤ò·×»»¤·¤Æ½ĞÎÏ
+    // ãƒ”ã‚¯ã‚»ãƒ«å€¤ã‚’è¨ˆç®—ã—ã¦å‡ºåŠ›
 
     render ();
     write_pixel (& pixel);
 
-    // ¥ë¡¼¥×ÊÑ¿ô¤Ê¤É¤ò¹¹¿·
+    // ãƒ«ãƒ¼ãƒ—å¤‰æ•°ãªã©ã‚’æ›´æ–°
 
     x ++;
     orig_x += d_orig_x;
@@ -1732,30 +1732,30 @@ static void scan_x (const vec_t * v0, dist_t len0) {
   }
 }
 
-// ½ĞÎÏ²èÁü¤ÎÁ´ÂÎ¤òÀ¸À®
+// å‡ºåŠ›ç”»åƒã®å…¨ä½“ã‚’ç”Ÿæˆ
 
 static void scan_y (void) {
-  card_t y = 0; // ¥¹¥­¥ã¥ó¤¹¤ë¹Ô
+  card_t y = 0; // ã‚¹ã‚­ãƒ£ãƒ³ã™ã‚‹è¡Œ
 
-  dist_t orig_y = dot * (dist_t) (int) (output . half - 1); // ÊÑ´¹Á°¤ÎyºÂÉ¸
-  dist_t d_orig_y = - dot; // y¤Ë´Ø¤¹¤ëorig_y¤Îº¹Ê¬
+  dist_t orig_y = dot * (dist_t) (int) (output . half - 1); // å¤‰æ›å‰ã®yåº§æ¨™
+  dist_t d_orig_y = - dot; // yã«é–¢ã™ã‚‹orig_yã®å·®åˆ†
 
-  vec_t v0 = // orig_x¤¬0¤Î¤È¤­¤Î»ëÀşÊı¸ş¥Ù¥¯¥È¥ë
+  vec_t v0 = // orig_xãŒ0ã®ã¨ãã®è¦–ç·šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
     { orig_y * screen . dir . tx . sin * screen . dir . ty . sin,
       orig_y * screen . dir . tx . cos,
       orig_y * screen . dir . tx . sin * screen . dir . ty . cos };
   sub_vec (& v0, & screen . rot_view);
-  vec_t d_v0 = // y¤Ë´Ø¤¹¤ëv0¤Îº¹Ê¬
+  vec_t d_v0 = // yã«é–¢ã™ã‚‹v0ã®å·®åˆ†
     { d_orig_y * screen . dir . tx . sin * screen . dir . ty . sin,
       d_orig_y * screen . dir . tx . cos,
       d_orig_y * screen . dir . tx . sin * screen . dir . ty . cos };
 
   while (y < output . size) {
-    dist_t len0 = fsq (screen_orig_view_z) + fsq (orig_y); // v0¤ÎÄ¹¤µ¤Î2¾è
+    dist_t len0 = fsq (screen_orig_view_z) + fsq (orig_y); // v0ã®é•·ã•ã®2ä¹—
 
     scan_x (& v0, len0);
 
-    // ¥ë¡¼¥×ÊÑ¿ô¤Ê¤É¤ò¹¹¿·
+    // ãƒ«ãƒ¼ãƒ—å¤‰æ•°ãªã©ã‚’æ›´æ–°
 
     y ++;
     orig_y += d_orig_y;
@@ -1763,14 +1763,14 @@ static void scan_y (void) {
   }
 }
 
-// ¥á¥¤¥ó¥ë¡¼¥Á¥ó
+// ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³
 
 int main (void) {
-  write_init (); // ½ñ¤­¹ş¤ß¥­¥å¡¼¤ò½é´ü²½
-  read_data (); // ¥Ç¡¼¥¿¤òÆÉ¤ß¹ş¤à
-  write_header (); // PPM¤Î¥Ø¥Ã¥À¤ò½ñ¤¯
-  scan_y (); // ²èÁü¤òÀ¸À®
-  write_flush_all (); // ½ĞÎÏ¤ò¤¹¤Ù¤ÆÅÇ¤­½Ğ¤¹
+  write_init (); // æ›¸ãè¾¼ã¿ã‚­ãƒ¥ãƒ¼ã‚’åˆæœŸåŒ–
+  read_data (); // ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
+  write_header (); // PPMã®ãƒ˜ãƒƒãƒ€ã‚’æ›¸ã
+  scan_y (); // ç”»åƒã‚’ç”Ÿæˆ
+  write_flush_all (); // å‡ºåŠ›ã‚’ã™ã¹ã¦åãå‡ºã™
 
   return 0;
 }
