@@ -30,11 +30,11 @@
 
 typedef unsigned char BYTE;
 typedef unsigned short WORD;
-typedef float SIGN; // Éé¤Ç¤¢¤ë¤«¤É¤¦¤«¤À¤±¤òÉ½¤¹·¿ (Âè 0bit ÌÜ¤¬Éä¹æ)
+typedef float SIGN; // è² ã§ã‚ã‚‹ã‹ã©ã†ã‹ã ã‘ã‚’è¡¨ã™å‹ (ç¬¬ 0bit ç›®ãŒç¬¦å·)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// ÉâÆ°¾®¿ôÅÀ¥ë¡¼¥Á¥ó (¥Ş¥·¥ó¸ì¤Ç½ñ¤­Ä¾¤·¤Ş¤·¤ç¤¦)
+// æµ®å‹•å°æ•°ç‚¹ãƒ«ãƒ¼ãƒãƒ³ (ãƒã‚·ãƒ³èªã§æ›¸ãç›´ã—ã¾ã—ã‚‡ã†)
 //
 
 
@@ -44,10 +44,10 @@ typedef float SIGN; // Éé¤Ç¤¢¤ë¤«¤É¤¦¤«¤À¤±¤òÉ½¤¹·¿ (Âè 0bit ÌÜ¤¬Éä¹æ)
 #define f_atan(f)    ((float)atan((double)(f)))
 #define f_sqrt(f)    ((float)sqrt((double)(f)))
 #define f_sq(f)      ((f) * (f)) // idea:hanawa
-//#define f_round(f) ((float)(int)(f)) ¤³¤Î define ¤Ï¤¦¤Ş¤¯¤¤¤«¤Ê¤¤ (Îã:¥¿¥¤¥ë¥Æ¥¯¥¹¥Á¥ã)
+//#define f_round(f) ((float)(int)(f)) ã“ã® define ã¯ã†ã¾ãã„ã‹ãªã„ (ä¾‹:ã‚¿ã‚¤ãƒ«ãƒ†ã‚¯ã‚¹ãƒãƒ£)
 
 
-// 1 / ­õf
+// 1 / âˆšf
 inline float f_sqrt_inverse(float f)
 {
   f = (float)sqrt((double)f);
@@ -57,8 +57,8 @@ inline float f_sqrt_inverse(float f)
 }
 
 
-// float ÀÚ¤ê²¼¤²¡£¤·¤«¤· C ¤ÎÀ°¿ô¤«¤é¼Â¿ô¤Ø¤ÎÊÑ´¹ÊıË¡¤Ï¤Ş
-// ¤Á¤Ş¤Á¤Ç¤¢¤ë¤Î¤Ç¤³¤Î if ¤Ï C ¸À¸ì¤È¤·¤Æ¤Ï°ÕÌ£¤ò»ı¤¿¤Ê¤¤¡£
+// float åˆ‡ã‚Šä¸‹ã’ã€‚ã—ã‹ã— C ã®æ•´æ•°ã‹ã‚‰å®Ÿæ•°ã¸ã®å¤‰æ›æ–¹æ³•ã¯ã¾
+// ã¡ã¾ã¡ã§ã‚ã‚‹ã®ã§ã“ã® if ã¯ C è¨€èªã¨ã—ã¦ã¯æ„å‘³ã‚’æŒãŸãªã„ã€‚
 inline float f_round(float f)
 {
   if (0 <= f)
@@ -69,7 +69,7 @@ inline float f_round(float f)
 #define i_round(f) ((int)f_round(f))
 
 
-// float ¤ÎÉä¹æ¤òÊÖ¤¹
+// float ã®ç¬¦å·ã‚’è¿”ã™
 inline float f_sgn(float f)
 {
   if (f == 0.0f)
@@ -80,17 +80,17 @@ inline float f_sgn(float f)
     return 1.0f;
 }
 #define i_sgn(f) ((int)f_sgn(f))
-#define i_sgn_mul(f0, f1) i_sgn((f0) * (f1)) // f0 * f1 ¤ÎÉä¹æ
+#define i_sgn_mul(f0, f1) i_sgn((f0) * (f1)) // f0 * f1 ã®ç¬¦å·
 
 
-// Í¾¤ê¤òµá¤á¤ë
+// ä½™ã‚Šã‚’æ±‚ã‚ã‚‹
 inline float f_mod(float a, float b)
 {
   return a - f_round(a / b) * b;
 }
 
 
-// ¾¯¿ôÉôÊ¬¤ò¼è¤ê½Ğ¤¹
+// å°‘æ•°éƒ¨åˆ†ã‚’å–ã‚Šå‡ºã™
 inline float f_fraction(float f)
 {
   return f - f_round(f);
@@ -98,80 +98,80 @@ inline float f_fraction(float f)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// ¥°¥í¡¼¥Ğ¥ëÊÑ¿ô
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //
 
 
-#define pTX  0 // TX : ¥æ¡¼¥¶ÄêµÁ¥Æ¥¯¥¹¥Á¥ãÈÖ¹æ 0, 1, 2, 3, 4
-#define pP   1 // P  : ¥×¥ê¥ß¥Æ¥£¥Ö¼ïÎà¥³¡¼¥É 1, 2, 3, 4
-#define pSF  2 // SF : É½ÌÌÆÃÀ­ 1, 2, 3 : Æ©ÌÀ(Ææ)
-#define pRT  3 // RT : ²óÅ¾¥Õ¥é¥° 0, 1
-#define pa   0 // a  : ¥×¥ê¥ß¥Æ¥£¥Ö¥Ñ¥é¥á¡¼¥¿
-#define pb   1 // b  : ¥×¥ê¥ß¥Æ¥£¥Ö¥Ñ¥é¥á¡¼¥¿
-#define pc   2 // c  : ¥×¥ê¥ß¥Æ¥£¥Ö¥Ñ¥é¥á¡¼¥¿
-#define pX   3 // x  : ¥ª¥Õ¥»¥Ã¥È
-#define pY   4 // y  : ¥ª¥Õ¥»¥Ã¥È
-#define pZ   5 // z  : ¥ª¥Õ¥»¥Ã¥È
-#define pSG  6 // SG : ¶ËÀ­ 1, -1
-#define pREF 7 // REF: É½ÌÌÍğÈ¿¼ÍÎ¨ 0 ¡Á 1
-#define pHL  8 // HL : ÍğÈ¿¼ÍÌÌ¥Ï¥¤¥é¥¤¥È¶¯ÅÙ 0 ¡Á 255
-#define pR   9 // R  : ¥«¥é¡¼¥³¡¼¥É
-#define pG  10 // G  : ¥«¥é¡¼¥³¡¼¥É
-#define pB  11 // B  : ¥«¥é¡¼¥³¡¼¥É
-#define pRX 12 //¦Èx : ²óÅ¾³Ñ
-#define pRY 13 //¦Èy : ²óÅ¾³Ñ
-#define pRZ 14 //¦Èz : ²óÅ¾³Ñ
+#define pTX  0 // TX : ãƒ¦ãƒ¼ã‚¶å®šç¾©ãƒ†ã‚¯ã‚¹ãƒãƒ£ç•ªå· 0, 1, 2, 3, 4
+#define pP   1 // P  : ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ç¨®é¡ã‚³ãƒ¼ãƒ‰ 1, 2, 3, 4
+#define pSF  2 // SF : è¡¨é¢ç‰¹æ€§ 1, 2, 3 : é€æ˜(è¬)
+#define pRT  3 // RT : å›è»¢ãƒ•ãƒ©ã‚° 0, 1
+#define pa   0 // a  : ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+#define pb   1 // b  : ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+#define pc   2 // c  : ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+#define pX   3 // x  : ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+#define pY   4 // y  : ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+#define pZ   5 // z  : ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+#define pSG  6 // SG : æ¥µæ€§ 1, -1
+#define pREF 7 // REF: è¡¨é¢ä¹±åå°„ç‡ 0 ã€œ 1
+#define pHL  8 // HL : ä¹±åå°„é¢ãƒã‚¤ãƒ©ã‚¤ãƒˆå¼·åº¦ 0 ã€œ 255
+#define pR   9 // R  : ã‚«ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+#define pG  10 // G  : ã‚«ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+#define pB  11 // B  : ã‚«ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+#define pRX 12 //Î¸x : å›è»¢è§’
+#define pRY 13 //Î¸y : å›è»¢è§’
+#define pRZ 14 //Î¸z : å›è»¢è§’
 
 typedef int PrimitiveData_i[4];
 typedef float PrimitiveData_f[15];
 #define MAX_PRIMITIVE 60
 #define MAX_AND 50
 #define MAX_OR 10
-PrimitiveData_i ds[MAX_PRIMITIVE + 1]; // ¥×¥ê¥ß¥Æ¥£¥ÖÄêµÁ TX P SF RT
-PrimitiveData_f d [MAX_PRIMITIVE + 1]; // ¥×¥ê¥ß¥Æ¥£¥ÖÄêµÁ a b c x y z SG REF HL RGB ¦È
-int dr[MAX_AND][32]; // AND ÄêµÁ
-//int dr[MAX_AND][9]; // AND ÄêµÁ
-int dm[MAX_OR][32]; // OR ÄêµÁ
-//int dm[MAX_OR][21]; // OR ÄêµÁ
+PrimitiveData_i ds[MAX_PRIMITIVE + 1]; // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å®šç¾© TX P SF RT
+PrimitiveData_f d [MAX_PRIMITIVE + 1]; // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å®šç¾© a b c x y z SG REF HL RGB Î¸
+int dr[MAX_AND][32]; // AND å®šç¾©
+//int dr[MAX_AND][9]; // AND å®šç¾©
+int dm[MAX_OR][32]; // OR å®šç¾©
+//int dm[MAX_OR][21]; // OR å®šç¾©
 
-float ex,  ey,  ez;  // »ëÀş¤Î¸ş¤­¤ÎÃ±°Ì¥Ù¥¯¥È¥ë
-float nx,  ny,  nz;  // ¸òÅÀ¤Ç¤ÎË¡ÀşÃ±°Ì¥Ù¥¯¥È¥ë
-float VPx, VPy, VPz; // ·×»»Ãæ¤Î»ë^H»ÏÅÀ (¶À¤ÇÈ¿¼Í¤¹¤ë¤È°ÌÃÖ¤¬ÊÑ¤ï¤ë)
-float IPx, IPy, IPz; // tracer ¤È in-out ¤È shadow_evaluator ·×»»Ãæ¤Î¸òÅÀ¤ÎºÂÉ¸
-float ipx, ipy, ipz; // ¸òÅÀ (intersection point) ¤ÎºÂÉ¸
+float ex,  ey,  ez;  // è¦–ç·šã®å‘ãã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«
+float nx,  ny,  nz;  // äº¤ç‚¹ã§ã®æ³•ç·šå˜ä½ãƒ™ã‚¯ãƒˆãƒ«
+float VPx, VPy, VPz; // è¨ˆç®—ä¸­ã®è¦–^Hå§‹ç‚¹ (é¡ã§åå°„ã™ã‚‹ã¨ä½ç½®ãŒå¤‰ã‚ã‚‹)
+float IPx, IPy, IPz; // tracer ã¨ in-out ã¨ shadow_evaluator è¨ˆç®—ä¸­ã®äº¤ç‚¹ã®åº§æ¨™
+float ipx, ipy, ipz; // äº¤ç‚¹ (intersection point) ã®åº§æ¨™
 
-int ipi;  // ¾åµ­¤Î¸òÅÀ¤ËÂĞ¤¹¤ë¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÈÖ¹æ
-int nidx; // Ë¡Àş¤òµá¤á¤ë¤È¤­¤Î»ØÉ¸
+int ipi;  // ä¸Šè¨˜ã®äº¤ç‚¹ã«å¯¾ã™ã‚‹ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®ç•ªå·
+int nidx; // æ³•ç·šã‚’æ±‚ã‚ã‚‹ã¨ãã®æŒ‡æ¨™
 
-const float pai = 3.141592f; // ¦Ğ
-const float rad_deg = pai / 180; // ¥é¥¸¥¢¥ó/ÅÙ
+const float pai = 3.141592f; // Ï€
+const float rad_deg = pai / 180; // ãƒ©ã‚¸ã‚¢ãƒ³/åº¦
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// equation solver : »ëÀş¤È¥×¥ê¥ß¥Æ¥£¥Ö¤Î½Å¤Ê¤ê¶ñ¹ç¤òÄ´¤Ù¤ë
+// equation solver : è¦–ç·šã¨ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®é‡ãªã‚Šå…·åˆã‚’èª¿ã¹ã‚‹
 //
 
 
-SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
-		     int &ni,         // return : ¸å¤ÇË¡Àş¤òµá¤á¤ë¤È¤­¤Î»ØÉ¸
-		     float &distance) // return : ¡Ö»ëÅÀ¡×¤«¤é¡Ö¸ò¤ï¤Ã¤¿°ÌÃÖ¡×¤Ş¤Ç¤Îµ÷Î¥ (distance ¤¬Éé¤À¤Ã¤¿¤é¸òÅÀ¤ÏÇØ¸å¤ËÂ¸ºß)
-  // 0 <= return : ¸ò¤ï¤ë
-  // return < 0  : ¸ò¤ï¤é¤Ê¤¤
-  // Éä¹æ¤À¤±ÊÖ¤»¤Ğ½½Ê¬¤Ç¤¢¤ë
+SIGN equation_solver(int i,           // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		     int &ni,         // return : å¾Œã§æ³•ç·šã‚’æ±‚ã‚ã‚‹ã¨ãã®æŒ‡æ¨™
+		     float &distance) // return : ã€Œè¦–ç‚¹ã€ã‹ã‚‰ã€Œäº¤ã‚ã£ãŸä½ç½®ã€ã¾ã§ã®è·é›¢ (distance ãŒè² ã ã£ãŸã‚‰äº¤ç‚¹ã¯èƒŒå¾Œã«å­˜åœ¨)
+  // 0 <= return : äº¤ã‚ã‚‹
+  // return < 0  : äº¤ã‚ã‚‰ãªã„
+  // ç¬¦å·ã ã‘è¿”ã›ã°ååˆ†ã§ã‚ã‚‹
 {
   PrimitiveData_i &dsi = ds[i];
   PrimitiveData_f &di  = d [i];
   
-  // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤¬Ãæ¿´¤Ë¤¯¤ë¤è¤¦¤Ë»ëÅÀ (VPx, VPy, VPz) ¤òÊ¿¹Ô°ÜÆ°
+  // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãŒä¸­å¿ƒã«ãã‚‹ã‚ˆã†ã«è¦–ç‚¹ (VPx, VPy, VPz) ã‚’å¹³è¡Œç§»å‹•
   const float wx = VPx - di[pX];
   const float wy = VPy - di[pY];
   const float wz = VPz - di[pZ];
   
   switch (dsi[pP])
   {
-    case 1: // Ä¾ÊıÂÎ
+    case 1: // ç›´æ–¹ä½“
     {
-      // di[pSG] SG : ¶ËÀ­ 1, -1
+      // di[pSG] SG : æ¥µæ€§ 1, -1
       
       // int selector = i_sgn_mul(e1, di[pSG]);
       // if (selector == -1)
@@ -189,22 +189,22 @@ SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
       //   }
       // }
       
-      // yz ÌÌ
+      // yz é¢
       int selector = i_sgn_mul(ex, di[pSG]);
       if (selector == -1)
-	// ÌÌ x = di[pa] ¤Ë¤Ä¤¤¤Æ
+	// é¢ x = di[pa] ã«ã¤ã„ã¦
       {
-	distance = (di[pa] - wx) / ex; // ¡Ö»ëÅÀ¡×¤«¤é¡Ö»ëÀş¤ÈÌÌ¤Î¸òÅÀ¡×¤Ş¤Ç¤Îµ÷Î¥ (Éé¤Î¤³¤È¤â¤¢¤ê¤¦¤ë)
-	if ((f_abs(distance * ey + wy) <= di[pb]) && // y Êı¸ş¤¬¶ë·ÁÈÏ°Ï¤ËÆş¤Ã¤Æ¤¤¤ë¤«
-	    (f_abs(distance * ez + wz) <= di[pc]))   // z Êı¸ş¤¬¶ë·ÁÈÏ°Ï¤ËÆş¤Ã¤Æ¤¤¤ë¤«
-	  // ¤³¤ÎÌÌ¤È¸ò¤ï¤ë
+	distance = (di[pa] - wx) / ex; // ã€Œè¦–ç‚¹ã€ã‹ã‚‰ã€Œè¦–ç·šã¨é¢ã®äº¤ç‚¹ã€ã¾ã§ã®è·é›¢ (è² ã®ã“ã¨ã‚‚ã‚ã‚Šã†ã‚‹)
+	if ((f_abs(distance * ey + wy) <= di[pb]) && // y æ–¹å‘ãŒçŸ©å½¢ç¯„å›²ã«å…¥ã£ã¦ã„ã‚‹ã‹
+	    (f_abs(distance * ez + wz) <= di[pc]))   // z æ–¹å‘ãŒçŸ©å½¢ç¯„å›²ã«å…¥ã£ã¦ã„ã‚‹ã‹
+	  // ã“ã®é¢ã¨äº¤ã‚ã‚‹
 	{
 	  ni = 1;
 	  return SIGN(1);
 	}
       }
       else if (selector == 1)
-	// ÌÌ x = -di[pa] ¤Ë¤Ä¤¤¤Æ
+	// é¢ x = -di[pa] ã«ã¤ã„ã¦
       {
 	distance = -(wx + di[pa]) / ex;
 	if ((f_abs(distance * ey + wy) <= di[pb]) &&
@@ -217,7 +217,7 @@ SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
       
       selector = i_sgn_mul(ey, di[pSG]);
       if (selector == -1)
-	// ÌÌ y = di[pb] ¤Ë¤Ä¤¤¤Æ
+	// é¢ y = di[pb] ã«ã¤ã„ã¦
       {
 	distance = (di[pb] - wy) / ey;
 	if ((f_abs(distance * ex + wx) <= di[pa]) &&
@@ -228,7 +228,7 @@ SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
 	}
       }
       else if (selector == 1)
-	// ÌÌ y = -di[pb] ¤Ë¤Ä¤¤¤Æ
+	// é¢ y = -di[pb] ã«ã¤ã„ã¦
       {
 	distance = -(wy + di[pb]) / ey;
 	if ((f_abs(distance * ex + wx) <= di[pa]) &&
@@ -241,7 +241,7 @@ SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
       
       selector = i_sgn_mul(ez, di[pSG]);
       if (selector == -1)
-	// ÌÌ z = di[pc] ¤Ë¤Ä¤¤¤Æ
+	// é¢ z = di[pc] ã«ã¤ã„ã¦
       {
 	distance = (di[pc] - wz) / ez;
 	if ((f_abs(distance * ex + wx) <= di[pa]) &&
@@ -252,7 +252,7 @@ SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
 	}
       }
       else if (selector == 1)
-	// ÌÌ z = -di[pc] ¤Ë¤Ä¤¤¤Æ
+	// é¢ z = -di[pc] ã«ã¤ã„ã¦
       {
 	distance = -(wz + di[pc]) / ez;
 	if ((f_abs(distance * ex + wx) <= di[pa]) &&
@@ -263,31 +263,31 @@ SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
 	}
       }
       
-      // ¤³¤ÎÄ¾ÊıÂÎ¤È¸ò¤ï¤é¤Ê¤¤
+      // ã“ã®ç›´æ–¹ä½“ã¨äº¤ã‚ã‚‰ãªã„
       return SIGN(-1);
     }
     
-    case 2: // Ê¿ÌÌ
+    case 2: // å¹³é¢
     {
-      // (di[pa], di[pb], di[pc]) : Ê¿ÌÌ¤ÎË¡Àş¥Ù¥¯¥È¥ë (Âç¤­¤µ 1) Ë¡Àş¤Î¤à¤¤¤Æ¤¤¤ëÊı¸ş¤¬³°Â¦
-      float tmp = float(-SIGN(di[pSG])) * (ex * di[pa] + ey * di[pb] + ez * di[pc]); // a^¢ª¡¦(-n^¢ª) : ÆâÀÑ : -cos¦È
+      // (di[pa], di[pb], di[pc]) : å¹³é¢ã®æ³•ç·šãƒ™ã‚¯ãƒˆãƒ« (å¤§ãã• 1) æ³•ç·šã®ã‚€ã„ã¦ã„ã‚‹æ–¹å‘ãŒå¤–å´
+      float tmp = float(-SIGN(di[pSG])) * (ex * di[pa] + ey * di[pb] + ez * di[pc]); // a^â†’ãƒ»(-n^â†’) : å†…ç© : -cosÎ¸
       if (tmp < 0)
-	return SIGN(tmp); // ¸ò¤ï¤ë¤¬¸ş¤­¤¬¤Á¤¬¤¦
+	return SIGN(tmp); // äº¤ã‚ã‚‹ãŒå‘ããŒã¡ãŒã†
       else if (tmp == 0)
-	return SIGN(-1); // Ê¿¹Ô¤Ç¸ò¤ï¤é¤Ê¤¤
+	return SIGN(-1); // å¹³è¡Œã§äº¤ã‚ã‚‰ãªã„
       else
       {
 	distance = float(SIGN(di[pSG])) * (wx * di[pa] + wy * di[pb] + wz * di[pc]) / tmp;
-	// ¡Ö»ëÅÀ¡×¤«¤é¡Ö»ëÀş¤ÈÌÌ¤Î¸òÅÀ¡×¤Ş¤Ç¤Îµ÷Î¥ >= 0
+	// ã€Œè¦–ç‚¹ã€ã‹ã‚‰ã€Œè¦–ç·šã¨é¢ã®äº¤ç‚¹ã€ã¾ã§ã®è·é›¢ >= 0
 	return SIGN(tmp);
       }
     }
     
-    case 3: // Æó¼¡¶ÊÌÌ
-    case 4: // ¿í
+    case 3: // äºŒæ¬¡æ›²é¢
+    case 4: // éŒ
     {
       float A = f_sq(ex) * di[pa] + f_sq(ey) * di[pb] + f_sq(ez) * di[pc];
-      if (dsi[pRT] == 1) // ²óÅ¾¤¢¤ê(Ææ)
+      if (dsi[pRT] == 1) // å›è»¢ã‚ã‚Š(è¬)
 	A += ey * ez * di[pRX] + ez * ex * di[pRY] + ex * ey * di[pRZ];
       if (A == 0)
 	return -1.0f;
@@ -296,17 +296,17 @@ SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
       float tmpz = wz * di[pc];
       float B = tmpx * ex + tmpy * ey + tmpz * ez;
       float C = tmpx * wx + tmpy * wy + tmpz * wz;
-      if (dsi[pRT] == 1) // ²óÅ¾¤¢¤ê(Ææ)
+      if (dsi[pRT] == 1) // å›è»¢ã‚ã‚Š(è¬)
       {
 	B = B + ((wy * ez + wz * ey) * di[pRX] + (wx * ez + wz * ex) * di[pRY] + (wx * ey + wy * ex) * di[pRZ]) * 0.5f;
 	C = C +   wy *      wz       * di[pRX] +  wx *      wz *       di[pRY] +  wx *      wy *       di[pRZ];
       }
-      if (dsi[pP] == 3) // ÂÊ±ßÂÎ
+      if (dsi[pP] == 3) // æ¥•å††ä½“
 	C = C - 1;
-      // 0 = A * distance^2 + 2 * B * distance + C ¤È¤¤¤¦Æó¼¡ÊıÄø¼°¤ò²ò¤¯
+      // 0 = A * distance^2 + 2 * B * distance + C ã¨ã„ã†äºŒæ¬¡æ–¹ç¨‹å¼ã‚’è§£ã
       float tmp = f_sq(B) - A * C;
       if (tmp < 0)
-	return SIGN(tmp); // »ëÀş¤È¸ò¤ï¤é¤Ê¤¤
+	return SIGN(tmp); // è¦–ç·šã¨äº¤ã‚ã‚‰ãªã„
       int selector = i_sgn(SIGN(di[pSG]));
       if (selector == 1)
 	distance = (-B - f_sqrt(tmp)) / A;
@@ -325,13 +325,13 @@ SIGN equation_solver(int i,           // ¥×¥ê¥ß¥Æ¥£¥Ö¥¤¥ó¥Ç¥Ã¥¯¥¹
 
 
 SIGN in_out(int i)
-  // 0 <= return : i ÈÖ¤á¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤Ë (IPx, IPy, IPz) ¤Ï´Ş¤Ş¤ì¤ë
-  // return <  0 :                              ¡·              ¤Ê¤¤
+  // 0 <= return : i ç•ªã‚ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã« (IPx, IPy, IPz) ã¯å«ã¾ã‚Œã‚‹
+  // return <  0 :                              ã€ƒ              ãªã„
 {
   PrimitiveData_i &dsi = ds[i];
   PrimitiveData_f &di  = d [i];
 
-  // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤¬Ãæ¿´¤Ë¤¯¤ë¤è¤¦¤Ë¸òÅÀ (IPx, IPy, IPz) ¤òÊ¿¹Ô°ÜÆ°
+  // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãŒä¸­å¿ƒã«ãã‚‹ã‚ˆã†ã«äº¤ç‚¹ (IPx, IPy, IPz) ã‚’å¹³è¡Œç§»å‹•
   const float wx = IPx - di[pX];
   const float wy = IPy - di[pY];
   const float wz = IPz - di[pZ];
@@ -339,20 +339,20 @@ SIGN in_out(int i)
   float tmp;
   switch (dsi[pP])
   {
-    case 1: // Ä¾ÊıÂÎ
+    case 1: // ç›´æ–¹ä½“
       tmp = -f_sgn(SIGN(di[pSG]));
       if (di[pa] < f_abs(wx)) break;
       if (di[pb] < f_abs(wy)) break;
       if (di[pc] < f_abs(wz)) break;
       tmp = -tmp;
       break;
-    case 2: // Ê¿ÌÌ
+    case 2: // å¹³é¢
       tmp = -SIGN(di[pSG]) * (di[pa] * wx + di[pb] * wy + di[pc] * wz);
       break;
       // case 3:
       // case 4:
       //   tmp = f_sq(wx) * di[pa] + f_sq(wy) * di[pb] + f_sq(wz) * di[pc];
-      //   if (dsi[pRT] != 0) // ²óÅ¾¤¢¤ê
+      //   if (dsi[pRT] != 0) // å›è»¢ã‚ã‚Š
       //     tmp+= wy * wz * di[pRX] + wx * wz * di[pRY] + wx * wy * di[pRZ];
       //   tmp *= SIGN(di[pSG]);
       //   if (dsi[pP] == 3)
@@ -360,15 +360,15 @@ SIGN in_out(int i)
       //   else
       //      tmp = -tmp;
       //   break;
-    case 3: // ÂÊ±ßÂÎ
+    case 3: // æ¥•å††ä½“
       tmp = 1 - (f_sq(wx) * di[pa] + f_sq(wy) * di[pb] + f_sq(wz) * di[pc]);
-      if (dsi[pRT] != 0) // ²óÅ¾¤¢¤ê
+      if (dsi[pRT] != 0) // å›è»¢ã‚ã‚Š
 	tmp = tmp - wy * wz * di[pRX] - wx * wz * di[pRY] - wx * wy * di[pRZ];
       tmp = SIGN(di[pSG]) * tmp;
       break;
-    case 4: // ¿í
+    case 4: // éŒ
       tmp = f_sq(wx) * di[pa] + f_sq(wy) * di[pb] + f_sq(wz) * di[pc];
-      if (dsi[pRT] != 0) // ²óÅ¾¤¢¤ê
+      if (dsi[pRT] != 0) // å›è»¢ã‚ã‚Š
 	tmp = tmp + wy * wz * di[pRX] + wx * wz * di[pRY] + wx * wy * di[pRZ];
       tmp = -SIGN(di[pSG]) * tmp;
       break;
@@ -378,17 +378,17 @@ SIGN in_out(int i)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// ¸òÅÀ (ipx, ipy, ipz) ¤ÎÉôÊ¬¤Ç¤ÎÌÌ¤ÎË¡Àş (normal vector) ¤òµá¤á¤ë
+// äº¤ç‚¹ (ipx, ipy, ipz) ã®éƒ¨åˆ†ã§ã®é¢ã®æ³•ç·š (normal vector) ã‚’æ±‚ã‚ã‚‹
 //
 
 
 void normal_vector(void)
-  // (nx, ny, nz) : return Ë¡Àş
+  // (nx, ny, nz) : return æ³•ç·š
 {
   switch (ds[ipi][pP])
   {
-    case 1: // Ä¾ÊıÂÎ
-      if (nidx == 1) // »ØÉ¸
+    case 1: // ç›´æ–¹ä½“
+      if (nidx == 1) // æŒ‡æ¨™
       {
 	nx = -f_sgn(ex);
 	ny = 0.0f;
@@ -409,7 +409,7 @@ void normal_vector(void)
 	}
       }
       break;
-    case 2: // Ê¿ÌÌ
+    case 2: // å¹³é¢
     {
       PrimitiveData_f &di = d[ipi];
       nx = di[pa];
@@ -423,24 +423,24 @@ void normal_vector(void)
       }
       break;
     }
-    case 3: // ÂÊ±ßÂÎ
-    case 4: // ¿í
+    case 3: // æ¥•å††ä½“
+    case 4: // éŒ
     {
       PrimitiveData_f &di = d[ipi];
-      // (wx, wy, wz) : ÂÊ±ßÂÎ¤¬Ãæ¿´¤Ë¤¢¤ë»ş¤Î¸òÅÀ¤ÎºÂÉ¸
+      // (wx, wy, wz) : æ¥•å††ä½“ãŒä¸­å¿ƒã«ã‚ã‚‹æ™‚ã®äº¤ç‚¹ã®åº§æ¨™
       float wx = ipx - di[pX];
       float wy = ipy - di[pY];
       float wz = ipz - di[pZ];
       nx = wx * di[pa];
       ny = wy * di[pb];
       nz = wz * di[pc];
-      if (ds[ipi][pRT] == 1) // ²óÅ¾¤¢¤ê
+      if (ds[ipi][pRT] == 1) // å›è»¢ã‚ã‚Š
       {
 	nx += 0.5f * (wy * di[pRZ] + wz * di[pRY]);
 	ny += 0.5f * (wx * di[pRZ] + wz * di[pRX]);
 	nz += 0.5f * (wx * di[pRY] + wy * di[pRX]);
       }
-      // Ë¡Àş¥Ù¥¯¥È¥ë¤ÎÂç¤­¤µ¤ò 1 ¤ËÀµµ¬²½¤¹¤ë
+      // æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã®å¤§ãã•ã‚’ 1 ã«æ­£è¦åŒ–ã™ã‚‹
       float tmp = f_sqrt_inverse(f_sq(nx) + f_sq(ny) + f_sq(nz)) * SIGN(d[ipi][pSG]);
       nx *= tmp;
       ny *= tmp;
@@ -457,20 +457,20 @@ void normal_vector(void)
 
 
 void user_defined_texture(void)
-  // return : d[ipi][pR] d[ipi][pG] d[ipi][pB] : ¿§
+  // return : d[ipi][pR] d[ipi][pG] d[ipi][pB] : è‰²
 {
   PrimitiveData_f &di = d[ipi];
-  switch (ds[ipi][pTX]) // ¥æ¡¼¥¶¡¼ÄêµÁ¥Æ¥¯¥¹¥Á¥ã
+  switch (ds[ipi][pTX]) // ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©ãƒ†ã‚¯ã‚¹ãƒãƒ£
   {
     case 0:
       break;
-    case 1: // x-z Ê¿ÌÌ¤Î¥Á¥§¥Ã¥«¡¼ÌÏÍÍ
+    case 1: // x-z å¹³é¢ã®ãƒã‚§ãƒƒã‚«ãƒ¼æ¨¡æ§˜
     {
-      // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤¬Ãæ¿´¤Ë¤¯¤ë¤è¤¦¤Ë¸òÅÀ (ipx, ipy, ipz) ¤òÊ¿¹Ô°ÜÆ°
+      // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãŒä¸­å¿ƒã«ãã‚‹ã‚ˆã†ã«äº¤ç‚¹ (ipx, ipy, ipz) ã‚’å¹³è¡Œç§»å‹•
       float wx = ipx - di[pX];
       float wz = ipz - di[pZ];
       
-      // 10x10 ¤Î¥Á¥§¥Ã¥«¡¼ÌÏÍÍ
+      // 10x10 ã®ãƒã‚§ãƒƒã‚«ãƒ¼æ¨¡æ§˜
       bool tmp = true;
       if (10 < f_mod(wx, 20.0f))
 	tmp = !tmp;
@@ -482,73 +482,73 @@ void user_defined_texture(void)
 	di[pG] = 0.0f;
       break;
     }
-    case 2: // y ¼´Êı¸ş¤Î¥¹¥È¥é¥¤¥×
+    case 2: // y è»¸æ–¹å‘ã®ã‚¹ãƒˆãƒ©ã‚¤ãƒ—
     {
-      // ÀÖ¤ÈÎĞ¤Î¼ş´ü¤Ï 2¦Ğ¤º¤ì¤Æ¤¤¤ë
+      // èµ¤ã¨ç·‘ã®å‘¨æœŸã¯ 2Ï€ãšã‚Œã¦ã„ã‚‹
       // CHANGED
       float tmp = f_sq(f_sin(ipy * 0.25));
-      di[pR] = 255 *  tmp     ; // ¼ş´ü 4¦Ğ ¤ÇÀÖ¤¬Áı¸º
-      di[pG] = 255 * (1 - tmp); // ¼ş´ü 4¦Ğ ¤ÇÎĞ¤¬Áı¸º
-//    di[pR] = 255 * f_sq(f_sin(ipy * 0.25)); // ¼ş´ü 4¦Ğ ¤ÇÀÖ¤¬Áı¸º
-//    di[pG] = 255 * f_sq(f_cos(ipy * 0.25)); // ¼ş´ü 4¦Ğ ¤ÇÎĞ¤¬Áı¸º
+      di[pR] = 255 *  tmp     ; // å‘¨æœŸ 4Ï€ ã§èµ¤ãŒå¢—æ¸›
+      di[pG] = 255 * (1 - tmp); // å‘¨æœŸ 4Ï€ ã§ç·‘ãŒå¢—æ¸›
+//    di[pR] = 255 * f_sq(f_sin(ipy * 0.25)); // å‘¨æœŸ 4Ï€ ã§èµ¤ãŒå¢—æ¸›
+//    di[pG] = 255 * f_sq(f_cos(ipy * 0.25)); // å‘¨æœŸ 4Ï€ ã§ç·‘ãŒå¢—æ¸›
       break;
     }
-    case 3: // x-z Ê¿ÌÌ¤ÎÆ±¿´±ß
+    case 3: // x-z å¹³é¢ã®åŒå¿ƒå††
     {
-      // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤¬Ãæ¿´¤Ë¤¯¤ë¤è¤¦¤Ë¸òÅÀ (ipx, ipy, ipz) ¤òÊ¿¹Ô°ÜÆ°
+      // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãŒä¸­å¿ƒã«ãã‚‹ã‚ˆã†ã«äº¤ç‚¹ (ipx, ipy, ipz) ã‚’å¹³è¡Œç§»å‹•
       float wx = ipx - di[pX];
       float wz = ipz - di[pZ];
       
-      float tmp = f_sqrt(f_sq(wx) + f_sq(wz)); // ¸¶ÅÀ¤«¤é¤Îµ÷Î¥
-      // ÎĞ¤ÈÀÄ¤Î¼ş´ü¤Ï 5 ¤º¤ì¤Æ¤¤¤ë
-      tmp = pai * f_fraction(tmp * 0.1f); // ¼ş´ü 10
-//    di[pG] = f_sq(f_cos(tmp)) * 255; // ¼ş´ü 10 ¤ÇÎĞ¤¬Áı¸º
-//    di[pB] = f_sq(f_sin(tmp)) * 255; // ¼ş´ü 10 ¤ÇÀÄ¤¬Áı¸º
+      float tmp = f_sqrt(f_sq(wx) + f_sq(wz)); // åŸç‚¹ã‹ã‚‰ã®è·é›¢
+      // ç·‘ã¨é’ã®å‘¨æœŸã¯ 5 ãšã‚Œã¦ã„ã‚‹
+      tmp = pai * f_fraction(tmp * 0.1f); // å‘¨æœŸ 10
+//    di[pG] = f_sq(f_cos(tmp)) * 255; // å‘¨æœŸ 10 ã§ç·‘ãŒå¢—æ¸›
+//    di[pB] = f_sq(f_sin(tmp)) * 255; // å‘¨æœŸ 10 ã§é’ãŒå¢—æ¸›
       // CHANGED
       tmp = f_sq(f_cos(tmp));
-      di[pG] =  tmp      * 255; // ¼ş´ü 10 ¤ÇÎĞ¤¬Áı¸º
-      di[pB] = (1 - tmp) * 255; // ¼ş´ü 10 ¤ÇÀÄ¤¬Áı¸º
+      di[pG] =  tmp      * 255; // å‘¨æœŸ 10 ã§ç·‘ãŒå¢—æ¸›
+      di[pB] = (1 - tmp) * 255; // å‘¨æœŸ 10 ã§é’ãŒå¢—æ¸›
       break;
     }
-    case 4: // µåÌÌ¾å¤ÎÈÃÅÀÌÏÍÍ
+    case 4: // çƒé¢ä¸Šã®æ–‘ç‚¹æ¨¡æ§˜
     {
-      // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤¬Ãæ¿´¤Ë¤¯¤ë¤è¤¦¤Ë¸òÅÀ (ipx, ipy, ipz) ¤òÊ¿¹Ô°ÜÆ°¤·¡¢
-      // ÂÊ±ßÂÎ¤¬Ã±°Ìµå¤Ç¤¢¤ë»ş¤ÎºÂÉ¸¤Ë¸òÅÀ¤òÊÑ´¹
+      // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãŒä¸­å¿ƒã«ãã‚‹ã‚ˆã†ã«äº¤ç‚¹ (ipx, ipy, ipz) ã‚’å¹³è¡Œç§»å‹•ã—ã€
+      // æ¥•å††ä½“ãŒå˜ä½çƒã§ã‚ã‚‹æ™‚ã®åº§æ¨™ã«äº¤ç‚¹ã‚’å¤‰æ›
       float wx = (ipx - di[pX]) * f_sqrt(di[pa]);
       float wy = (ipy - di[pY]) * f_sqrt(di[pb]);
       float wz = (ipz - di[pZ]) * f_sqrt(di[pc]);
       
-      float tmp1 = f_sqrt(f_sq(wx) + f_sq(wz)); // y = wy Ê¿ÌÌ¤ÇÃ±°Ìµå¤òÀÚ¤Ã¤¿»ş¤ÎÃÇÌÌ¤ÎÈ¾·Â
+      float tmp1 = f_sqrt(f_sq(wx) + f_sq(wz)); // y = wy å¹³é¢ã§å˜ä½çƒã‚’åˆ‡ã£ãŸæ™‚ã®æ–­é¢ã®åŠå¾„
       float tmp2;
       float tmp3;
       if (0.0001 < f_abs(wx))
-	tmp2 = f_atan(f_abs(wz / wx)) // x-z Ê¿ÌÌ¾å¤Ç¤Î x ¼´¤«¤é·×¤Ã¤¿³ÑÅÙ 0 ¡Á ¦Ğ/2
-	  // /(pai * 0.5f) * 15; // 15 ÅùÊ¬ (¦Ğ/2 ¤ÎÃæ¤Ë 15 ¸Ä¤ÎÈÃÅÀ¤¬¤Ç¤­¤ë)
+	tmp2 = f_atan(f_abs(wz / wx)) // x-z å¹³é¢ä¸Šã§ã® x è»¸ã‹ã‚‰è¨ˆã£ãŸè§’åº¦ 0 ã€œ Ï€/2
+	  // /(pai * 0.5f) * 15; // 15 ç­‰åˆ† (Ï€/2 ã®ä¸­ã« 15 å€‹ã®æ–‘ç‚¹ãŒã§ãã‚‹)
 	  * 9.549296585514f;
       else
 	tmp2 = 15.0f;
       if (0.0001 < f_abs(tmp1))
-	tmp3 = f_atan(f_abs(wy / tmp1)) // Ãæ¿´¤È¸òÅÀ¤ò·ë¤ÖÄ¾Àş¤Î x-z Ê¿ÌÌ¾å¤«¤é¤Î³ÑÅÙ 0 ¡Á ¦Ğ/2
-	  // / (pai * 0.5f) * 15; // 15 ÅùÊ¬
+	tmp3 = f_atan(f_abs(wy / tmp1)) // ä¸­å¿ƒã¨äº¤ç‚¹ã‚’çµã¶ç›´ç·šã® x-z å¹³é¢ä¸Šã‹ã‚‰ã®è§’åº¦ 0 ã€œ Ï€/2
+	  // / (pai * 0.5f) * 15; // 15 ç­‰åˆ†
 	  * 9.549296585514f;
       else
 	tmp3 = 15.0f;
       tmp1 = 0.15f -
-	(f_sq(0.5f - f_fraction(tmp2)) + f_sq(0.5f - f_fraction(tmp3))); // °ì¤Ä¤ÎÈÃÅÀ¤ÎÃæ¿´¤«¤é¤Îµ÷Î¥¤ÎÆó¾è
+	(f_sq(0.5f - f_fraction(tmp2)) + f_sq(0.5f - f_fraction(tmp3))); // ä¸€ã¤ã®æ–‘ç‚¹ã®ä¸­å¿ƒã‹ã‚‰ã®è·é›¢ã®äºŒä¹—
       if (tmp1 <= 0)
-	di[pB] = 0.0f; // Ãæ¿´¤«¤é±ó¤¤¤È¤³¤í¤ÏÀÄ¤¬ 0
+	di[pB] = 0.0f; // ä¸­å¿ƒã‹ã‚‰é ã„ã¨ã“ã‚ã¯é’ãŒ 0
       else
-	di[pB] = (256 / 0.3f) * tmp1; // °ìÈÖ¶á¤¤½ê¤Ç¤ÏÀÄ¤¬ 256 * 5
+	di[pB] = (256 / 0.3f) * tmp1; // ä¸€ç•ªè¿‘ã„æ‰€ã§ã¯é’ãŒ 256 * 5
       break;
     }
-    case 5: // scheme ¥Ğ¡¼¥¸¥ç¥ó¤Ç¤Ä¤¤¤Æ¤¤¤ë¤Î¤Ç¤³¤ì¤Ë¤âÄÉ²Ã
+    case 5: // scheme ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã§ã¤ã„ã¦ã„ã‚‹ã®ã§ã“ã‚Œã«ã‚‚è¿½åŠ 
     {
-      // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤¬Ãæ¿´¤Ë¤¯¤ë¤è¤¦¤Ë¸òÅÀ (ipx, ipy, ipz) ¤òÊ¿¹Ô°ÜÆ°
+      // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãŒä¸­å¿ƒã«ãã‚‹ã‚ˆã†ã«äº¤ç‚¹ (ipx, ipy, ipz) ã‚’å¹³è¡Œç§»å‹•
       float wx = ipx - di[pX];
       float wy = ipy - di[pY];
       float wz = ipz - di[pZ];
       
-      // 10x10x10 ¤Î¥Á¥§¥Ã¥«¡¼ÌÏÍÍ
+      // 10x10x10 ã®ãƒã‚§ãƒƒã‚«ãƒ¼æ¨¡æ§˜
       bool tmp = true;
       if (10 < f_mod(wx, 20.0f))
 	tmp = !tmp;
@@ -568,54 +568,54 @@ void user_defined_texture(void)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// tracer : »ëÅÀ¤«¤é»ëÀş¥Ù¥¯¥È¥ë¤òÃ©(trace)¤ê¤Ş¤¹
+// tracer : è¦–ç‚¹ã‹ã‚‰è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’è¾¿(trace)ã‚Šã¾ã™
 //
 
 
 SIGN tracer(void)
-  // 0 < return : ¸ò¤ï¤Ã¤¿
-  // return < 0 : ¸ò¤ï¤é¤Ê¤«¤Ã¤¿
-  // (ipx, ipy, ipz) : ¸òÅÀ¤ÎºÂÉ¸
-  // ipi : ¾åµ­¤Î¸òÅÀ¤ËÂĞ¤¹¤ë¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÈÖ¹æ
-  // nidx : ¸å¤ÇË¡Àş¤òµá¤á¤ë¤È¤­¤Î»ØÉ¸
+  // 0 < return : äº¤ã‚ã£ãŸ
+  // return < 0 : äº¤ã‚ã‚‰ãªã‹ã£ãŸ
+  // (ipx, ipy, ipz) : äº¤ç‚¹ã®åº§æ¨™
+  // ipi : ä¸Šè¨˜ã®äº¤ç‚¹ã«å¯¾ã™ã‚‹ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®ç•ªå·
+  // nidx : å¾Œã§æ³•ç·šã‚’æ±‚ã‚ã‚‹ã¨ãã®æŒ‡æ¨™
 {
-  // int iy = ipi; // ¶ÀÌÌ¤ÇÈ¿¼Í¸å¤Ï ipi ¤ÏÈ¿¼Í¤·¤¿ÊªÂÎ¤òÉ½¤·¤Æ¤¤¤ë
-  float minimum_distance = 1e+15f; // °ìÈÖ¶á¤¤¥×¥ê¥ß¥Æ¥£¥Ö¤Î¸òÅÀ¤Ş¤Ç¤Îµ÷Î¥
-  // ipi : minimum_distance ¤ËÂĞ¤¹¤ë¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÈÖ¹æ
+  // int iy = ipi; // é¡é¢ã§åå°„å¾Œã¯ ipi ã¯åå°„ã—ãŸç‰©ä½“ã‚’è¡¨ã—ã¦ã„ã‚‹
+  float minimum_distance = 1e+15f; // ä¸€ç•ªè¿‘ã„ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®äº¤ç‚¹ã¾ã§ã®è·é›¢
+  // ipi : minimum_distance ã«å¯¾ã™ã‚‹ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®ç•ªå·
   
   int im = 0;
   do
-    // for (int im = 0; dm[im][0] != -1; im++) ¤ÈÆ±¤¸°ÕÌ£¡£
-    // É¬¤º dm[im][0] != -1 ¤Ç¤¢¤ë¤Ï¤º (OR ÄêµÁ¤ÏÉ¬¤º°ì¤Ä¤ÏÂ¸ºß) ¤Ê¤Î¤Ç for ¤è¤êÈæ³Ó¤¬°ì²ó¾¯¤Ê¤¤¡£
-    // ¤¢¤ë OR ÄêµÁ¤Ë¤Ä¤¤¤Æ¡£
+    // for (int im = 0; dm[im][0] != -1; im++) ã¨åŒã˜æ„å‘³ã€‚
+    // å¿…ãš dm[im][0] != -1 ã§ã‚ã‚‹ã¯ãš (OR å®šç¾©ã¯å¿…ãšä¸€ã¤ã¯å­˜åœ¨) ãªã®ã§ for ã‚ˆã‚Šæ¯”è¼ƒãŒä¸€å›å°‘ãªã„ã€‚
+    // ã‚ã‚‹ OR å®šç¾©ã«ã¤ã„ã¦ã€‚
   {
     {
       int i = dm[im][0];
       if (i < 99)
-	// i < 99 ¤À¤Ã¤¿¤é¡¢»ëÀş¥Ù¥¯¥È¥ë¤¬¥×¥ê¥ß¥Æ¥£¥Ö i ¤ÎÃæ¤òÄÌ¤ë¤«¤É¤¦¤«¥Æ¥¹¥È
+	// i < 99 ã ã£ãŸã‚‰ã€è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ãŒãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ– i ã®ä¸­ã‚’é€šã‚‹ã‹ã©ã†ã‹ãƒ†ã‚¹ãƒˆ
       {
 	int dummy;
 	float distance;
-	SIGN result = equation_solver(i, dummy, distance); // ¥Æ¥¹¥È
-	if (result < 0 || // ÄÌ¤é¤Ê¤¤¤«
-	    minimum_distance <= distance) // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö i ¤è¤ê¤â¶á¤¤°ÌÃÖ¤Ç´û¤Ë¸ò¤ï¤Ã¤Æ¤¤¤ë
+	SIGN result = equation_solver(i, dummy, distance); // ãƒ†ã‚¹ãƒˆ
+	if (result < 0 || // é€šã‚‰ãªã„ã‹
+	    minimum_distance <= distance) // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ– i ã‚ˆã‚Šã‚‚è¿‘ã„ä½ç½®ã§æ—¢ã«äº¤ã‚ã£ã¦ã„ã‚‹
 	  continue;
       }
     }
     
     int imi = 1;
     do
-      // for (int il = 1; dm[im][imi] != -1; il++) ¤ÈÆ±¤¸°ÕÌ£¡£
-      // É¬¤º dm[im][1] != -1 ¤Ç¤¢¤ë¤Ï¤º (¶õ¤Î OR ÄêµÁ¤Ï¤Ê¤¤) ¤Ê¤Î¤Ç for ¤è¤êÈæ³Ó¤¬°ì²ó¾¯¤Ê¤¤¡£
-      // ¤¢¤ë OR ÄêµÁ¤ÎÃæ¤Î³ÆÍ×ÁÇ¤Ë¤Ä¤¤¤Æ¡£
+      // for (int il = 1; dm[im][imi] != -1; il++) ã¨åŒã˜æ„å‘³ã€‚
+      // å¿…ãš dm[im][1] != -1 ã§ã‚ã‚‹ã¯ãš (ç©ºã® OR å®šç¾©ã¯ãªã„) ãªã®ã§ for ã‚ˆã‚Šæ¯”è¼ƒãŒä¸€å›å°‘ãªã„ã€‚
+      // ã‚ã‚‹ OR å®šç¾©ã®ä¸­ã®å„è¦ç´ ã«ã¤ã„ã¦ã€‚
     {
-      int ir = dm[im][imi]; // ¤³¤ì¤«¤é OR ¤È¤·¤Æ ¹ÍÎ¸¤¹¤ëÂĞ¾İ¤Î AND ÄêµÁ
+      int ir = dm[im][imi]; // ã“ã‚Œã‹ã‚‰ OR ã¨ã—ã¦ è€ƒæ…®ã™ã‚‹å¯¾è±¡ã® AND å®šç¾©
       
       int iri = 0;
       do
-	// for (int iri = 0; dr[ir][iri] != -1; iri++) ¤ÈÆ±¤¸°ÕÌ£¡£
-	// É¬¤º dr[ir][0] != -1 ¤Ç¤¢¤ë¤Ï¤º (AND ÄêµÁ¤ÏÉ¬¤º°ì¤Ä¤ÏÂ¸ºß) ¤Ê¤Î¤Ç for ¤è¤êÈæ³Ó¤¬°ì²ó¾¯¤Ê¤¤¡£
-	// ¤¢¤ë AND ÄêµÁ¤Ë¤Ä¤¤¤Æ¡£
+	// for (int iri = 0; dr[ir][iri] != -1; iri++) ã¨åŒã˜æ„å‘³ã€‚
+	// å¿…ãš dr[ir][0] != -1 ã§ã‚ã‚‹ã¯ãš (AND å®šç¾©ã¯å¿…ãšä¸€ã¤ã¯å­˜åœ¨) ãªã®ã§ for ã‚ˆã‚Šæ¯”è¼ƒãŒä¸€å›å°‘ãªã„ã€‚
+	// ã‚ã‚‹ AND å®šç¾©ã«ã¤ã„ã¦ã€‚
       {
 	int ni;
 	float distance;
@@ -623,53 +623,53 @@ SIGN tracer(void)
 	  int i = dr[ir][iri];
 /*
 	  if (i == iy)
-	    // ¶ÀÌÌ¤ÇÈ¿¼Í¸å¤Ï iy ÈÖÌÜ¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤Ï¡¢È¿¼Í¤·¤¿ÊªÂÎ¤Ê
-	    // ¤Î¤Ç¹ÍÎ¸¤·¤Ê¤¤???(Ææ)
+	    // é¡é¢ã§åå°„å¾Œã¯ iy ç•ªç›®ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã¯ã€åå°„ã—ãŸç‰©ä½“ãª
+	    // ã®ã§è€ƒæ…®ã—ãªã„???(è¬)
 	    continue;
 */
 	  SIGN result = equation_solver(i, ni, distance);
 	  if (result < 0)
 	    if (0 < SIGN(d[i][pSG]))
-	      // »ëÀş¥Ù¥¯¥È¥ë¤¬¥×¥ê¥ß¥Æ¥£¥Ö i ¤ÎÃæ¤òÄÌ¤é¤Ê¤¯¤Æ¡¢¤«¤Ä¶Ë
-	      // À­¤¬Àµ (¤Ä¤Ş¤êÆâÂ¦) ¤Ê¤é¤Ğ¡¢ AND ÄêµÁ¤Ê¤Î¤Ç¡¢¤³¤Î AND 
-	      // ÄêµÁ¤È¤Ï¸ò¤ï¤é¤Ê¤¤¤³¤È¤¬·èÄê¡£
+	      // è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ãŒãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ– i ã®ä¸­ã‚’é€šã‚‰ãªãã¦ã€ã‹ã¤æ¥µ
+	      // æ€§ãŒæ­£ (ã¤ã¾ã‚Šå†…å´) ãªã‚‰ã°ã€ AND å®šç¾©ãªã®ã§ã€ã“ã® AND 
+	      // å®šç¾©ã¨ã¯äº¤ã‚ã‚‰ãªã„ã“ã¨ãŒæ±ºå®šã€‚
 	      break;
 	    else
 	      continue;
-	  if (minimum_distance <= distance || // ¤³¤Î¥×¥ê¥ß¥Æ¥£¥Ö i ¤è¤ê¤â¶á¤¤°ÌÃÖ¤Ç´û¤Ë¸ò¤ï¤Ã¤Æ¤¤¤ë
-	      distance < -0.1)  // »ëÅÀ¤ÎÇØ¸å¤Ç¸ò¤ï¤Ã¤¿¡£¤Ê¤¼ 0.1 ¤Ê¤Î¤«¤ÏÆæ
+	  if (minimum_distance <= distance || // ã“ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ– i ã‚ˆã‚Šã‚‚è¿‘ã„ä½ç½®ã§æ—¢ã«äº¤ã‚ã£ã¦ã„ã‚‹
+	      distance < -0.1)  // è¦–ç‚¹ã®èƒŒå¾Œã§äº¤ã‚ã£ãŸã€‚ãªãœ 0.1 ãªã®ã‹ã¯è¬
 	    continue;
 	}
 
-	// ¸òÅÀ¤Ş¤Ç¤Îµ÷Î¥¤Î¤µ¤ĞÆÉ¤ß¡£(Ææ)
+	// äº¤ç‚¹ã¾ã§ã®è·é›¢ã®ã•ã°èª­ã¿ã€‚(è¬)
 	distance = distance + 0.01f;
-	// (IPx, IPy, IPz) : ¸òÅÀ¤ÎºÂÉ¸
+	// (IPx, IPy, IPz) : äº¤ç‚¹ã®åº§æ¨™
 	IPx = ex * distance + VPx;
 	IPy = ey * distance + VPy;
 	IPz = ez * distance + VPz;
 	
-	// (VPx, VPy, VPz) ¤«¤é distance ¤Îµ÷Î¥¤Ë¤¢¤ëÅÀ (¸òÅÀ) ¤¬¤³¤Î 
-	// AND ÄêµÁ¤Î¥×¥ê¥ß¥Æ¥£¥ÖÁ´¤Æ¤Ë´Ş¤Ş¤ì¤Æ¤¤¤ë¤³¤È¤ò³Î¤«¤á¤ë¡£°ì
-	// ¤Ä¤Ç¤âÆş¤Ã¤Æ¤Ê¤¤¤â¤Î¤¬¤¢¤ì¤Ğ AND ÄêµÁ¤æ¤¨¤³¤Î¸òÅÀ¤Ç¤Ï¸ò¤ï¤é
-	// ¤Ê¤¤¤³¤È¤Ë¤Ê¤ë¡£
+	// (VPx, VPy, VPz) ã‹ã‚‰ distance ã®è·é›¢ã«ã‚ã‚‹ç‚¹ (äº¤ç‚¹) ãŒã“ã® 
+	// AND å®šç¾©ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å…¨ã¦ã«å«ã¾ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºã‹ã‚ã‚‹ã€‚ä¸€
+	// ã¤ã§ã‚‚å…¥ã£ã¦ãªã„ã‚‚ã®ãŒã‚ã‚Œã° AND å®šç¾©ã‚†ãˆã“ã®äº¤ç‚¹ã§ã¯äº¤ã‚ã‚‰
+	// ãªã„ã“ã¨ã«ãªã‚‹ã€‚
 	{
 	  int iri2 = 0;
 	  do
 	  {
 	    if (iri2 != iri)
 	      if (in_out(dr[ir][iri2]) < 0)
-		goto next_iri; // Æş¤Ã¤Æ¤Ê¤«¤Ã¤¿
+		goto next_iri; // å…¥ã£ã¦ãªã‹ã£ãŸ
 	  } while (dr[ir][++iri2] != -1);
 	}
 
-	// ¤³¤³¤Ş¤ÇÌµ»ö¤Ë¤¿¤É¤êÃå¤¤¤Æ¤¤¤ì¤Ğ¡¢¤³¤Î AND ÄêµÁ ir ¤ÎÃæ¤Ç°ì
-	// ÈÖ¶á¤¯¤Î¸òÅÀ¤¬µá¤Ş¤Ã¤Æ¤¤¤ë¡£
-	minimum_distance = distance; // °ìÈÖ¶á¤¯¤Î¥×¥ê¥ß¥Æ¥£¥Ö¤È¤Î¸òÅÀ¤Ş¤Ç¤Îµ÷Î¥¤ò¹¹¿·
-	ipx = IPx; // ¸òÅÀ¤ÎºÂÉ¸¤ò¹¹¿·
-	ipy = IPy; // ¸òÅÀ¤ÎºÂÉ¸¤ò¹¹¿·
-	ipz = IPz; // ¸òÅÀ¤ÎºÂÉ¸¤ò¹¹¿·
-	ipi = dr[ir][iri]; // minimum_distance ¤ËÂĞ¤¹¤ë¥×¥ê¥ß¥Æ¥£¥Ö¤ÎÈÖ¹æ¤ò¹¹¿·
-	nidx = ni; // ¸å¤ÇË¡Àş¤òµá¤á¤ë¤È¤­¤Î»ØÉ¸
+	// ã“ã“ã¾ã§ç„¡äº‹ã«ãŸã©ã‚Šç€ã„ã¦ã„ã‚Œã°ã€ã“ã® AND å®šç¾© ir ã®ä¸­ã§ä¸€
+	// ç•ªè¿‘ãã®äº¤ç‚¹ãŒæ±‚ã¾ã£ã¦ã„ã‚‹ã€‚
+	minimum_distance = distance; // ä¸€ç•ªè¿‘ãã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã¨ã®äº¤ç‚¹ã¾ã§ã®è·é›¢ã‚’æ›´æ–°
+	ipx = IPx; // äº¤ç‚¹ã®åº§æ¨™ã‚’æ›´æ–°
+	ipy = IPy; // äº¤ç‚¹ã®åº§æ¨™ã‚’æ›´æ–°
+	ipz = IPz; // äº¤ç‚¹ã®åº§æ¨™ã‚’æ›´æ–°
+	ipi = dr[ir][iri]; // minimum_distance ã«å¯¾ã™ã‚‹ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã®ç•ªå·ã‚’æ›´æ–°
+	nidx = ni; // å¾Œã§æ³•ç·šã‚’æ±‚ã‚ã‚‹ã¨ãã®æŒ‡æ¨™
 	next_iri:;
       } while (dr[ir][++iri] != -1);
       
@@ -678,7 +678,7 @@ SIGN tracer(void)
   } while (dm[++im][0] != -1);
   
   if (1e+14 < minimum_distance || minimum_distance < -0.1)
-    // ±ó¤¹¤®¤ë¤«¡¢ÇØ¸å¤Î»ş¤Ï¼ºÇÔ
+    // é ã™ãã‚‹ã‹ã€èƒŒå¾Œã®æ™‚ã¯å¤±æ•—
     return SIGN(-1);
   else
     return SIGN(1);
@@ -686,17 +686,17 @@ SIGN tracer(void)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// ±Æ¤Î·×»» : shadow evaluator
+// å½±ã®è¨ˆç®— : shadow evaluator
 //
 
 
 float shadow_evaluator(void)
-  // return : ÌÀ¤ë¤µ
+  // return : æ˜ã‚‹ã•
 {
-  float bright = 1.0f; // ¤È¤ê¤¢¤¨¤º±Æ¤Ï¤Ê¤¤¤È²¾Äê
+  float bright = 1.0f; // ã¨ã‚Šã‚ãˆãšå½±ã¯ãªã„ã¨ä»®å®š
   
-  // tracer ¤È¤Û¤ÜÆ±¤¸¹½Â¤¤Ç¤¢¤ë¤¬¡¢»ÏÅÀ¤¬»ëÀş¤ÈÊªÂÎ¤Î¸òÅÀ¤Ë¤Ê¤Ã¤¿½ê¤È¡¢
-  // »ëÀş¤Î¸ş¤­¤Ç¤Ï¤Ê¤¯¸÷¸»¤Î¸ş¤­¤Ç trace ¤¹¤ë¤È¤³¤í¤¬°ã¤¦
+  // tracer ã¨ã»ã¼åŒã˜æ§‹é€ ã§ã‚ã‚‹ãŒã€å§‹ç‚¹ãŒè¦–ç·šã¨ç‰©ä½“ã®äº¤ç‚¹ã«ãªã£ãŸæ‰€ã¨ã€
+  // è¦–ç·šã®å‘ãã§ã¯ãªãå…‰æºã®å‘ãã§ trace ã™ã‚‹ã¨ã“ã‚ãŒé•ã†
   
   int im = 0;
   do
@@ -704,27 +704,27 @@ float shadow_evaluator(void)
     {
       int i = dm[im][0];
       if (i < 99)
-	// i < 99 ¤À¤Ã¤¿¤é¡¢»ëÀş¥Ù¥¯¥È¥ë¤¬¥×¥ê¥ß¥Æ¥£¥Ö i ¤ÎÃæ¤òÄÌ¤ë¤«¤É¤¦¤«¥Æ¥¹¥È
+	// i < 99 ã ã£ãŸã‚‰ã€è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ãŒãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ– i ã®ä¸­ã‚’é€šã‚‹ã‹ã©ã†ã‹ãƒ†ã‚¹ãƒˆ
       {
 	int dummy;
 	float distance;
-	SIGN result = equation_solver(i, dummy, distance); // ¥Æ¥¹¥È
-	if (result < 0 || // ÄÌ¤é¤Ê¤¤¤«
-	    -0.1 <= distance) // »ÏÅÀ¤è¤êÁ°Êı¤Ç¸ò¤ï¤ë¤Î¤Ç¡¢±Æ¤Ë¤Ï´Ø·¸¤Ê¤¤¡£¤Ê¤¼ 0.1 ¤Ê¤Î¤«¤ÏÆæ
+	SIGN result = equation_solver(i, dummy, distance); // ãƒ†ã‚¹ãƒˆ
+	if (result < 0 || // é€šã‚‰ãªã„ã‹
+	    -0.1 <= distance) // å§‹ç‚¹ã‚ˆã‚Šå‰æ–¹ã§äº¤ã‚ã‚‹ã®ã§ã€å½±ã«ã¯é–¢ä¿‚ãªã„ã€‚ãªãœ 0.1 ãªã®ã‹ã¯è¬
 	  continue;
       }
     }
     int imi = 1;
     do
     {
-      int ir = dm[im][imi]; // ¤³¤ì¤«¤é OR ¤È¤·¤Æ¹ÍÎ¸¤¹¤ëÂĞ¾İ¤Î AND ÄêµÁ
+      int ir = dm[im][imi]; // ã“ã‚Œã‹ã‚‰ OR ã¨ã—ã¦è€ƒæ…®ã™ã‚‹å¯¾è±¡ã® AND å®šç¾©
       
       int iri = 0;
       do
       {
 	int i = dr[ir][iri];
 /*
-	if (i == ipi) // ¼«Ê¬¼«¿È(¤Ë¤Ä¤¤¤Æ¤ÏË¡Àş¥Ù¥¯¥È¥ë¤Ë¤è¤Ã¤Æ´û¤Ë¹ÍÎ¸ºÑ¤ß)
+	if (i == ipi) // è‡ªåˆ†è‡ªèº«(ã«ã¤ã„ã¦ã¯æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã«ã‚ˆã£ã¦æ—¢ã«è€ƒæ…®æ¸ˆã¿)
 	  continue;
 */
 	{
@@ -733,44 +733,44 @@ float shadow_evaluator(void)
 	  SIGN result  = equation_solver(i, dummy, distance);
 	  if (result < 0)
 	    if (0 < SIGN(d[i][pSG]))
-	      // »ëÀş¥Ù¥¯¥È¥ë¤¬¥×¥ê¥ß¥Æ¥£¥Ö i ¤ÎÃæ¤òÄÌ¤é¤Ê¤¯¤Æ¡¢¤«¤Ä¶ËÀ­
-	      // ¤¬Àµ (¤Ä¤Ş¤êÆâÂ¦) ¤Ê¤é¤Ğ¡¢ AND ÄêµÁ¤Ê¤Î¤Ç¡¢¤³¤Î AND Äê
-	      // µÁ¤È¤Ï¸ò¤ï¤é¤Ê¤¤¤³¤È¤¬·èÄê¡£
+	      // è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ãŒãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ– i ã®ä¸­ã‚’é€šã‚‰ãªãã¦ã€ã‹ã¤æ¥µæ€§
+	      // ãŒæ­£ (ã¤ã¾ã‚Šå†…å´) ãªã‚‰ã°ã€ AND å®šç¾©ãªã®ã§ã€ã“ã® AND å®š
+	      // ç¾©ã¨ã¯äº¤ã‚ã‚‰ãªã„ã“ã¨ãŒæ±ºå®šã€‚
 	      break;
 	    else
 	      continue;
-	  if (-0.1 <= distance) // »ÏÅÀ¤è¤êÁ°Êı¤Ç¸ò¤ï¤ë¤Î¤Ç¡¢±Æ¤Ë¤Ï´Ø·¸¤Ê¤¤¡£¤Ê¤¼ 0.1 ¤Ê¤Î¤«¤ÏÆæ
+	  if (-0.1 <= distance) // å§‹ç‚¹ã‚ˆã‚Šå‰æ–¹ã§äº¤ã‚ã‚‹ã®ã§ã€å½±ã«ã¯é–¢ä¿‚ãªã„ã€‚ãªãœ 0.1 ãªã®ã‹ã¯è¬
 	    continue;
 	  
-	  // ¸òÅÀ¤Ş¤Ç¤Îµ÷Î¥¤Î¤µ¤ĞÆÉ¤ß¡£(Ææ)
+	  // äº¤ç‚¹ã¾ã§ã®è·é›¢ã®ã•ã°èª­ã¿ã€‚(è¬)
 	  distance = distance + 0.01f;
-	  // (IPx, IPy, IPz) : ·×»»Ãæ¤Î¸òÅÀ¤ÎºÂÉ¸
+	  // (IPx, IPy, IPz) : è¨ˆç®—ä¸­ã®äº¤ç‚¹ã®åº§æ¨™
 	  IPx = ex * distance + VPx;
 	  IPy = ey * distance + VPy;
 	  IPz = ez * distance + VPz;
 	}
 
-	// (VPx, VPy, VPz) ¤«¤é distance ¤Îµ÷Î¥¤Ë¤¢¤ëÅÀ (¸òÅÀ) ¤¬¤³¤Î AND Äê
-	// µÁ¤Î¥×¥ê¥ß¥Æ¥£¥ÖÁ´¤Æ¤Ë´Ş¤Ş¤ì¤Æ¤¤¤ë¤³¤È¤ò³Î¤«¤á¤ë¡£°ì¤Ä¤Ç¤â
-	// Æş¤Ã¤Æ¤Ê¤¤¤â¤Î¤¬¤¢¤ì¤Ğ AND ÄêµÁ¤æ¤¨¤³¤Î¸òÅÀ¤Ç¤Ï¸ò¤ï¤é¤Ê¤¤¤³
-	// ¤È¤Ë¤Ê¤ë¡£
+	// (VPx, VPy, VPz) ã‹ã‚‰ distance ã®è·é›¢ã«ã‚ã‚‹ç‚¹ (äº¤ç‚¹) ãŒã“ã® AND å®š
+	// ç¾©ã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å…¨ã¦ã«å«ã¾ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºã‹ã‚ã‚‹ã€‚ä¸€ã¤ã§ã‚‚
+	// å…¥ã£ã¦ãªã„ã‚‚ã®ãŒã‚ã‚Œã° AND å®šç¾©ã‚†ãˆã“ã®äº¤ç‚¹ã§ã¯äº¤ã‚ã‚‰ãªã„ã“
+	// ã¨ã«ãªã‚‹ã€‚
 	{
 	  int iri2 = 0;
 	  do
 	  {
 	    if (iri2 != iri)
 	      if (in_out(dr[ir][iri2]) < 0)
-		goto next_iri; // Æş¤Ã¤Æ¤Ê¤«¤Ã¤¿
+		goto next_iri; // å…¥ã£ã¦ãªã‹ã£ãŸ
 	  } while (dr[ir][++iri2] != -1);
 	}
 	
-	// ¤³¤³¤Ş¤ÇÌµ»ö¤Ë¤¿¤É¤êÃå¤¤¤Æ¤¤¤ì¤Ğ¡¢¤³¤Î AND ÄêµÁ¤ÎÃæ¤Ç¤Î¸òÅÀ¤¬µá¤Ş¤Ã¤Æ¤¤¤ë
-	if (ds[i][pSF] != 3) // Æ©ÌÀ(Ææ)¤Ç¤Ê¤¤
+	// ã“ã“ã¾ã§ç„¡äº‹ã«ãŸã©ã‚Šç€ã„ã¦ã„ã‚Œã°ã€ã“ã® AND å®šç¾©ã®ä¸­ã§ã®äº¤ç‚¹ãŒæ±‚ã¾ã£ã¦ã„ã‚‹
+	if (ds[i][pSF] != 3) // é€æ˜(è¬)ã§ãªã„
 	  return 0.0f;
-	// Æ©ÌÀ(Ææ)
+	// é€æ˜(è¬)
 	bright = bright - 0.25f;
 	if (bright <= 0)
-	  return 0.0f; // ÌÀ¤ë¤µ¤¬¤Ê¤¯¤Ê¤Ã¤Æ¤¤¤¿¤é ½ª¤ï¤ê
+	  return 0.0f; // æ˜ã‚‹ã•ãŒãªããªã£ã¦ã„ãŸã‚‰ çµ‚ã‚ã‚Š
 	next_iri:;
       } while (dr[ir][++iri] != -1);
     } while (dm[im][++imi] != -1);
@@ -780,11 +780,11 @@ float shadow_evaluator(void)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// ¥á¥¤¥ó
-//   ¡¦RS232C ¤«¤é¥Ç¡¼¥¿¤òÆÉ¤ß¹ş¤à
-//   ¡¦¥ì¥¤¥È¥ì¼Â¹Ô»ş¤Ë¤ÏÊÑ²½¤·¤Ê¤¤Äê¿ô¤Î·×»»
-//   ¡¦¥¹¥¯¥ê¡¼¥ó¤Î³ÆÅÀ¤Ë¤Ä¤¤¤Æ¥ì¥¤¥È¥ì¤ò¼Â¹Ô
-//   ¡¦RS232C ¤Ø¥Ç¡¼¥¿¤ò½ñ¤­¹ş¤à
+// ãƒ¡ã‚¤ãƒ³
+//   ãƒ»RS232C ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
+//   ãƒ»ãƒ¬ã‚¤ãƒˆãƒ¬å®Ÿè¡Œæ™‚ã«ã¯å¤‰åŒ–ã—ãªã„å®šæ•°ã®è¨ˆç®—
+//   ãƒ»ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®å„ç‚¹ã«ã¤ã„ã¦ãƒ¬ã‚¤ãƒˆãƒ¬ã‚’å®Ÿè¡Œ
+//   ãƒ»RS232C ã¸ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 
 
 bool  is_writing(void) { return rand() % 2; }
@@ -793,13 +793,13 @@ float read_float(void);
 int   read_int(void);
 int   read_int(int i);
 
-// ¥­¥å¡¼ÉÕ¤­½ñ¤­¹ş¤ß (idea:sumii)
+// ã‚­ãƒ¥ãƒ¼ä»˜ãæ›¸ãè¾¼ã¿ (idea:sumii)
 
 #define WRITE_QUEUE_SIZE 3
-int  write_queue[WRITE_QUEUE_SIZE]; // ¥­¥å¡¼
-int *write_queue_enq; // ¥Ç¡¼¥¿¤òÄÉ²Ã¤·¤Æ¤¤¤¯Ã¼
-int *write_queue_deq; // ¥Ç¡¼¥¿¤ò¼è¤ê½Ğ¤·¤Æ¤¤¤¯Ã¼
-int  write_queue_num; // ¸½ºß¥­¥å¡¼¤ËÆş¤Ã¤Æ¤¤¤ë¥Ç¡¼¥¿¤Î¿ô
+int  write_queue[WRITE_QUEUE_SIZE]; // ã‚­ãƒ¥ãƒ¼
+int *write_queue_enq; // ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ ã—ã¦ã„ãç«¯
+int *write_queue_deq; // ãƒ‡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã—ã¦ã„ãç«¯
+int  write_queue_num; // ç¾åœ¨ã‚­ãƒ¥ãƒ¼ã«å…¥ã£ã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ•°
 
 void write_queue_init(void)
 {
@@ -850,7 +850,7 @@ void word2ascii(int num)
 }
 
 
-// Æş¤ìÂØ¤¨¡Á
+// å…¥ã‚Œæ›¿ãˆã€œ
 void swap(float *ex, float *lsx, float *ey, float *lsy, float *ez, float *lsz)
 {
   float work;
@@ -861,21 +861,21 @@ void swap(float *ex, float *lsx, float *ey, float *lsy, float *ez, float *lsz)
 }
 
 
-// ¥á¥¤¥ó
+// ãƒ¡ã‚¤ãƒ³
 char *cpu_main(void)
 {
   write_queue_init();
   
-  const float z0    = -200.0f; // ²óÅ¾¡¿°ÜÆ°¤¹¤ëÁ°¤Î¥¹¥¯¥ê¡¼¥ó¤«¤é¤ÎÁêÂĞ»ëÅÀ
+  const float z0    = -200.0f; // å›è»¢ï¼ç§»å‹•ã™ã‚‹å‰ã®ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‹ã‚‰ã®ç›¸å¯¾è¦–ç‚¹
   const float sq_z0 = 40000.0f; // z0^2
 
   ///////////////////////////////////////////////////////////////////////////////
-  // ¥Ç¡¼¥¿ÆÉ¤ß¹ş¤ß¤ÈÄê¿ô¤Î·×»» (RS232C ¤¬ÃÙ¤¤¤¿¤áÊ¿¹Ô·×»»)
+  // ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿ã¨å®šæ•°ã®è¨ˆç®— (RS232C ãŒé…ã„ãŸã‚å¹³è¡Œè¨ˆç®—)
   //
   
   // (CPU : 10MHz) / (RS232C : 38400bps = 4800bytes/s) = 2000instractions/s = 50fmul/s
   
-  // °Ê²¼¥³¥Ş¥ó¥É¥é¥¤¥ó¥ª¥×¥·¥ç¥ó
+  // ä»¥ä¸‹ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 
   int   screen_width   = read_int(0);
   int   screen_height  = read_int(1);
@@ -892,8 +892,8 @@ char *cpu_main(void)
   write_enq('5');
   write_enq('\n');
   
-  const float dx_or_dy = 128.0f / (float)screen_width; // ¥¹¥¯¥ê¡¼¥ó¤Î 1 ¥É¥Ã¥È¤ÎÂç¤­¤µ
-  const int offset     = screen_width / 2; // ¥¹¥¯¥ê¡¼¥ó¤ÎÃ¼¤«¤éÃæ¿´¤Ø¤Î¥ª¥Õ¥»¥Ã¥È
+  const float dx_or_dy = 128.0f / (float)screen_width; // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã® 1 ãƒ‰ãƒƒãƒˆã®å¤§ãã•
+  const int offset     = screen_width / 2; // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®ç«¯ã‹ã‚‰ä¸­å¿ƒã¸ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
   
   int   y_offset       = read_int(2);
   int   ikasama_distance = 0;
@@ -904,39 +904,39 @@ char *cpu_main(void)
   }
   bool  with_shadow    = read_int(3);
 
-  // °Ê²¼ÄêµÁ¥Õ¥¡¥¤¥ë¤«¤éÆÉ¤ß¹ş¤à
+  // ä»¥ä¸‹å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚€
   
-  float viewplane_x    = read_float(); // ¥¹¥¯¥ê¡¼¥ó x
-  float viewplane_y    = read_float(); // ¥¹¥¯¥ê¡¼¥ó y
-  float viewplane_z    = read_float(); // ¥¹¥¯¥ê¡¼¥ó z
+  float viewplane_x    = read_float(); // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ x
+  float viewplane_y    = read_float(); // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ y
+  float viewplane_z    = read_float(); // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ z
 
-  float viewangle_x                = read_float() * rad_deg; // »ëÀş¤Î³ÑÅÙ x (ÅÙ¢ª¥é¥¸¥¢¥ó)
+  float viewangle_x                = read_float() * rad_deg; // è¦–ç·šã®è§’åº¦ x (åº¦â†’ãƒ©ã‚¸ã‚¢ãƒ³)
   const float cos_viewangle_x      = f_cos(viewangle_x);
   const float sin_viewangle_x      = f_sin(viewangle_x);
-  float viewangle_y                = read_float() * rad_deg; // »ëÀş¤Î³ÑÅÙ y (ÅÙ¢ª¥é¥¸¥¢¥ó)
+  float viewangle_y                = read_float() * rad_deg; // è¦–ç·šã®è§’åº¦ y (åº¦â†’ãƒ©ã‚¸ã‚¢ãƒ³)
   const float cos_viewangle_y      = f_cos(viewangle_y);
   const float sin_viewangle_y      = f_sin(viewangle_y);
-  const float relative_viewpoint_x =  cos_viewangle_x * sin_viewangle_y * z0; // ¥¹¥¯¥ê¡¼¥ó¤«¤é¤ÎÁêÂĞ»ëÅÀ x
-  const float relative_viewpoint_y = -sin_viewangle_x                   * z0; // ¥¹¥¯¥ê¡¼¥ó¤«¤é¤ÎÁêÂĞ»ëÅÀ y
-  const float relative_viewpoint_z =  cos_viewangle_x * cos_viewangle_y * z0; // ¥¹¥¯¥ê¡¼¥ó¤«¤é¤ÎÁêÂĞ»ëÅÀ z
-  const float viewpoint_x          = relative_viewpoint_x + viewplane_x; // »ëÅÀ x
-  const float viewpoint_y          = relative_viewpoint_y + viewplane_y; // »ëÅÀ y
-  const float viewpoint_z          = relative_viewpoint_z + viewplane_z; // »ëÅÀ z
+  const float relative_viewpoint_x =  cos_viewangle_x * sin_viewangle_y * z0; // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‹ã‚‰ã®ç›¸å¯¾è¦–ç‚¹ x
+  const float relative_viewpoint_y = -sin_viewangle_x                   * z0; // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‹ã‚‰ã®ç›¸å¯¾è¦–ç‚¹ y
+  const float relative_viewpoint_z =  cos_viewangle_x * cos_viewangle_y * z0; // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‹ã‚‰ã®ç›¸å¯¾è¦–ç‚¹ z
+  const float viewpoint_x          = relative_viewpoint_x + viewplane_x; // è¦–ç‚¹ x
+  const float viewpoint_y          = relative_viewpoint_y + viewplane_y; // è¦–ç‚¹ y
+  const float viewpoint_z          = relative_viewpoint_z + viewplane_z; // è¦–ç‚¹ z
 
-  float lsn = read_float(); // ¸÷¸»¤Î¸Ä¿ô (not used)
+  float lsn = read_float(); // å…‰æºã®å€‹æ•° (not used)
 
-  // (lsx, lsy, lsz) ¸÷¸» (light source) ¤Î¸ş¤­¤ÎÃ±°Ì¥Ù¥¯¥È¥ë
+  // (lsx, lsy, lsz) å…‰æº (light source) ã®å‘ãã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«
   float lsx;
-  float lsy = read_float() * rad_deg; // ¸÷¸»¤Î¸ş¤­ 1 (¥é¥¸¥¢¥ó)
+  float lsy = read_float() * rad_deg; // å…‰æºã®å‘ã 1 (ãƒ©ã‚¸ã‚¢ãƒ³)
   float tmp = f_cos(lsy);
-  float lsz = read_float() * rad_deg; // ¸÷¸»¤Î¸ş¤­ 2 (¥é¥¸¥¢¥ó)
+  float lsz = read_float() * rad_deg; // å…‰æºã®å‘ã 2 (ãƒ©ã‚¸ã‚¢ãƒ³)
   lsx       =  f_sin(lsz) * tmp;
   lsy       = -f_sin(lsy);
   lsz       =  f_cos(lsz) * tmp;
   
-  float beam = read_float(); // ¶ÀÌÌÈ¿¼Í¤Ç¸÷¸»¤ÎÊı¸ş¤ò¸ş¤¤¤¿»ş¤Î¥Ï¥¤¥é¥¤¥È¶¯ÅÙ¥Ñ¥é¥á¡¼¥¿
+  float beam = read_float(); // é¡é¢åå°„ã§å…‰æºã®æ–¹å‘ã‚’å‘ã„ãŸæ™‚ã®ãƒã‚¤ãƒ©ã‚¤ãƒˆå¼·åº¦ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
   
-  // ¥×¥ê¥ß¥Æ¥£¥ÖÄêµÁ
+  // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å®šç¾©
   int primitive_no;
   {
     int primitive_i;
@@ -944,22 +944,22 @@ char *cpu_main(void)
     {
       PrimitiveData_i &dsi = ds[primitive_i];
       
-      dsi[pTX] = read_int();  // TX : ¥æ¡¼¥¶ÄêµÁ¥Æ¥¯¥¹¥Á¥ãÈÖ¹æ 0, 1, 2, 3, 4
+      dsi[pTX] = read_int();  // TX : ãƒ¦ãƒ¼ã‚¶å®šç¾©ãƒ†ã‚¯ã‚¹ãƒãƒ£ç•ªå· 0, 1, 2, 3, 4
       if (dsi[pTX] < 0)
-	break; // ¥×¥ê¥ß¥Æ¥£¥ÖÄêµÁ½ªÎ»
+	break; // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å®šç¾©çµ‚äº†
       if (primitive_i == MAX_PRIMITIVE)
 	return "%s: There are too many PRIMITIVE definitions!\n";
 
-      dsi[pP ] = read_int(); // P   : ¥×¥ê¥ß¥Æ¥£¥Ö¼ïÎà¥³¡¼¥É 1, 2, 3, 4
-      dsi[pSF] = read_int(); // SF  : É½ÌÌÆÃÀ­ 1, 2, 3 : Æ©ÌÀ(Ææ)
-      dsi[pRT] = read_int(); // RT  : ²óÅ¾¥Õ¥é¥° 0, 1
+      dsi[pP ] = read_int(); // P   : ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ç¨®é¡ã‚³ãƒ¼ãƒ‰ 1, 2, 3, 4
+      dsi[pSF] = read_int(); // SF  : è¡¨é¢ç‰¹æ€§ 1, 2, 3 : é€æ˜(è¬)
+      dsi[pRT] = read_int(); // RT  : å›è»¢ãƒ•ãƒ©ã‚° 0, 1
       
       PrimitiveData_f &di = d[primitive_i];
-      di[pa] = read_float(); // a   : ¥×¥ê¥ß¥Æ¥£¥Ö¥Ñ¥é¥á¡¼¥¿
-      di[pb] = read_float(); // b   : ¥×¥ê¥ß¥Æ¥£¥Ö¥Ñ¥é¥á¡¼¥¿
-      di[pc] = read_float(); // c   : ¥×¥ê¥ß¥Æ¥£¥Ö¥Ñ¥é¥á¡¼¥¿
+      di[pa] = read_float(); // a   : ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+      di[pb] = read_float(); // b   : ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+      di[pc] = read_float(); // c   : ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 
-      if (dsi[pP] == 3) // 2 ¼¡¶ÊÌÌ¤Ê¤é¤Ğ 1 / a^2 ¤ØÊäÀµ
+      if (dsi[pP] == 3) // 2 æ¬¡æ›²é¢ãªã‚‰ã° 1 / a^2 ã¸è£œæ­£
       {
 	float tmp = di[pa];
 	if (tmp != 0)
@@ -972,18 +972,18 @@ char *cpu_main(void)
 	  di[pc] = f_sgn(tmp) / f_sq(tmp);
       }
 
-      di[pX] = read_float(); // x   : ¥ª¥Õ¥»¥Ã¥È
-      di[pY] = read_float(); // y   : ¥ª¥Õ¥»¥Ã¥È
-      di[pZ] = read_float(); // z   : ¥ª¥Õ¥»¥Ã¥È
+      di[pX] = read_float(); // x   : ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+      di[pY] = read_float(); // y   : ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+      di[pZ] = read_float(); // z   : ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 
-      di[pSG ] = read_float(); // SG  : ¶ËÀ­ 1, -1
-      di[pREF] = read_float(); // REF : É½ÌÌÍğÈ¿¼ÍÎ¨ 0 ¡Á 1
-      di[pHL ] = read_float(); // HL  : ÍğÈ¿¼ÍÌÌ¥Ï¥¤¥é¥¤¥È¶¯ÅÙ 0 ¡Á 255
+      di[pSG ] = read_float(); // SG  : æ¥µæ€§ 1, -1
+      di[pREF] = read_float(); // REF : è¡¨é¢ä¹±åå°„ç‡ 0 ã€œ 1
+      di[pHL ] = read_float(); // HL  : ä¹±åå°„é¢ãƒã‚¤ãƒ©ã‚¤ãƒˆå¼·åº¦ 0 ã€œ 255
       
-      if (dsi[pP] == 2) // Ê¿ÌÌ¤Ê¤é¤ĞË¡Àş¥Ù¥¯¥È¥ë¤ÎÄ¹¤µ¤ò 1 ¤ËÀµµ¬²½
+      if (dsi[pP] == 2) // å¹³é¢ãªã‚‰ã°æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’ 1 ã«æ­£è¦åŒ–
       {
 	float tmp = f_sqrt_inverse(f_sq(di[pa]) + f_sq(di[pb]) + f_sq(di[pc]));
-	if (0 < SIGN(di[pSG])) // SG : ¶ËÀ­ 1, -1
+	if (0 < SIGN(di[pSG])) // SG : æ¥µæ€§ 1, -1
 	{
 	  di[pSG] = SIGN(-1);
 	  tmp = -tmp;
@@ -993,27 +993,27 @@ char *cpu_main(void)
 	di[pc] *= tmp;
       }
       
-      di[pR] = read_float(); // r   : ¥«¥é¡¼¥³¡¼¥É
-      di[pG] = read_float(); // g   : ¥«¥é¡¼¥³¡¼¥É
-      di[pB] = read_float(); // b   : ¥«¥é¡¼¥³¡¼¥É
+      di[pR] = read_float(); // r   : ã‚«ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+      di[pG] = read_float(); // g   : ã‚«ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+      di[pB] = read_float(); // b   : ã‚«ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
 
       if (ds[primitive_i][pRT] == 1)
       {
-	// 3 ¼¡¸µ²óÅ¾¹ÔÎó¤Ç²óÅ¾¤µ¤»¤Æ¤¤¤ë¤é¤·¤¤
-	// 2 »ş¶ÊÌÌ¥×¥ê¥ß¥Æ¥£¥Ö°Ê³°¤Ë¤Ï°ÕÌ£¤¬¤Ê¤¤
+	// 3 æ¬¡å…ƒå›è»¢è¡Œåˆ—ã§å›è»¢ã•ã›ã¦ã„ã‚‹ã‚‰ã—ã„
+	// 2 æ™‚æ›²é¢ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ä»¥å¤–ã«ã¯æ„å‘³ãŒãªã„
 	
 	float tmp;
-	tmp = read_float() * rad_deg; // ¦Èx : ²óÅ¾³Ñ
+	tmp = read_float() * rad_deg; // Î¸x : å›è»¢è§’
 	float cx   = f_cos(tmp);
 	float sx   = f_sin(tmp);
-	tmp = read_float() * rad_deg; // ¦Èy : ²óÅ¾³Ñ
+	tmp = read_float() * rad_deg; // Î¸y : å›è»¢è§’
 	float cy   = f_cos(tmp);
 	float sy   = f_sin(tmp);
 	float sxsy = sx * sy;
 	float sxcy = sx * cy;
 	float cxsy = cx * sy;
 	float cxcy = cx * cy;
-	tmp = read_float() * rad_deg; // ¦Èz : ²óÅ¾³Ñ
+	tmp = read_float() * rad_deg; // Î¸z : å›è»¢è§’
 	float cz   = f_cos(tmp);
 	float sz   = f_sin(tmp);
 	float cysz = cy * sz;
@@ -1043,12 +1043,12 @@ char *cpu_main(void)
     primitive_no = primitive_i;
   }
   
-  // AND ÄêµÁ
+  // AND å®šç¾©
   {
     for (int and_i = 0; ; and_i++)
     {
       if ((dr[and_i][0] = read_int()) < 0)
-	break; // AND ÄêµÁ½ªÎ»
+	break; // AND å®šç¾©çµ‚äº†
       if (and_i == MAX_AND)
 	return "%s: There are too many AND definitions!\n";
       for (int i = 1; ; i++)
@@ -1057,12 +1057,12 @@ char *cpu_main(void)
     }
   }
   
-  // OR ÄêµÁ
+  // OR å®šç¾©
   {
     for (int or_i = 0; ; or_i++)
     {
       if ((dm[or_i][0] = read_int()) < 0)
-	break; // OR ÄêµÁ½ªÎ»
+	break; // OR å®šç¾©çµ‚äº†
       if (or_i == MAX_OR)
 	return "%s: There are too many OR definitions!\n";
       for (int i = 1; ; i++)
@@ -1072,68 +1072,68 @@ char *cpu_main(void)
   }
   
   ///////////////////////////////////////////////////////////////////////////////
-  // ¥á¥¤¥ó¥ë¡¼¥×
+  // ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
   //
 
   int ikasama_dots = 0;
 
   for (int scany0 = y_offset; scany0 < screen_height; scany0++)
   {
-    const float yo1   = dx_or_dy * (offset - 1 - scany0); // ²óÅ¾¡¿°ÜÆ°¤¹¤ëÁ°¤Î¥¹¥¯¥ê¡¼¥ó¾å¤Ç¤Î scany0 ¤Î y ºÂÉ¸
+    const float yo1   = dx_or_dy * (offset - 1 - scany0); // å›è»¢ï¼ç§»å‹•ã™ã‚‹å‰ã®ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ä¸Šã§ã® scany0 ã® y åº§æ¨™
     
-    // »ëÀş¤Î¸ş¤­¤ÎÃ±°Ì¥Ù¥¯¥È¥ë¤òºî¤ë½àÈ÷
-    const float met1  = f_sq(yo1) + sq_z0; // (­õmet : Ä¾Àş[y=yo1, z=0] ¤È Ä¾Àş[y=0, z=z0] ¤Î´Ö¤Îµ÷Î¥)^2
-    const float yss12 = yo1 * sin_viewangle_x * sin_viewangle_y - relative_viewpoint_x; // x (Ì¤´°À®)
-    const float yc_12 = yo1 * cos_viewangle_x                   - relative_viewpoint_y; // y (´°À®)
-    const float ysc12 = yo1 * sin_viewangle_x * cos_viewangle_y - relative_viewpoint_z; // z (Ì¤´°À®)
+    // è¦–ç·šã®å‘ãã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã‚’ä½œã‚‹æº–å‚™
+    const float met1  = f_sq(yo1) + sq_z0; // (âˆšmet : ç›´ç·š[y=yo1, z=0] ã¨ ç›´ç·š[y=0, z=z0] ã®é–“ã®è·é›¢)^2
+    const float yss12 = yo1 * sin_viewangle_x * sin_viewangle_y - relative_viewpoint_x; // x (æœªå®Œæˆ)
+    const float yc_12 = yo1 * cos_viewangle_x                   - relative_viewpoint_y; // y (å®Œæˆ)
+    const float ysc12 = yo1 * sin_viewangle_x * cos_viewangle_y - relative_viewpoint_z; // z (æœªå®Œæˆ)
     
-    // Á°¡¹²ó¤Î¿§
+    // å‰ã€…å›ã®è‰²
     int pre_red;
     int pre_green;
     int pre_blue;
     
     for (int scanx0 = 0; scanx0 < screen_width; ) // scanx0++)
     {
-      float energy = 1.0f; // ¥¨¥Ê¥¸¡¼ (È¿¼Í¤¹¤ë¤¿¤Ó¤Ë¼å¤Ş¤Ã¤Æ¤¤¤¯¡£ REF ¤Ë¤è¤Ã¤Æ¼å¤Ş¤ê¤«¤¿¤¬ÊÑ¤ï¤ë)
+      float energy = 1.0f; // ã‚¨ãƒŠã‚¸ãƒ¼ (åå°„ã™ã‚‹ãŸã³ã«å¼±ã¾ã£ã¦ã„ãã€‚ REF ã«ã‚ˆã£ã¦å¼±ã¾ã‚Šã‹ãŸãŒå¤‰ã‚ã‚‹)
       
-      ipx = dx_or_dy * (scanx0 - offset); // ²óÅ¾¡¿°ÜÆ°¤¹¤ëÁ°¤Î¥¹¥¯¥ê¡¼¥ó¾å¤Ç¤Î scanx0 ¤Î x ºÂÉ¸
+      ipx = dx_or_dy * (scanx0 - offset); // å›è»¢ï¼ç§»å‹•ã™ã‚‹å‰ã®ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ä¸Šã§ã® scanx0 ã® x åº§æ¨™
       ipy = yo1;
       
-      // (ex, ey, ez) : »ëÀş¤Î¸ş¤­¤ÎÃ±°Ì¥Ù¥¯¥È¥ë
-      float metric = f_sqrt_inverse(f_sq(ipx) + met1); // »ëÀş¤Î¸ş¤­¤Î¥Ù¥¯¥È¥ë¤ÎÂç¤­¤µ¤ÎµÕ¿ô
+      // (ex, ey, ez) : è¦–ç·šã®å‘ãã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«
+      float metric = f_sqrt_inverse(f_sq(ipx) + met1); // è¦–ç·šã®å‘ãã®ãƒ™ã‚¯ãƒˆãƒ«ã®å¤§ãã•ã®é€†æ•°
       ex = metric * (yss12 + ipx * cos_viewangle_y);
       ey = metric *  yc_12;
       ez = metric * (ysc12 - ipx * sin_viewangle_y);
       
-      // (VPx, VPy, VPz) : »ë^H»ÏÅÀ (¶À¤ÇÈ¿¼Í¤ò¤¹¤ë¤È¡¢°ÌÃÖ¤¬ÊÑ¤ï¤ë)
+      // (VPx, VPy, VPz) : è¦–^Hå§‹ç‚¹ (é¡ã§åå°„ã‚’ã™ã‚‹ã¨ã€ä½ç½®ãŒå¤‰ã‚ã‚‹)
       VPx = viewpoint_x;
       VPy = viewpoint_y;
       VPz = viewpoint_z;
       
       ipi = -1;
       
-      // ¥¹¥¯¥ê¡¼¥ó¾å¤Î¿§
+      // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ä¸Šã®è‰²
       int red   = 0;
       int green = 0;
       int blue  = 0;
       
       write_flush();
       
-      for (int ref = 0; ; ref++) // È¿¼Í²ó¿ô
+      for (int ref = 0; ; ref++) // åå°„å›æ•°
       {
-	SIGN result = tracer(); // (ipx, ipy, ipz) ¤È ipi ¤È nidx ¤¬¹¹¿·¤µ¤ì¤ë
+	SIGN result = tracer(); // (ipx, ipy, ipz) ã¨ ipi ã¨ nidx ãŒæ›´æ–°ã•ã‚Œã‚‹
 	
 	write_flush();
 	
-	if (result < 0) // ¸ò¤ï¤é¤Ê¤«¤Ã¤¿ 
+	if (result < 0) // äº¤ã‚ã‚‰ãªã‹ã£ãŸ 
 	{
 	  if (ref != 0)
 	  {
 	    // test highlight
-	    float hl_f = -ex * lsx - ey * lsy - ez * lsz; // -cos¦È : -¸÷¸»Ã±°Ì¥Ù¥¯¥È¥ë¤È»ëÀşÃ±°Ì¥Ù¥¯¥È¥ë¤ÎÆâÀÑ
+	    float hl_f = -ex * lsx - ey * lsy - ez * lsz; // -cosÎ¸ : -å…‰æºå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã¨è¦–ç·šå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	    if (hl_f < 0)
 	      hl_f = 0.0f;
-	    int hl = (int)(f_sq(hl_f) * hl_f * energy * beam); // »ëÀş¥Ù¥¯¥È¥ë¤¬¸÷¸»¤ÎÊı¸ş¤ò¤à¤¤¤Æ¤¤¤ë¤Û¤ÉÌÀ¤ë¤¤(^3)
+	    int hl = (int)(f_sq(hl_f) * hl_f * energy * beam); // è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ãŒå…‰æºã®æ–¹å‘ã‚’ã‚€ã„ã¦ã„ã‚‹ã»ã©æ˜ã‚‹ã„(^3)
 	    red   += hl;
 	    green += hl;
 	    blue  += hl;
@@ -1141,30 +1141,30 @@ char *cpu_main(void)
 	  break;
 	}
 	
-	// Ë¡Àş¥Ù¥¯¥È¥ë¤òÀ¸À®
+	// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’ç”Ÿæˆ
 	normal_vector();
 	
 	write_flush();
 	
-	// »ë^H»ÏÅÀ¤Î°ÌÃÖ¤ò¹¹¿·
+	// è¦–^Hå§‹ç‚¹ã®ä½ç½®ã‚’æ›´æ–°
 	VPx = ipx;
 	VPy = ipy;
 	VPz = ipz;
 	
 	// brightness control & shadowing
-	float br1 = nx * lsx + ny * lsy + nz * lsz; // cos¦È : ¸÷¸»Ã±°Ì¥Ù¥¯¥È¥ë¤ÈË¡Àş¤ÎÆâÀÑ
+	float br1 = nx * lsx + ny * lsy + nz * lsz; // cosÎ¸ : å…‰æºå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã¨æ³•ç·šã®å†…ç©
 	if (0 < br1)
-	  br1 = 0.0f; // ¸÷¤¬Åö¤¿¤Ã¤Æ¤¤¤Ê¤¤
+	  br1 = 0.0f; // å…‰ãŒå½“ãŸã£ã¦ã„ãªã„
 
 	PrimitiveData_f &di = d[ipi];
 	
-	float bright = (0.2f - br1) // ÌÀ¤ë¤µ¤ò 0.2 ¤À¤±Äì¾å¤²¤¹¤ë
-	  * energy // ¶ÀÌÌÈ¿¼Í¤Ç¸÷¤¬¤À¤ó¤À¤ó¼å¤Ş¤ë¤È energy ¤â 1 ¤«¤é¸º¤Ã¤Æ¤æ¤¯
-	  * di[pREF]; // REF : É½ÌÌÍğÈ¿¼ÍÎ¨ 0 ¡Á 1
-	if (with_shadow) // ±Æ¤ò·×»»
+	float bright = (0.2f - br1) // æ˜ã‚‹ã•ã‚’ 0.2 ã ã‘åº•ä¸Šã’ã™ã‚‹
+	  * energy // é¡é¢åå°„ã§å…‰ãŒã ã‚“ã ã‚“å¼±ã¾ã‚‹ã¨ energy ã‚‚ 1 ã‹ã‚‰æ¸›ã£ã¦ã‚†ã
+	  * di[pREF]; // REF : è¡¨é¢ä¹±åå°„ç‡ 0 ã€œ 1
+	if (with_shadow) // å½±ã‚’è¨ˆç®—
 	{
-	  // »ëÀş¤Î¸ş¤­¤ÎÃ±°Ì¥Ù¥¯¥È¥ë¤È¡¢
-	  // ¸÷¸»¤Î¸ş¤­¤ÎÃ±°Ì¥Ù¥¯¥È¥ë¤òÆş¤ìÂØ¤¨
+	  // è¦–ç·šã®å‘ãã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã¨ã€
+	  // å…‰æºã®å‘ãã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã‚’å…¥ã‚Œæ›¿ãˆ
 	  swap(&ex, &lsx, &ey, &lsy, &ez, &lsz);
 	  bright *= shadow_evaluator();
 	  swap(&ex, &lsx, &ey, &lsy, &ez, &lsz);
@@ -1174,7 +1174,7 @@ char *cpu_main(void)
 	// brightness determined
 	
 	if (bright != 0.0) // CHANGED (ADDED)
-	  user_defined_texture(); // ¥æ¡¼¥¶¡¼ÄêµÁ¥Æ¥¯¥¹¥Á¥ã
+	  user_defined_texture(); // ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	
 	red   += i_round(bright * di[pR]);
 	green += i_round(bright * di[pG]);
@@ -1182,37 +1182,37 @@ char *cpu_main(void)
 	
 	write_flush();
 	
-	if (energy < 0.1 || // È¿¼Í¥¨¥Í¥ë¥®¡¼¤¬¾®¤µ¤¤¤«
-	    4 < ref) // È¿¼Í²ó¿ô¤¬ 4 ²ó°Ê¾å¤Î»ş
-	  break; // ½ª¤ï¤ê
+	if (energy < 0.1 || // åå°„ã‚¨ãƒãƒ«ã‚®ãƒ¼ãŒå°ã•ã„ã‹
+	    4 < ref) // åå°„å›æ•°ãŒ 4 å›ä»¥ä¸Šã®æ™‚
+	  break; // çµ‚ã‚ã‚Š
 	
 	PrimitiveData_i &dsi = ds[ipi];
-	if (dsi[pSF] == 1) // SF == 1 ÍğÈ¿¼Í
+	if (dsi[pSF] == 1) // SF == 1 ä¹±åå°„
 	{
 	  if (0 < di[pHL]) // simple high light
 	  {
-	    // È¿¼Í : »ëÀş¥Ù¥¯¥È¥ë¤òÈ¿¼ÍÊı¸ş¤Ø¤È¸ş¤­¤òÊÑ¤¨¤ë
-	    float tmp = -2 * (ex * nx + ey * ny + ez * nz); // -2cos¦È : -2 * Ë¡ÀşÃ±°Ì¥Ù¥¯¥È¥ë¤È»ëÀşÃ±°Ì¥Ù¥¯¥È¥ë¤ÎÆâÀÑ
+	    // åå°„ : è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ã‚’åå°„æ–¹å‘ã¸ã¨å‘ãã‚’å¤‰ãˆã‚‹
+	    float tmp = -2 * (ex * nx + ey * ny + ez * nz); // -2cosÎ¸ : -2 * æ³•ç·šå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã¨è¦–ç·šå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	    ex += nx * tmp;
 	    ey += ny * tmp;
 	    ez += nz * tmp;
 	    
 	    float hl_f = -ex * lsx - ey * lsy - ez * lsz;
-	    // -cos¦È : -¸÷¸»Ã±°Ì¥Ù¥¯¥È¥ë¤È»ëÀşÃ±°Ì¥Ù¥¯¥È¥ë¤ÎÆâÀÑ
+	    // -cosÎ¸ : -å…‰æºå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã¨è¦–ç·šå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	    if (hl_f < 0)
 	      hl_f = 0.0f;
-	    int hl = (int)(f_sq(f_sq(hl_f)) * energy * bright * di[pHL]); // »ëÀş¥Ù¥¯¥È¥ë¤¬¸÷¸»¤ÎÊı¸ş¤ò¤à¤¤¤Æ¤¤¤ë¤Û¤ÉÌÀ¤ë¤¤(^4)
+	    int hl = (int)(f_sq(f_sq(hl_f)) * energy * bright * di[pHL]); // è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ãŒå…‰æºã®æ–¹å‘ã‚’ã‚€ã„ã¦ã„ã‚‹ã»ã©æ˜ã‚‹ã„(^4)
 	    red   += hl;
 	    green += hl;
 	    blue  += hl;
 	  }
 	  break;
 	}
-	else if (dsi[pSF] == 2) // SF == 2 ¶ÀÌÌ reflection support
+	else if (dsi[pSF] == 2) // SF == 2 é¡é¢ reflection support
 	{
-	  energy *= (1 - di[pREF]); // ¥¨¥Ê¥¸¡¼¤ò¼å¤á¤ë
+	  energy *= (1 - di[pREF]); // ã‚¨ãƒŠã‚¸ãƒ¼ã‚’å¼±ã‚ã‚‹
 	  
-	  // È¿¼Í
+	  // åå°„
 	  float tmp = -2 * (ex * nx + ey * ny + ez * nz);
 	  ex += nx * tmp;
 	  ey += ny * tmp;
@@ -1303,23 +1303,23 @@ char *cpu_main(void)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// SUN Â¦¥µ¥İ¡¼¥È
+// SUN å´ã‚µãƒãƒ¼ãƒˆ
 //
 
 
-char *appname; // RayTrace ¤ÎÌ¾Á°
-FILE *input_fp  = stdin ; // ÆşÎÏ¥Õ¥¡¥¤¥ë
-FILE *output_fp = stdout; // ½ĞÎÏ¥Õ¥¡¥¤¥ë
+char *appname; // RayTrace ã®åå‰
+FILE *input_fp  = stdin ; // å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«
+FILE *output_fp = stdout; // å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«
 
 
-// CPU Â¦¤Î¼ÂÁõ¤Ç¤Ï RS232C ¤Ø½ñ¤¯´Ø¿ô
+// CPU å´ã®å®Ÿè£…ã§ã¯ RS232C ã¸æ›¸ãé–¢æ•°
 void write_value(BYTE value)
 {
   fwrite(&value, 1, 1, output_fp);
 }
 
 
-// CPU Â¦¤Î¼ÂÁõ¤Ç¤Ï RS232C ¤«¤éÆÉ¤à´Ø¿ô
+// CPU å´ã®å®Ÿè£…ã§ã¯ RS232C ã‹ã‚‰èª­ã‚€é–¢æ•°
 float read_float(void)
 {
 #define DELIMITER "x(){}[], \t\r\n"
@@ -1345,7 +1345,7 @@ float read_float(void)
 }
 
 
-// CPU Â¦¤Î¼ÂÁõ¤Ç¤Ï RS232C ¤«¤éÆÉ¤à´Ø¿ô
+// CPU å´ã®å®Ÿè£…ã§ã¯ RS232C ã‹ã‚‰èª­ã‚€é–¢æ•°
 int read_int(void)
 {
   return (int)read_float();
@@ -1370,7 +1370,7 @@ int read_int(int i)
 char *output_filename = NULL;
 
 
-// ¥ª¥×¥·¥ç¥ó²òÀÏ
+// ã‚ªãƒ—ã‚·ãƒ§ãƒ³è§£æ
 bool option(int &argc, char *argv[])
 {
   bool r = true;
@@ -1414,7 +1414,7 @@ bool option(int &argc, char *argv[])
 }
 
 
-// ¥á¥¤¥ó
+// ãƒ¡ã‚¤ãƒ³
 int main(int argc, char *argv[])
 {
   appname = argv[0];
