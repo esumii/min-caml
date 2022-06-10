@@ -92,7 +92,7 @@ exp: /* (* ∞Ï»Ã§Œº∞ (caml2html: parser_exp) *) */
 | exp EQUAL exp
     { Eq($1, $3) }
 | exp LESS_GREATER exp
-    { Not(Eq($1, $3)) }
+    { Not(Eq($1, $3)) (* some float comparisons differ from OCaml for NaN; see: https://github.com/esumii/min-caml/issues/13#issuecomment-1147032750 *) }
 | exp LESS exp
     { Not(LE($3, $1)) }
 | exp GREATER exp
