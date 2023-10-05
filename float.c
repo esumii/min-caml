@@ -11,11 +11,11 @@ typedef union {
 value gethi(value v) {
   dbl d;
   d.d = Double_val(v);
-  return copy_int32(d.i[0]);
+  return caml_copy_int32(d.i[0]);
 }
 
 value getlo(value v) {
   dbl d;
   d.d = Double_val(v);
-  return copy_int32(d.i[1]);
+  return caml_copy_int32(d.i[1]);
 }
