@@ -1,6 +1,6 @@
 open Asm
 
-let rec g env = function (* Ì¿ÎáÎó¤Î16bitÂ¨ÃÍºÇÅ¬²½ (caml2html: simm13_g) *)
+let rec g env = function (* å‘½ä»¤åˆ—ã®16bitå³å€¤æœ€é©åŒ– (caml2html: simm13_g) *)
   | Ans(exp) -> Ans(g' env exp)
   | Let((x, t), Li(i), e) when -32768 <= i && i < 32768 ->
       (* Format.eprintf "found simm16 %s = %d@." x i; *)
@@ -12,7 +12,7 @@ let rec g env = function (* Ì¿ÎáÎó¤Î16bitÂ¨ÃÍºÇÅ¬²½ (caml2html: simm13_g) *)
       (* Format.eprintf "erased redundant Slw on %s@." x; *)
       g env (Let(xt, Li((M.find y env) lsl i), e))
   | Let(xt, exp, e) -> Let(xt, g' env exp, g env e)
-and g' env = function (* ³ÆÌ¿Îá¤Î16bitÂ¨ÃÍºÇÅ¬²½ (caml2html: simm13_gprime) *)
+and g' env = function (* å„å‘½ä»¤ã®16bitå³å€¤æœ€é©åŒ– (caml2html: simm13_gprime) *)
   | Add(x, V(y)) when M.mem y env -> Add(x, C(M.find y env))
   | Add(x, V(y)) when M.mem x env -> Add(y, C(M.find x env))
   | Sub(x, V(y)) when M.mem y env -> Sub(x, C(M.find y env))
@@ -34,8 +34,8 @@ and g' env = function (* ³ÆÌ¿Îá¤Î16bitÂ¨ÃÍºÇÅ¬²½ (caml2html: simm13_gprime) *)
   | IfFLE(x, y, e1, e2) -> IfFLE(x, y, g env e1, g env e2)
   | e -> e
 
-let h { name = l; args = xs; fargs = ys; body = e; ret = t } = (* ¥È¥Ã¥×¥ì¥Ù¥ë´Ø¿ô¤Î16bitÂ¨ÃÍºÇÅ¬²½ *)
+let h { name = l; args = xs; fargs = ys; body = e; ret = t } = (* ãƒˆãƒƒãƒ—ãƒ¬ãƒ™ãƒ«é–¢æ•°ã®16bitå³å€¤æœ€é©åŒ– *)
   { name = l; args = xs; fargs = ys; body = g M.empty e; ret = t }
 
-let f (Prog(data, fundefs, e)) = (* ¥×¥í¥°¥é¥àÁ´ÂÎ¤Î16bitÂ¨ÃÍºÇÅ¬²½ *)
+let f (Prog(data, fundefs, e)) = (* ãƒ—ãƒ­ã‚°ãƒ©ãƒ å…¨ä½“ã®16bitå³å€¤æœ€é©åŒ– *)
   Prog(data, List.map h fundefs, g M.empty e)

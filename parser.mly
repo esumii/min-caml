@@ -1,10 +1,10 @@
 %{
-(* parser¤¬ÍøÍÑ¤¹¤ëÊÑ¿ô¡¢´Ø¿ô¡¢·¿¤Ê¤É¤ÎÄêµÁ *)
+(* parserãŒåˆ©ç”¨ã™ã‚‹å¤‰æ•°ã€é–¢æ•°ã€å‹ãªã©ã®å®šç¾© *)
 open Syntax
 let addtyp x = (x, Type.gentyp ())
 %}
 
-/* (* »ú¶ç¤òÉ½¤¹¥Ç¡¼¥¿·¿¤ÎÄêµÁ (caml2html: parser_token) *) */
+/* (* å­—å¥ã‚’è¡¨ã™ãƒ‡ãƒ¼ã‚¿å‹ã®å®šç¾© (caml2html: parser_token) *) */
 %token <bool> BOOL
 %token <int> INT
 %token <float> FLOAT
@@ -37,7 +37,7 @@ let addtyp x = (x, Type.gentyp ())
 %token RPAREN
 %token EOF
 
-/* (* Í¥Àè½ç°Ì¤Èassociativity¤ÎÄêµÁ¡ÊÄã¤¤Êı¤«¤é¹â¤¤Êı¤Ø¡Ë (caml2html: parser_prior) *) */
+/* (* å„ªå…ˆé †ä½ã¨associativityã®å®šç¾©ï¼ˆä½ã„æ–¹ã‹ã‚‰é«˜ã„æ–¹ã¸ï¼‰ (caml2html: parser_prior) *) */
 %nonassoc IN
 %right prec_let
 %right SEMICOLON
@@ -52,13 +52,13 @@ let addtyp x = (x, Type.gentyp ())
 %left prec_app
 %left DOT
 
-/* (* ³«»Ïµ­¹æ¤ÎÄêµÁ *) */
+/* (* é–‹å§‹è¨˜å·ã®å®šç¾© *) */
 %type <Syntax.t> exp
 %start exp
 
 %%
 
-simple_exp: /* (* ³ç¸Ì¤ò¤Ä¤±¤Ê¤¯¤Æ¤â´Ø¿ô¤Î°ú¿ô¤Ë¤Ê¤ì¤ë¼° (caml2html: parser_simple) *) */
+simple_exp: /* (* æ‹¬å¼§ã‚’ã¤ã‘ãªãã¦ã‚‚é–¢æ•°ã®å¼•æ•°ã«ãªã‚Œã‚‹å¼ (caml2html: parser_simple) *) */
 | LPAREN exp RPAREN
     { $2 }
 | LPAREN RPAREN
@@ -74,7 +74,7 @@ simple_exp: /* (* ³ç¸Ì¤ò¤Ä¤±¤Ê¤¯¤Æ¤â´Ø¿ô¤Î°ú¿ô¤Ë¤Ê¤ì¤ë¼° (caml2html: parser_simp
 | simple_exp DOT LPAREN exp RPAREN
     { Get($1, $4) }
 
-exp: /* (* °ìÈÌ¤Î¼° (caml2html: parser_exp) *) */
+exp: /* (* ä¸€èˆ¬ã®å¼ (caml2html: parser_exp) *) */
 | simple_exp
     { $1 }
 | NOT exp
@@ -83,9 +83,9 @@ exp: /* (* °ìÈÌ¤Î¼° (caml2html: parser_exp) *) */
 | MINUS exp
     %prec prec_unary_minus
     { match $2 with
-    | Float(f) -> Float(-.f) (* -1.23¤Ê¤É¤Ï·¿¥¨¥é¡¼¤Ç¤Ï¤Ê¤¤¤Î¤ÇÊÌ°·¤¤ *)
+    | Float(f) -> Float(-.f) (* -1.23ãªã©ã¯å‹ã‚¨ãƒ©ãƒ¼ã§ã¯ãªã„ã®ã§åˆ¥æ‰±ã„ *)
     | e -> Neg(e) }
-| exp PLUS exp /* (* Â­¤·»»¤ò¹½Ê¸²òÀÏ¤¹¤ë¥ë¡¼¥ë (caml2html: parser_add) *) */
+| exp PLUS exp /* (* è¶³ã—ç®—ã‚’æ§‹æ–‡è§£æã™ã‚‹ãƒ«ãƒ¼ãƒ« (caml2html: parser_add) *) */
     { Add($1, $3) }
 | exp MINUS exp
     { Sub($1, $3) }

@@ -1,5 +1,5 @@
-type t = string (* ÊÑ¿ô¤ÎÌ¾Á° (caml2html: id_t) *)
-type l = L of string (* ¥È¥Ã¥×¥ì¥Ù¥ë´Ø¿ô¤ä¥°¥í¡¼¥Ð¥ëÇÛÎó¤Î¥é¥Ù¥ë (caml2html: id_l) *)
+type t = string (* å¤‰æ•°ã®åå‰ (caml2html: id_t) *)
+type l = L of string (* ãƒˆãƒƒãƒ—ãƒ¬ãƒ™ãƒ«é–¢æ•°ã‚„ã‚°ãƒ­ãƒ¼ãƒãƒ«é…åˆ—ã®ãƒ©ãƒ™ãƒ« (caml2html: id_l) *)
 
 let rec pp_list = function
   | [] -> ""
