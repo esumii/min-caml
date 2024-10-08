@@ -1,6 +1,6 @@
 {
 (* lexerが利用する変数、関数、型などの定義 *)
-open Parser
+open MyParser
 open Type
 }
 
