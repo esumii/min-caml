@@ -1,8 +1,8 @@
 open KNormal
 
-let rec effect = function (* 副作用の有無 (caml2html: elim_effect) *)
-  | Let(_, e1, e2) | IfEq(_, _, e1, e2) | IfLE(_, _, e1, e2) -> effect e1 || effect e2
-  | LetRec(_, e) | LetTuple(_, _, e) -> effect e
+let rec is_effectful = function (* 副作用の有無 (caml2html: elim_is_effectful) *)
+  | Let(_, e1, e2) | IfEq(_, _, e1, e2) | IfLE(_, _, e1, e2) -> is_effectful e1 || is_effectful e2
+  | LetRec(_, e) | LetTuple(_, _, e) -> is_effectful e
   | App _ | Put _ | ExtFunApp _ -> true
   | _ -> false
 
@@ -12,7 +12,7 @@ let rec f = function (* 不要定義削除ルーチン本体 (caml2html: elim_f)
   | Let((x, t), e1, e2) -> (* letの場合 (caml2html: elim_let) *)
       let e1' = f e1 in
       let e2' = f e2 in
-      if effect e1' || S.mem x (fv e2') then Let((x, t), e1', e2') else
+      if is_effectful e1' || S.mem x (fv e2') then Let((x, t), e1', e2') else
       (Format.eprintf "eliminating variable %s@." x;
        e2')
   | LetRec({ name = (x, t); args = yts; body = e1 }, e2) -> (* let recの場合 (caml2html: elim_letrec) *)
