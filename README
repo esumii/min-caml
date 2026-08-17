@@ -34,6 +34,11 @@ included in this distribution.
 
 [A] See above.
 
+[FAQ 3] My OS doesn't support x86_32 (i386).
+
+[A] Use Docker like:
+docker run --platform=linux/386 -it --name min-caml debian:bookworm
+
 [Updates on October 9, 2013]
 
 - Moved from SourceForge https://sourceforge.net/p/min-caml/code/ to
